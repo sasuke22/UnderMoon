@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+    <TextView
+        android:id="@+id/tv_today_contributes_province"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="province"/>
+    <TextView
+        android:id="@+id/tv_today_contributes_city"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_today_contributes_province"
+        android:text="city"/>
+    <TextView
+        android:id="@+id/tv_today_contributes_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:maxLines="1"
+        android:text="describe" />
+    <TextView
+        android:id="@+id/tv_today_contributes_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"/>
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/contributes_arrow"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
