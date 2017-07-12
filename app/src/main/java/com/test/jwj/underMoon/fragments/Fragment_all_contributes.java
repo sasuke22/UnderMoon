@@ -67,7 +67,7 @@ public class Fragment_all_contributes extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
+            ViewHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.item_today_contributes, null);
                 holder = new ViewHolder();
