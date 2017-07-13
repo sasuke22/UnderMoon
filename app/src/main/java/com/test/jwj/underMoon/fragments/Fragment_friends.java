@@ -34,7 +34,7 @@ public class Fragment_friends extends BaseFragment {
         MyAdapter(Context context){
             mInflater = LayoutInflater.from(context);
         }
-        class ViewHolder holder {
+        class ViewHolder {
             TextView tv_name;
             TextView tv_age;
             TextView tv_marry;
@@ -58,14 +58,20 @@ public class Fragment_friends extends BaseFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.item_today_contributes, parent, false);
-                holder.tv_name = convertView.findViewById(R.id.);
+                convertView = mInflater.inflate(R.layout.item_friends, null);
+                holder = new ViewHolder();
+                holder.tv_name = (TextView)convertView.findViewById(R.id.tv_name);
+                holder.iv_touxiang = (ImageView) convertView.findViewById(R.id.iv_touxiang);
+                holder.tv_age = (TextView)convertView.findViewById(R.id.tv_age);
+                holder.tv_city = (TextView)convertView.findViewById(R.id.tv_city);
+                holder.tv_figure = (TextView)convertView.findViewById(R.id.tv_figure);
+                holder.tv_marry = (TextView)convertView.findViewById(R.id.tv_marry);
                 convertView.setTag(holder);
             }else {
                 holder = (ViewHolder) convertView.getTag();
             }
             //获取网络数据加载到listview
-            holder.tv_name.setText();
+            holder.tv_name.setText("");
             return convertView;
         }
     }
