@@ -1,6 +1,8 @@
 package com.test.jwj.underMoon.fragments;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +19,36 @@ import com.test.jwj.underMoon.R;
  * Created by Administrator on 2017/3/16.
  */
 
-public class Fragment_friends extends BaseFragment {
+public class Fragment_friends extends BaseFragment implements View.OnClickListener {
+    private Friends[] friends;              //TODO 网络获取的朋友列表
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends,container,false);
-        ListView lv_friends = (ListView) view.findViewById(R.id.lv_friends);
+        ListView lv_friends = (ListView) view.findViewById(R.id.lv_friendslist);
+        view.findViewById(R.id.tv_all_friends).setOnClickListener(this);
+        view.findViewById(R.id.tv_new_friends).setOnClickListener(this);
+        // TODO 通过网络请求获取到列表赋值给Friends
+        Friends lily = new Friends("Lily","23","单身","匀称","上海 上海",new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher)));
+        friends = new Friends[]{lily};
         lv_friends.setAdapter(new MyAdapter(getActivity()));
         return view;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_all_friends:
+                //TODO 应该是获取网络数据刷新列表
+                break;
+            case R.id.tv_new_friends:
+                //TODO 应该是获取网络数据刷新列表
+                break;
+        }
+    }
+
     class MyAdapter extends BaseAdapter{
         private LayoutInflater mInflater;
-        private Context context;
-        private Friends[] friends;              //网络获取的朋友列表
+        private Friends friend;
 
         MyAdapter(Context context){
             mInflater = LayoutInflater.from(context);
@@ -57,6 +76,7 @@ public class Fragment_friends extends BaseFragment {
         //创建View方法
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
+            friend = friends[position];
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.item_friends, null);
                 holder = new ViewHolder();
@@ -70,8 +90,13 @@ public class Fragment_friends extends BaseFragment {
             }else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            //获取网络数据加载到listview
-            holder.tv_name.setText("");
+            //TODO 获取网络数据加载到listview
+            holder.tv_name.setText(friend.name);
+            holder.iv_touxiang.setImageDrawable(friend.touxiang);
+            holder.tv_age .setText(friend.age);
+            holder.tv_city .setText(friend.city);
+            holder.tv_figure.setText(friend.figure);
+            holder.tv_marry.setText(friend.marry);
             return convertView;
         }
     }

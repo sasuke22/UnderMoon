@@ -54,8 +54,8 @@
             android:gravity="center"
             android:padding="5dp"/>
     </RadioGroup>
-    <FrameLayout
-        android:id="@+id/fl_meeting_content"
+    <ListView
+        android:id="@+id/lv_meeting_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>
