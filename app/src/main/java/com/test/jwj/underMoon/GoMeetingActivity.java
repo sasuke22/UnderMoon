@@ -26,6 +26,7 @@ import com.test.jwj.underMoon.fragments.Fragment_today_contributes;
 
 public class GoMeetingActivity extends Activity implements View.OnClickListener {
     private MeetingDetail[] meetingDetails;
+    ListView meetingList;
 //    Fragment mFragmentTodayContributes;
 //    Fragment mFragmentAllContributes;
 //    Fragment mFragmentMyRegister;
@@ -38,7 +39,7 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.rb_all_contributes).setOnClickListener(this);
         findViewById(R.id.rb_my_register).setOnClickListener(this);
         findViewById(R.id.rb_my_invitation).setOnClickListener(this);
-        ListView meetingList = (ListView) findViewById(R.id.lv_meeting_list);
+        meetingList = (ListView) findViewById(R.id.lv_meeting_list);
         meetingList.setAdapter(new MyAdapter(this));
 //        initFragment();
 //        changeFragment(mFragmentTodayContributes);
@@ -58,15 +59,19 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
         switch (v.getId()){
             case R.id.rb_today_contributes:
 //                changeFragment(mFragmentTodayContributes);
+                meetingList.invalidate();
                 break;
             case R.id.rb_all_contributes:
 //                changeFragment(mFragmentAllContributes);
+                meetingList.invalidate();
                 break;
             case R.id.rb_my_register:
 //                changeFragment(mFragmentMyRegister);
+                meetingList.invalidate();
                 break;
             case R.id.rb_my_invitation:
 //                changeFragment(mFragmentMyInvitation);
+                meetingList.invalidate();
                 break;
         }
     }
@@ -107,7 +112,7 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
                 convertView = mInflater.inflate(R.layout.item_today_contributes, null);
                 holder = new ViewHolder();
                 holder.city = (TextView) convertView.findViewById(R.id.tv_city);
-                holder.summary = (TextView) convertView.findViewById(R.id.tv_today_contributes_describe);
+                holder.summary = (TextView) convertView.findViewById(R.id.tv_today_contributes_summary);
                 holder.date = (TextView) convertView.findViewById(R.id.tv_today_contributes_date);
                 holder.read = (TextView) convertView.findViewById(R.id.tv_today_contributes_read);
                 holder.approve = (TextView) convertView.findViewById(R.id.tv_today_contributes_approve);
