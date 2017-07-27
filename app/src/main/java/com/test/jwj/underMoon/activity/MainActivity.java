@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon;
+package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.fragments.Fragment_personal_center;
 import com.test.jwj.underMoon.fragments.Fragment_friends;
 import com.test.jwj.underMoon.fragments.Fragment_bapa;

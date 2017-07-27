@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.test.jwj.underMoon.GoMeetingActivity;
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.SearchActivity;
+import com.test.jwj.underMoon.activity.SearchActivity;
 
 /**
  * Created by Administrator on 2017/3/16.

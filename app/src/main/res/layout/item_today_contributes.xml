@@ -4,17 +4,24 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
     <TextView
-        android:id="@+id/tv_today_contributes_city"
+        android:id="@+id/tv_today_contributes_province"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="province"/>
+    <TextView
+        android:id="@+id/tv_today_contributes_city"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_today_contributes_province"
+        android:text="city"/>
     <TextView
         android:id="@+id/tv_today_contributes_read"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tv_today_contributes_city"
-        android:text="city"/>
+        android:text="read"/>
     <TextView
         android:id="@+id/tv_today_contributes_approve"
         android:layout_width="match_parent"
@@ -23,7 +30,7 @@
         android:maxLines="1"
         android:text="approve" />
     <TextView
-        android:id="@+id/tv_today_contributes_summary"
+        android:id="@+id/tv_today_contributes_describe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/tv_today_contributes_approve"

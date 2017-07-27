@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".activity.MainActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,18 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GoMeetingActivity"/>
-        <activity android:name=".InvitationDetailActivity"
+        <activity android:name=".activity.GoMeetingActivity"/>
+        <activity android:name=".activity.InvitationDetailActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
-        <activity android:name=".PersonalInfoActivity"
+        <activity android:name=".activity.PersonalInfoActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
-        <activity android:name=".InvitationDetailActivity"
+        <activity android:name=".activity.SearchResultsActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
-        <activity android:name=".SearchActivity"
+        <activity android:name=".activity.SearchActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.FriendDetailActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
     </application>
 

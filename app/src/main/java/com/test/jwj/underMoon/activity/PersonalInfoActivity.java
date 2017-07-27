@@ -1,7 +1,9 @@
-package com.test.jwj.underMoon;
+package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.test.jwj.underMoon.R;
 
 /**
  * Created by Administrator on 2017/4/11.
