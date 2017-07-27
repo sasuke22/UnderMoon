@@ -24,7 +24,6 @@ public class SearchResultsActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
         ListView lv_search_list = (ListView) findViewById(R.id.lv_search_list);
-        getIntent().getIntExtra("userId",0);
         //TODO 通过网络获取数据
         lv_search_list.setAdapter(new FriendsAdapter(this,mFriendsList));
         lv_search_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

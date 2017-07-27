@@ -8,20 +8,33 @@ import android.graphics.drawable.BitmapDrawable;
 
 public class Friends {
     public int id;
-    public String name;
+    public int gender;
+    public String type;
+    public String loveType;
     public String age;
+    public int height;
+    public String name;
+    public String job;
+    public String xingzuo;
     public String marry;
     public String figure;
     public String city;
     public BitmapDrawable touxiang;
-    public Friends(int id, String name, String age, String marry, String figure, String city, BitmapDrawable touxiang) {
+
+    public Friends(int id, int gender, String type, String loveType, String age, int height, String name, String job,
+                   String xingzuo, String marry, String figure, String city, BitmapDrawable touxiang) {
         this.id = id;
-        this.name = name;
+        this.gender = gender;
+        this.type = type;
+        this.loveType = loveType;
         this.age = age;
+        this.height = height;
+        this.name = name;
+        this.job = job;
+        this.xingzuo = xingzuo;
         this.marry = marry;
         this.figure = figure;
         this.city = city;
         this.touxiang = touxiang;
     }
-
 }
