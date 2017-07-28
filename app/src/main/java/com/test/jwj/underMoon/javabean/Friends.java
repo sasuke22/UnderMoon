@@ -8,7 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 public class Friends {
     public int id;
-    public int gender;
+    public int gender;//TODO 0--man;1--woman
     public String type;
     public String loveType;
     public String age;
@@ -37,4 +37,5 @@ public class Friends {
         this.city = city;
         this.touxiang = touxiang;
     }
+
 }
