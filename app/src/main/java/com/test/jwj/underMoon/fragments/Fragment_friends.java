@@ -28,7 +28,7 @@ public class Fragment_friends extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.tv_all_friends).setOnClickListener(this);
         view.findViewById(R.id.tv_new_friends).setOnClickListener(this);
         // TODO 通过网络请求获取到列表赋值给Friends
-        Friends lily = new Friends(1,"Lily","23","单身","匀称","上海 上海",new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher)));
+        Friends lily = new Friends(1,1,"Lily","23","单身",167,"匀称","design","天秤","单身","苗条","上海 上海",new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher)));
         mFriendsList.add(lily);
         lv_friends.setAdapter(new FriendsAdapter(getActivity(),mFriendsList));
         return view;

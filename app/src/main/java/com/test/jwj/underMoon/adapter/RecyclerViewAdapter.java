@@ -19,6 +19,8 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>{
     private List<Bitmap> mPhotoList;
     private Context      mContext;
+    MyItemClickListener itemClickListener;
+    MyItemLongClickListener itemLongClickListener;
     public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
         this.mPhotoList = list;
@@ -33,6 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         holder.iv_photo.setImageBitmap(mPhotoList.get(position));
+        holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
     }
 
     @Override
@@ -42,6 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView iv_photo;
+
         public MyHolder(View itemView) {
             super(itemView);
             iv_photo = (ImageView) itemView.findViewById(R.id.iv_personal_photo);
@@ -51,21 +55,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            //TODO 子条目点击，放大图片
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(v,(int)v.getTag());
         }
 
         @Override
         public boolean onLongClick(View v) {
-            //TODO 子条目长点击，弹dialog确认删除图片
-            return false;
+            if (itemLongClickListener != null)
+                itemLongClickListener.onItemLongClick(v,(int)v.getTag());
+            return true;
         }
     }
 
-    interface MyItemClickListener extends View.OnClickListener{
+    public interface MyItemClickListener{
         void onItemClick(View view,int position);
     }
 
-    interface MyItemLongClickListener extends View.OnLongClickListener{
+    public interface MyItemLongClickListener{
         void onItemLongClick(View view,int position);
+    }
+
+    public void setItemClickListener(MyItemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
+    }
+
+    public void setItemLongClickListener(MyItemLongClickListener itemLongClickListener){
+        this.itemLongClickListener = itemLongClickListener;
     }
 }
