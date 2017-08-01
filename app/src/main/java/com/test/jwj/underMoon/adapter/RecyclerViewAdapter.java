@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
         this.mPhotoList = list;
+        Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.add);
+        mPhotoList.add(0,addBitmap);
     }
 
     @Override

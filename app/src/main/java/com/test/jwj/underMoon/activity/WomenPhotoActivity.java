@@ -1,8 +1,10 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,18 +27,37 @@ public class WomenPhotoActivity extends Activity {
         setContentView(R.layout.activity_women_photo);
         //TODO 网络获取图片流转换成bitmap设置给mPhotoList
 
-        RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,mPhotoList);
+        final RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
+        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,mPhotoList);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //TODO 将图片放大
+                if (position == 0){
+                    //TODO 添加图片
+                }
+                //TODO 将图片放大，做法可以是弹一个对话框显示图片
+
             }
         });
         adapter.setItemLongClickListener(new RecyclerViewAdapter.MyItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position) {
-                //TODO 弹对话框删除
+            public void onItemLongClick(View view, final int position) {
+                if (position != 0){
+                    //TODO 弹对话框删除
+                    new AlertDialog.Builder(WomenPhotoActivity.this).setTitle("系统提示")
+                        .setPositiveButton("sure", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mPhotoList.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                }
             }
         });
         gv_women_photo.setAdapter(adapter);
