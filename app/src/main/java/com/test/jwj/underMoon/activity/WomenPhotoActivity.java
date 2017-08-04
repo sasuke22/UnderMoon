@@ -2,16 +2,25 @@ package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
+import com.test.jwj.underMoon.utils.Bimp;
 
 import java.util.List;
 
@@ -20,20 +29,35 @@ import java.util.List;
  */
 
 public class WomenPhotoActivity extends Activity {
+    private static final int TAKE_PICTURE = 0x000001;
     private List<Bitmap> mPhotoList;
+    private PopupWindow pop = null;
+    private LinearLayout ll_popup;
+    private View parentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_women_photo);
+        parentView = getLayoutInflater().inflate(R.layout.activity_women_photo,null);
+        setContentView(parentView);
+
         //TODO 网络获取图片流转换成bitmap设置给mPhotoList
 
-        final RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
+        initViews();
+
+    }
+
+    private void initViews() {
+        initPopupWindow();
+
+        RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
         final RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,mPhotoList);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position == 0){
+                if (position == Bimp.tempSelectBitmap.size()){
                     //TODO 添加图片
+                    ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
+                    pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 }
                 //TODO 将图片放大，做法可以是弹一个对话框显示图片
 
@@ -45,13 +69,13 @@ public class WomenPhotoActivity extends Activity {
                 if (position != 0){
                     //TODO 弹对话框删除
                     new AlertDialog.Builder(WomenPhotoActivity.this).setTitle("系统提示")
-                        .setPositiveButton("sure", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mPhotoList.remove(position);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("sure", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mPhotoList.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -66,4 +90,49 @@ public class WomenPhotoActivity extends Activity {
 
     }
 
+    private void initPopupWindow() {
+        pop = new PopupWindow(WomenPhotoActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.item_popupwindows,null);
+        ll_popup = (LinearLayout) view.findViewById(R.id.ll_popup);
+        pop.setWidth(RecyclerView.LayoutParams.MATCH_PARENT);
+        pop.setHeight(RecyclerView.LayoutParams.WRAP_CONTENT);
+        pop.setBackgroundDrawable(new BitmapDrawable());
+        pop.setFocusable(true);
+        pop.setOutsideTouchable(true);
+        pop.setContentView(view);
+        Button cameraBtn = (Button) view
+                .findViewById(R.id.item_popupwindows_camera);
+        Button photoBtn = (Button) view
+                .findViewById(R.id.item_popupwindows_Photo);
+        Button cancelBtn = (Button) view
+                .findViewById(R.id.item_popupwindows_cancel);
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                photo();
+                pop.dismiss();
+                ll_popup.clearAnimation();
+            }
+        });
+        photoBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(WomenPhotoActivity.this,
+                        AlbumActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
+                pop.dismiss();
+                ll_popup.clearAnimation();
+            }
+        });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                pop.dismiss();
+                ll_popup.clearAnimation();
+            }
+        });
+    }
+
+    public void photo() {
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+    }
 }

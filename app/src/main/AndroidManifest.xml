@@ -33,6 +33,12 @@
         <activity android:name=".activity.FriendDetailActivity"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+        <activity android:name=".activity.AlbumActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.WomenPhotoActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
