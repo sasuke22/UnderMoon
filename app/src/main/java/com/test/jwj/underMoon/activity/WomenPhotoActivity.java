@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
+import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.utils.Bimp;
 import com.test.jwj.underMoon.utils.FileUtils;

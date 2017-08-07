@@ -28,8 +28,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
         this.mPhotoList = list;
-        Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.add);
-        mPhotoList.add(0,addBitmap);
+//        Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.add);
+//        mPhotoList.add(0,addBitmap);
     }
 
     Handler handler = new Handler() {
