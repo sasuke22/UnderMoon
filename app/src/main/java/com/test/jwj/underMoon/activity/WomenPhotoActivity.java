@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -18,9 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
-import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.utils.Bimp;
+import com.test.jwj.underMoon.utils.FileUtils;
+import com.test.jwj.underMoon.utils.ImageItem;
+import com.test.jwj.underMoon.utils.PublicWay;
 
 import java.util.List;
 
@@ -33,10 +37,13 @@ public class WomenPhotoActivity extends Activity {
     private List<Bitmap> mPhotoList;
     private PopupWindow pop = null;
     private LinearLayout ll_popup;
+    private RecyclerViewAdapter adapter;
     private View parentView;
+    public static Bitmap mBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.icon_addpic_unfocused);
         parentView = getLayoutInflater().inflate(R.layout.activity_women_photo,null);
         setContentView(parentView);
 
@@ -50,7 +57,7 @@ public class WomenPhotoActivity extends Activity {
         initPopupWindow();
 
         RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
-        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,mPhotoList);
+        adapter = new RecyclerViewAdapter(this,mPhotoList);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -58,9 +65,14 @@ public class WomenPhotoActivity extends Activity {
                     //TODO 添加图片
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
+                } else {
+                    //TODO 将图片放大，做法可以是弹一个对话框显示图片
+                    Intent intent = new Intent(WomenPhotoActivity.this,
+                            GalleryActivity.class);
+                    intent.putExtra("position", "1");
+//                    intent.putExtra("ID", arg2);
+                    startActivity(intent);
                 }
-                //TODO 将图片放大，做法可以是弹一个对话框显示图片
-
             }
         });
         adapter.setItemLongClickListener(new RecyclerViewAdapter.MyItemLongClickListener() {
@@ -134,5 +146,39 @@ public class WomenPhotoActivity extends Activity {
     public void photo() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
+
+                    String fileName = String.valueOf(System.currentTimeMillis());
+                    Bitmap bm = (Bitmap) data.getExtras().get("data");
+                    FileUtils.saveBitmap(bm, fileName);
+
+                    ImageItem takePhoto = new ImageItem();
+                    takePhoto.setBitmap(bm);
+                    Bimp.tempSelectBitmap.add(takePhoto);
+                }
+                break;
+        }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            for(int i = 0; i< PublicWay.activityList.size(); i++){
+                if (null != PublicWay.activityList.get(i)) {
+                    PublicWay.activityList.get(i).finish();
+                }
+            }
+            System.exit(0);
+        }
+        return true;
+    }
+
+    protected void onRestart() {
+        adapter.loading();
+        super.onRestart();
     }
 }

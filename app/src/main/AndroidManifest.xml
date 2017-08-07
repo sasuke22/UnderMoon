@@ -39,6 +39,15 @@
         <activity android:name=".activity.WomenPhotoActivity"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+        <activity android:name=".activity.GalleryActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.ImageFile"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.ShowAllPhoto"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

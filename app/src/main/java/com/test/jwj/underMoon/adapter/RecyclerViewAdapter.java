@@ -3,6 +3,8 @@ package com.test.jwj.underMoon.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.utils.Bimp;
 
 import java.util.List;
 
@@ -28,6 +31,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.add);
         mPhotoList.add(0,addBitmap);
     }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    RecyclerViewAdapter.this.notifyDataSetChanged();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,6 +82,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 itemLongClickListener.onItemLongClick(v,(int)v.getTag());
             return true;
         }
+    }
+
+    public void loading() {
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                        break;
+                    } else {
+                        Bimp.max += 1;
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                }
+            }
+        }).start();
     }
 
     public interface MyItemClickListener{

@@ -1,8 +1,5 @@
 package com.test.jwj.underMoon.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,20 +14,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.king.photo.R;
-import com.king.photo.adapter.AlbumGridViewAdapter;
-import com.king.photo.util.AlbumHelper;
-import com.king.photo.util.Bimp;
-import com.king.photo.util.ImageBucket;
-import com.king.photo.util.ImageItem;
-import com.king.photo.util.PublicWay;
-import com.king.photo.util.Res;
+import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.adapter.AlbumGridViewAdapter;
+import com.test.jwj.underMoon.utils.AlbumHelper;
+import com.test.jwj.underMoon.utils.Bimp;
+import com.test.jwj.underMoon.utils.ImageBucket;
 import com.test.jwj.underMoon.utils.ImageItem;
+import com.test.jwj.underMoon.utils.PublicWay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 这个是进入相册显示所有图片的界面
@@ -41,34 +38,34 @@ import com.test.jwj.underMoon.utils.ImageItem;
  */
 public class AlbumActivity extends Activity {
 	//显示手机里的所有图片的列表控件
-	private GridView                gridView;
+	private       GridView             gridView;
 	//当手机里没有图片时，提示用户没有图片的控件
-	private TextView                tv;
+	private       TextView             tv;
 	//gridView的adapter
-	private AlbumGridViewAdapter    gridImageAdapter;
+	private       AlbumGridViewAdapter gridImageAdapter;
 	//完成按钮
-	private Button                  okButton;
+	private       Button               okButton;
 	// 返回按钮
-	private Button                  back;
+	private       Button               back;
 	// 取消按钮
-	private Button                  cancel;
-	private Intent                  intent;
+	private       Button               cancel;
+	private       Intent               intent;
 	// 预览按钮
-	private Button                  preview;
-	private Context                 mContext;
-	private ArrayList<ImageItem>    dataList;
-	private AlbumHelper             helper;
-	public static List<ImageBucket> contentList;
-	public static Bitmap            bitmap;
+	private       Button               preview;
+	private       Context              mContext;
+	private       ArrayList<ImageItem> dataList;
+	private       AlbumHelper          helper;
+	public static List<ImageBucket>    contentList;
+	public static Bitmap               bitmap;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(Res.getLayoutID("plugin_camera_album"));
-		PublicWay.activityList.add(this);
+		setContentView(R.layout.plugin_camera_album);
+		PublicWay.activityList.add(this);//加入到list中一起退出activity
 		mContext = this;
 		//注册一个广播，这个广播主要是用于在GalleryActivity进行预览时，防止当所有图片都删除完后，再回到该页面时被取消选中的图片仍处于选中状态
 		IntentFilter filter = new IntentFilter("data.broadcast.action");  
 		registerReceiver(broadcastReceiver, filter);  
-        bitmap = BitmapFactory.decodeResource(getResources(),Res.getDrawableID("plugin_camera_no_pictures"));
+        bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.plugin_camera_no_pictures);
         init();
 		initListener();
 		//这个函数主要用来控制预览和完成按钮的状态
@@ -138,22 +135,22 @@ public class AlbumActivity extends Activity {
 			dataList.addAll( contentList.get(i).imageList );
 		}
 		
-		back = (Button) findViewById(Res.getWidgetID("back"));
-		cancel = (Button) findViewById(Res.getWidgetID("cancel"));
+		back = (Button) findViewById(R.id.back);
+		cancel = (Button) findViewById(R.id.cancel);
 		cancel.setOnClickListener(new CancelListener());
 		back.setOnClickListener(new BackListener());
-		preview = (Button) findViewById(Res.getWidgetID("preview"));
+		preview = (Button) findViewById(R.id.preview);
 		preview.setOnClickListener(new PreviewListener());
 		intent = getIntent();
 		Bundle bundle = intent.getExtras();
-		gridView = (GridView) findViewById(Res.getWidgetID("myGrid"));
+		gridView = (GridView) findViewById(R.id.myGrid);
 		gridImageAdapter = new AlbumGridViewAdapter(this,dataList,
 				Bimp.tempSelectBitmap);
 		gridView.setAdapter(gridImageAdapter);
-		tv = (TextView) findViewById(Res.getWidgetID("myText"));
+		tv = (TextView) findViewById(R.id.myText);
 		gridView.setEmptyView(tv);
-		okButton = (Button) findViewById(Res.getWidgetID("ok_button"));
-		okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size()
+		okButton = (Button) findViewById(R.id.ok_button);
+		okButton.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size()
 				+ "/"+PublicWay.num+")");
 	}
 
@@ -169,20 +166,20 @@ public class AlbumActivity extends Activity {
 							toggleButton.setChecked(false);
 							chooseBt.setVisibility(View.GONE);
 							if (!removeOneData(dataList.get(position))) {
-								Toast.makeText(AlbumActivity.this, Res.getString("only_choose_num"),
-										200).show();
+								Toast.makeText(AlbumActivity.this, R.string.only_choose_num,
+										Toast.LENGTH_SHORT).show();
 							}
 							return;
 						}
 						if (isChecked) {
 							chooseBt.setVisibility(View.VISIBLE);
 							Bimp.tempSelectBitmap.add(dataList.get(position));
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size()
+							okButton.setText(R.string.finish + "(" + Bimp.tempSelectBitmap.size()
 									+ "/"+PublicWay.num+")");
 						} else {
 							Bimp.tempSelectBitmap.remove(dataList.get(position));
 							chooseBt.setVisibility(View.GONE);
-							okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+							okButton.setText(R.string.finish + "(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 						}
 						isShowOkBt();
 					}
@@ -195,7 +192,7 @@ public class AlbumActivity extends Activity {
 	private boolean removeOneData(ImageItem imageItem) {
 			if (Bimp.tempSelectBitmap.contains(imageItem)) {
 				Bimp.tempSelectBitmap.remove(imageItem);
-				okButton.setText(Res.getString("finish")+"(" +Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+				okButton.setText(R.string.finish + "(" +Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 				return true;
 			}
 		return false;
@@ -203,7 +200,7 @@ public class AlbumActivity extends Activity {
 	
 	public void isShowOkBt() {
 		if (Bimp.tempSelectBitmap.size() > 0) {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText(R.string.finish + "(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 			preview.setPressed(true);
 			okButton.setPressed(true);
 			preview.setClickable(true);
@@ -211,7 +208,7 @@ public class AlbumActivity extends Activity {
 			okButton.setTextColor(Color.WHITE);
 			preview.setTextColor(Color.WHITE);
 		} else {
-			okButton.setText(Res.getString("finish")+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText(R.string.finish + "(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 			preview.setPressed(false);
 			preview.setClickable(false);
 			okButton.setPressed(false);
