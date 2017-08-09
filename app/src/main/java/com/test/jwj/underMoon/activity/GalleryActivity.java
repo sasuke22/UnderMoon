@@ -131,7 +131,7 @@ public class GalleryActivity extends Activity {
 			if (listViews.size() == 1) {
 				Bimp.tempSelectBitmap.clear();
 				Bimp.max = 0;
-				send_bt.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+				send_bt.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 				Intent intent = new Intent("data.broadcast.action");  
                 sendBroadcast(intent);  
 				finish();
@@ -141,7 +141,7 @@ public class GalleryActivity extends Activity {
 				pager.removeAllViews();
 				listViews.remove(location);
 				adapter.setListViews(listViews);
-				send_bt.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+				send_bt.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -159,7 +159,7 @@ public class GalleryActivity extends Activity {
 
 	public void isShowOkBt() {
 		if (Bimp.tempSelectBitmap.size() > 0) {
-			send_bt.setText(R.string.finish + "(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			send_bt.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 			send_bt.setPressed(true);
 			send_bt.setClickable(true);
 			send_bt.setTextColor(Color.WHITE);

@@ -62,7 +62,7 @@ public class WomenPhotoActivity extends Activity {
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position == Bimp.tempSelectBitmap.size()){
+                if (position == 0){
                     //TODO 添加图片
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
@@ -152,12 +152,10 @@ public class WomenPhotoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PICTURE:
-                if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
-
+                if (resultCode == RESULT_OK) {
                     String fileName = String.valueOf(System.currentTimeMillis());
                     Bitmap bm = (Bitmap) data.getExtras().get("data");
                     FileUtils.saveBitmap(bm, fileName);
-
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
                     Bimp.tempSelectBitmap.add(takePhoto);

@@ -147,12 +147,12 @@ public class ShowAllPhoto extends Activity {
 						if (isChecked) {
 							button.setVisibility(View.VISIBLE);
 							Bimp.tempSelectBitmap.add(dataList.get(position));
-							okButton.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size()
+							okButton.setText("完成"+"(" + Bimp.tempSelectBitmap.size()
 									+ "/"+PublicWay.num+")");
 						} else {
 							button.setVisibility(View.GONE);
 							Bimp.tempSelectBitmap.remove(dataList.get(position));
-							okButton.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+							okButton.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 						}
 						isShowOkBt();
 					}
@@ -187,7 +187,7 @@ public class ShowAllPhoto extends Activity {
 
 	public void isShowOkBt() {
 		if (Bimp.tempSelectBitmap.size() > 0) {
-			okButton.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 			preview.setPressed(true);
 			okButton.setPressed(true);
 			preview.setClickable(true);
@@ -195,7 +195,7 @@ public class ShowAllPhoto extends Activity {
 			okButton.setTextColor(Color.WHITE);
 			preview.setTextColor(Color.WHITE);
 		} else {
-			okButton.setText(R.string.finish+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
+			okButton.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+PublicWay.num+")");
 			preview.setPressed(false);
 			preview.setClickable(false);
 			okButton.setPressed(false);
