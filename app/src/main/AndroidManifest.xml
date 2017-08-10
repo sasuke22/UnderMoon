@@ -37,7 +37,8 @@
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
         <activity android:name=".activity.WomenPhotoActivity"
-                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
+                  android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

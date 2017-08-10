@@ -151,7 +151,7 @@ public class GalleryActivity extends Activity {
 	private class GallerySendListener implements OnClickListener {
 		public void onClick(View v) {
 			finish();
-			intent.setClass(mContext,MainActivity.class);
+			intent.setClass(mContext,WomenPhotoActivity.class);
 			startActivity(intent);
 		}
 

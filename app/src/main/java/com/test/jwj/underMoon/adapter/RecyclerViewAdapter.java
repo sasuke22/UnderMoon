@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.utils.Bimp;
-import com.test.jwj.underMoon.utils.ImageItem;
 
 import java.util.List;
 
@@ -29,10 +28,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
 //        this.mPhotoList = list;
-        Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.icon_addpic_unfocused);
-        ImageItem FirstImageItem = new ImageItem();
-        FirstImageItem.setBitmap(addBitmap);
-        Bimp.tempSelectBitmap.add(0,FirstImageItem);
 //        mPhotoList.add(0,addBitmap);
     }
 
@@ -55,13 +50,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        holder.iv_photo.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
-        holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
+        if (position == 0){
+            Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.icon_addpic_unfocused);
+            holder.iv_photo.setImageBitmap(addBitmap);
+            holder.itemView.setTag(0);
+        }else{
+            holder.iv_photo.setImageBitmap(Bimp.tempSelectBitmap.get(position - 1).getBitmap());
+            holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
+        }
     }
 
     @Override
     public int getItemCount() {
-        return Bimp.tempSelectBitmap.size();
+        return (Bimp.tempSelectBitmap.size() + 1);
     }
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

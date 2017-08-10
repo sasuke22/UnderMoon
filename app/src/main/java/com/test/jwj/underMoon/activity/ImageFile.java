@@ -50,7 +50,7 @@ public class ImageFile extends Activity {
 			//清空选择的图片
 			Bimp.tempSelectBitmap.clear();
 			Intent intent = new Intent();
-			intent.setClass(mContext, MainActivity.class);
+			intent.setClass(mContext, WomenPhotoActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -58,7 +58,7 @@ public class ImageFile extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent();
-			intent.setClass(mContext, MainActivity.class);
+			intent.setClass(mContext, WomenPhotoActivity.class);
 			startActivity(intent);
 		}
 		

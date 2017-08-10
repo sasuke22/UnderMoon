@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -50,20 +51,23 @@ public class WomenPhotoActivity extends Activity {
 
         //TODO 网络获取图片流转换成bitmap设置给mPhotoList
 
-        initViews();
+    }
 
+    @Override
+    protected void onStart() {
+        initViews();
+        super.onStart();
     }
 
     private void initViews() {
         initPopupWindow();
-
+        Log.d("tag","init");
         RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
         adapter = new RecyclerViewAdapter(this,mPhotoList);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (position == 0){
-                    //TODO 添加图片
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 } else {
@@ -71,7 +75,7 @@ public class WomenPhotoActivity extends Activity {
                     Intent intent = new Intent(WomenPhotoActivity.this,
                             GalleryActivity.class);
                     intent.putExtra("position", "1");
-//                    intent.putExtra("ID", arg2);
+                    intent.putExtra("ID", position - 1);
                     startActivity(intent);
                 }
             }
@@ -98,7 +102,7 @@ public class WomenPhotoActivity extends Activity {
             }
         });
         gv_women_photo.setAdapter(adapter);
-        gv_women_photo.setLayoutManager(new GridLayoutManager(this,3));
+        gv_women_photo.setLayoutManager(new GridLayoutManager(this,4));
         gv_women_photo.addItemDecoration(new DividerGridItemDecoration(this));
 
     }
@@ -149,6 +153,9 @@ public class WomenPhotoActivity extends Activity {
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
+    /*
+     * 从摄像头返回时拿到拍摄的图片
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PICTURE:
