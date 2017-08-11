@@ -11,4 +11,8 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="et_account_hint">账号</string>
+    <string name="et_password_hint">密码</string>
+    <string name="login">登入</string>
+    <string name="register">新用户</string>
 </resources>

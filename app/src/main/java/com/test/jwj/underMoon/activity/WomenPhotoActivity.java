@@ -71,7 +71,7 @@ public class WomenPhotoActivity extends Activity {
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 } else {
-                    //TODO 将图片放大，做法可以是弹一个对话框显示图片
+                    //将图片放大
                     Intent intent = new Intent(WomenPhotoActivity.this,
                             GalleryActivity.class);
                     intent.putExtra("position", "1");

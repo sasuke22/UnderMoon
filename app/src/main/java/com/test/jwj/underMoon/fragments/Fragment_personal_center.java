@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.test.jwj.underMoon.UnderMoonApplication;
+import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.R;
 

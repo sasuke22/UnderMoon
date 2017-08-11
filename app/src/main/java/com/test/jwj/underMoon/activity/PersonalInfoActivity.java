@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.UnderMoonApplication;
+import com.test.jwj.underMoon.global.UnderMoonApplication;
 
 /**
  * Created by Administrator on 2017/4/11.

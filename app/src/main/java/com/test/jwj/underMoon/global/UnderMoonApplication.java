@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon;
+package com.test.jwj.underMoon.global;
 
 import android.app.Application;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +11,10 @@ import com.test.jwj.underMoon.javabean.Friends;
 
 public class UnderMoonApplication extends Application {
     private Friends mUser;
+
+    public void setUser(Friends user){
+        mUser = user;
+    }
 
     public void setUserId(int id) {
         this.mUser.id = id;

@@ -2,20 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.test.jwj.underMoon">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <application
-        android:name=".UnderMoonApplication"
+        android:name=".global.UnderMoonApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         >
         <activity android:name=".activity.MainActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.GoMeetingActivity"/>
         <activity android:name=".activity.InvitationDetailActivity"
@@ -39,11 +55,6 @@
         <activity android:name=".activity.WomenPhotoActivity"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
                   android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.GalleryActivity"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
@@ -54,6 +65,16 @@
         <activity android:name=".activity.ShowAllPhoto"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+        <activity android:name=".activity.FriendSearchResultActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.LoginActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.WelcomeActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
