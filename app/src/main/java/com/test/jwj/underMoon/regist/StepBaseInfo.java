@@ -11,6 +11,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.test.jwj.underMoon.CustomView.BaseDialog;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.utils.SpUtil;
 import com.test.jwj.underMoon.utils.VerifyUtils;
 
 
@@ -90,11 +91,13 @@ public class StepBaseInfo extends RegisterStep implements TextWatcher,
 		case R.id.reg_baseinfo_rb_male:
 			mRbMale.setChecked(true);
 			mGender = 1;
+			SpUtil.setBooleanSharedPerference(SpUtil.getSharePerference(mContext),"ismale",true);
 			break;
 
 		case R.id.reg_baseinfo_rb_female:
 			mRbFemale.setChecked(true);
 			mGender = 0;
+			SpUtil.setBooleanSharedPerference(SpUtil.getSharePerference(mContext),"ismale",false);
 			break;
 		}
 	}

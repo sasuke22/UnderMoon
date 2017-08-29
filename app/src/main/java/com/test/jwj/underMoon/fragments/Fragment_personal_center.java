@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.utils.SpUtil;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -46,6 +47,8 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
             case R.id.rl_personal_info:
                 Intent intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 //TODO 可能需要从上个界面传过来的数据，到底是哪个人，性别等信息，然后传到下个界面进行网络访问获取具体数据
+                boolean ismale = SpUtil.getSharePerference(getActivity()).getBoolean("ismale",false);
+                intent.putExtra("ismale",ismale);
                 startActivity(intent);
                 break;
             case R.id.rl_vip_center:
