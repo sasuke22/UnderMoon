@@ -62,7 +62,6 @@ public class ContributesAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //TODO 获取网络数据加载到listview
         holder.city.setText(meetingDetail.city);
         holder.summary.setText(meetingDetail.summary);
         holder.date.setText(meetingDetail.date);
