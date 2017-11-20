@@ -1,11 +1,11 @@
 package com.test.jwj.underMoon.global;
 
-import com.test.jwj.underMoon.javabean.ApplicationData;
-import com.test.jwj.underMoon.javabean.ChatEntity;
-import com.test.jwj.underMoon.javabean.TranObjectType;
-import com.test.jwj.underMoon.javabean.User;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.ChatEntity;
+import com.test.jwj.underMoon.bean.TranObjectType;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.network.NetService;
-import com.test.jwj.underMoon.network.TranObject;
+import com.test.jwj.underMoon.bean.TranObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

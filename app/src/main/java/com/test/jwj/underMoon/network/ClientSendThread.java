@@ -1,5 +1,9 @@
 package com.test.jwj.underMoon.network;
 
+import android.util.Log;
+
+import com.test.jwj.underMoon.bean.TranObject;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -22,5 +26,6 @@ public class ClientSendThread {
 	public void sendMessage(TranObject t) throws IOException{
 		oos.writeObject(t);
 		oos.flush();
+		Log.d("tag","send msg " + t.getSendName());
 	}
 }

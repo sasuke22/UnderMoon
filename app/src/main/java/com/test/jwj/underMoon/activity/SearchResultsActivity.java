@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.FriendsAdapter;
-import com.test.jwj.underMoon.javabean.Friends;
+import com.test.jwj.underMoon.bean.Friends;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,7 +12,7 @@ import com.test.jwj.underMoon.fragments.Fragment_all_contributes;
 import com.test.jwj.underMoon.fragments.Fragment_my_invitation;
 import com.test.jwj.underMoon.fragments.Fragment_my_register;
 import com.test.jwj.underMoon.fragments.Fragment_today_contributes;
-import com.test.jwj.underMoon.javabean.MeetingDetail;
+import com.test.jwj.underMoon.bean.MeetingDetail;
 
 import java.util.List;
 

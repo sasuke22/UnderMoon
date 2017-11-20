@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.javabean.User;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 public class FriendSearchResultAdapter extends BaseAdapter {

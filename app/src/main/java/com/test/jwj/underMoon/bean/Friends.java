@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon.javabean;
+package com.test.jwj.underMoon.bean;
 
 import android.graphics.drawable.BitmapDrawable;
 

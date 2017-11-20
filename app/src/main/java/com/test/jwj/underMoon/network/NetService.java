@@ -1,10 +1,11 @@
 package com.test.jwj.underMoon.network;
 
+import android.content.Context;
+
+import com.test.jwj.underMoon.bean.TranObject;
+
 import java.io.IOException;
 import java.net.Socket;
-
-
-import android.content.Context;
 
 public class NetService {
 	private static NetService mInstance = null;
@@ -65,7 +66,6 @@ public class NetService {
 			if (mClientSocket != null)
 				mClientSocket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}

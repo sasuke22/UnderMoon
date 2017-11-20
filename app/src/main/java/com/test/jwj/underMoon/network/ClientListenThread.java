@@ -1,16 +1,17 @@
 package com.test.jwj.underMoon.network;
 
+import android.content.Context;
+
+import com.test.jwj.underMoon.activity.SearchFriendActivity;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.TranObject;
+import com.test.jwj.underMoon.regist.StepAccount;
+import com.test.jwj.underMoon.regist.StepPhoto;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 import java.net.Socket;
-
-import android.content.Context;
-
-import com.test.jwj.underMoon.activity.SearchFriendActivity;
-import com.test.jwj.underMoon.javabean.ApplicationData;
-import com.test.jwj.underMoon.regist.StepAccount;
-import com.test.jwj.underMoon.regist.StepPhoto;
 
 
 public class ClientListenThread extends Thread {
@@ -26,10 +27,8 @@ public class ClientListenThread extends Thread {
 		try {
 			mOis = new ObjectInputStream(mSocket.getInputStream());
 		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -75,10 +74,8 @@ public class ClientListenThread extends Thread {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 

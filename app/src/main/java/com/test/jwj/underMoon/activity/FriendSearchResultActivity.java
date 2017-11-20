@@ -15,8 +15,8 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.FriendSearchResultAdapter;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.javabean.ApplicationData;
-import com.test.jwj.underMoon.javabean.User;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.User;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
-package com.test.jwj.underMoon.network;
+package com.test.jwj.underMoon.bean;
 
 import com.test.jwj.underMoon.global.Result;
-import com.test.jwj.underMoon.javabean.TranObjectType;
 
 import java.io.Serializable;
 

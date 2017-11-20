@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import com.test.jwj.underMoon.CustomView.TitleBarView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.javabean.ApplicationData;
-import com.test.jwj.underMoon.javabean.User;
-import com.test.jwj.underMoon.network.TranObject;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.utils.VerifyUtils;
 
 

@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon.javabean;
+package com.test.jwj.underMoon.bean;
 
 /**
  * 传输对象类型

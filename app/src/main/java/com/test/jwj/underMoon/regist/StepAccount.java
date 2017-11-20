@@ -13,7 +13,7 @@ import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.network.TranObject;
+import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.utils.VerifyUtils;
 
 

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.javabean.MeetingDetail;
+import com.test.jwj.underMoon.bean.MeetingDetail;
 
 import java.util.List;
 

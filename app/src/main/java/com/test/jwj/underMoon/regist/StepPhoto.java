@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.javabean.User;
-import com.test.jwj.underMoon.network.TranObject;
+import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 

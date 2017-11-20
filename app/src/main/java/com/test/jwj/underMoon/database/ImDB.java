@@ -6,10 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.test.jwj.underMoon.javabean.ApplicationData;
-import com.test.jwj.underMoon.javabean.ChatEntity;
-import com.test.jwj.underMoon.javabean.MessageTabEntity;
-import com.test.jwj.underMoon.javabean.User;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.ChatEntity;
+import com.test.jwj.underMoon.bean.MessageTabEntity;
+import com.test.jwj.underMoon.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;

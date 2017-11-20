@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.javabean.Friends;
+import com.test.jwj.underMoon.bean.Friends;
 
 import java.util.List;
 

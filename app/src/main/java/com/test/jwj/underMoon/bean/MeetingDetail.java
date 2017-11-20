@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon.javabean;
+package com.test.jwj.underMoon.bean;
 
 /**
  * Created by Administrator on 2017/7/20.

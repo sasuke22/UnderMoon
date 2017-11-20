@@ -1,4 +1,4 @@
-package com.test.jwj.underMoon.javabean;
+package com.test.jwj.underMoon.bean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,6 @@ import android.os.Message;
 
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.Result;
-import com.test.jwj.underMoon.network.TranObject;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 public class ApplicationData {

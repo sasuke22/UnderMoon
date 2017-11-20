@@ -1,6 +1,4 @@
-package com.test.jwj.underMoon.javabean;
-
-import java.sql.Date;
+package com.test.jwj.underMoon.bean;
 
 /**
  * 类名：MessageEntity 说明：messageFragment显示的消息

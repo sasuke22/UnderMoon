@@ -11,7 +11,7 @@ import android.widget.ListView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
-import com.test.jwj.underMoon.javabean.MeetingDetail;
+import com.test.jwj.underMoon.bean.MeetingDetail;
 
 import java.util.List;
 

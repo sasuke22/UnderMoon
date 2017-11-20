@@ -3,7 +3,7 @@ package com.test.jwj.underMoon.global;
 import android.app.Application;
 import android.graphics.drawable.BitmapDrawable;
 
-import com.test.jwj.underMoon.javabean.Friends;
+import com.test.jwj.underMoon.bean.Friends;
 
 /**
  * Created by Administrator on 2017/7/28.
