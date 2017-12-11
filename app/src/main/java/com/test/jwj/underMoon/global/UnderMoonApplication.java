@@ -4,119 +4,122 @@ import android.app.Application;
 import android.graphics.drawable.BitmapDrawable;
 
 import com.test.jwj.underMoon.bean.Friends;
+import com.test.jwj.underMoon.bean.User;
 
 /**
  * Created by Administrator on 2017/7/28.
  */
 
 public class UnderMoonApplication extends Application {
-    private Friends mUser;
+    private User mUser;
+//    private Friends mUser;
 
-    public void setUser(Friends user){
+    public void setUser(User user){
         mUser = user;
     }
 
     public void setUserId(int id) {
-        this.mUser.id = id;
+        this.mUser.setId(id);
     }
 
     public void setUserGender(int gender) {
-        this.mUser.gender = gender;
+        this.mUser.setGender(gender);
     }
 
-    public void setUserType(String type) {
-        this.mUser.type = type;
-    }
+//    public void setUserType(String type) {
+//        this.mUser.type = type;
+//    }
 
-    public void setUserLoveType(String loveType) {
-        this.mUser.loveType = loveType;
-    }
+//    public void setUserLoveType(String loveType) {
+//        this.mUser.loveType = loveType;
+//    }
 
-    public void setUserAge(String age) {
-        this.mUser.age = age;
-    }
+//    public void setUserAge(String age) {
+//        this.mUser.age = age;
+//    }
 
-    public void setUserHeight(int height) {
-        this.mUser.height = height;
-    }
+//    public void setUserHeight(int height) {
+//        this.mUser.height = height;
+//    }
 
     public void setUserName(String name) {
-        this.mUser.name = name;
+        this.mUser.setUserName(name);
     }
 
-    public void setUserJob(String job) {
-        this.mUser.job = job;
-    }
+//    public void setUserJob(String job) {
+//        this.mUser.job = job;
+//    }
 
-    public void setUserXingzuo(String xingzuo) {
-        this.mUser.xingzuo = xingzuo;
-    }
+//    public void setUserXingzuo(String xingzuo) {
+//        this.mUser.xingzuo = xingzuo;
+//    }
 
-    public void setUserMarry(String marry) {
-        this.mUser.marry = marry;
-    }
+//    public void setUserMarry(String marry) {
+//        this.mUser.marry = marry;
+//    }
 
-    public void setUserFigure(String figure) {
-        this.mUser.figure = figure;
-    }
+//    public void setUserFigure(String figure) {
+//        this.mUser.figure = figure;
+//    }
 
-    public void setUserCity(String city) {
-        this.mUser.city = city;
-    }
+//    public void setUserCity(String city) {
+//        this.mUser.city = city;
+//    }
 
     public void setUserTouxiang(BitmapDrawable touxiang) {
-        this.mUser.touxiang = touxiang;
+        //TODO 需要将其他地方的获取头像方法改成bytes
+//        this.mUser.setPhoto();
     }
 
     public int getUserId() {
-        return mUser.id;
+        return mUser.getId();
     }
 
     public int getUserGender() {
-        return mUser.gender;
+        return mUser.getGender();
     }
 
-    public String getUserType() {
-        return mUser.type;
-    }
+//    public String getUserType() {
+//        return mUser.type;
+//    }
 
-    public String getUserLoveType() {
-        return mUser.loveType;
-    }
+//    public String getUserLoveType() {
+//        return mUser.loveType;
+//    }
 
-    public String getUserAge() {
-        return mUser.age;
-    }
+//    public String getUserAge() {
+//        return mUser.age;
+//    }
 
-    public int getUserHeight() {
-        return mUser.height;
-    }
+//    public int getUserHeight() {
+//        return mUser.height;
+//    }
 
     public String getUserName() {
-        return mUser.name;
+        return mUser.getUserName();
     }
 
-    public String getUserJob() {
-        return mUser.job;
-    }
+//    public String getUserJob() {
+//        return mUser.job;
+//    }
 
-    public String getUserXingzuo() {
-        return mUser.xingzuo;
-    }
+//    public String getUserXingzuo() {
+//        return mUser.xingzuo;
+//    }
 
-    public String getUserMarry() {
-        return mUser.marry;
-    }
+//    public String getUserMarry() {
+//        return mUser.marry;
+//    }
 
-    public String getUserFigure() {
-        return mUser.figure;
-    }
+//    public String getUserFigure() {
+//        return mUser.figure;
+//    }
 
-    public String getUserCity() {
-        return mUser.city;
-    }
+//    public String getUserCity() {
+//        return mUser.city;
+//    }
 
-    public BitmapDrawable getUserTouxiang() {
-        return mUser.touxiang;
-    }
+//    public BitmapDrawable getUserTouxiang() {
+//        return new BitmapDrawable(mUser.getPhoto());
+//    }
 }

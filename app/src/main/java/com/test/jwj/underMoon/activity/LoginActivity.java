@@ -16,7 +16,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.Result;
+import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.NetService;
 import com.test.jwj.underMoon.regist.RegisterActivity;
 import com.test.jwj.underMoon.utils.VerifyUtils;
@@ -98,7 +101,7 @@ public class LoginActivity extends BaseActivity {
 
 			@Override
 			protected Integer doInBackground(Void... params) {
-//				try {
+				try {
 					
 					mNetService.closeConnection();
 					mNetService.onInit(LoginActivity.this);
@@ -108,21 +111,21 @@ public class LoginActivity extends BaseActivity {
 						return 0;
 					}
 					//TODO 将下面的数据改成自己想要的
-//					User user = new User();
-//					user.setAccount(account);
-//					user.setPassword(password);
-//					UserAction.loginVerify(user);
-//					ApplicationData data = ApplicationData.getInstance();
-//					data.initData(LoginActivity.this);
-//					data.start();
-//					System.out.println(data.getReceivedMessage().getResult());
-//					if (data.getReceivedMessage().getResult() == Result.LOGIN_SUCCESS)
-//						return 1;// 登录成功
-//					else if(data.getReceivedMessage().getResult() == Result.LOGIN_FAILED)
-//						return 2;// 登录失败
-//				} catch (IOException e) {
-//					Log.d("network", "IO异常");
-//				}
+					User user = new User();
+					user.setAccount(account);
+					user.setPassword(password);
+					UserAction.loginVerify(user);
+					ApplicationData data = ApplicationData.getInstance();
+					data.initData(LoginActivity.this);
+					data.start();
+					System.out.println(data.getReceivedMessage().getResult());
+					if (data.getReceivedMessage().getResult() == Result.LOGIN_SUCCESS)
+						return 1;// 登录成功
+					else if(data.getReceivedMessage().getResult() == Result.LOGIN_FAILED)
+						return 2;// 登录失败
+				} catch (IOException e) {
+					Log.d("network", "IO异常");
+				}
 				return 0;
 
 			}
