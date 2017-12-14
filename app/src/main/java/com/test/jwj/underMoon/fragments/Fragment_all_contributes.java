@@ -11,23 +11,35 @@ import android.widget.ListView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
-
-import java.util.List;
+import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.global.UserAction;
 
 /**
  * Created by Administrator on 2017/3/25.
  */
 
 public class Fragment_all_contributes extends BaseFragment {
-    private List<MeetingDetail> mAllContributesList;
     private ListView mLv_all_contributes;
+    private User user = ApplicationData.getInstance().getUserInfo();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_contributes,container,false);
         mLv_all_contributes = (ListView) view.findViewById(R.id.lv_all_contributes);
-        //TODO 获取网络数据给list赋值
+        showDialogGetAllContributes();
+        setResourceAndItemClick();
+        return view;
+    }
+
+    public void showDialogGetAllContributes(){
+        UserAction.getAllContributes(user.getId());
+        //TODO 弹对话框
+
+    }
+
+    private void setResourceAndItemClick() {
         mLv_all_contributes.setAdapter(new ContributesAdapter(getActivity(),mAllContributesList));
         mLv_all_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -40,11 +52,11 @@ public class Fragment_all_contributes extends BaseFragment {
                 startActivity(intent);
             }
         });
-        //TODO 获取数据库信息，展示消息
-        return view;
+        //TODO 获取数据库信息，展示消息???
     }
 
-//    private class AllContributesAdapter extends BaseAdapter {
+
+    //    private class AllContributesAdapter extends BaseAdapter {
 //        private LayoutInflater mInflater;
 //
 //        public AllContributesAdapter(Context context) {

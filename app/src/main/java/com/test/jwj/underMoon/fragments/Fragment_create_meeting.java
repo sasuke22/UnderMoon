@@ -1,6 +1,5 @@
 package com.test.jwj.underMoon.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,4 +17,5 @@ public class Fragment_create_meeting extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_create_meeting,container,false);
         return view;
     }
+
 }

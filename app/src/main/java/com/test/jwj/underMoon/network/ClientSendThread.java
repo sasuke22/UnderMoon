@@ -17,7 +17,6 @@ public class ClientSendThread {
 		try {
 			oos = new ObjectOutputStream(mSocket.getOutputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

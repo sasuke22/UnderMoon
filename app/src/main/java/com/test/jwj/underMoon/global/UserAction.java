@@ -70,9 +70,18 @@ public class UserAction {
 		try {
 			mNetService.send(t);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public static void getAllContributes(int userid) {
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.ALL_CONTRIBUTES);
+		t.setObject(userid);
+		try {
+			mNetService.send(t);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

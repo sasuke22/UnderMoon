@@ -12,5 +12,6 @@ public enum TranObjectType {
 	LOGIN, // 用户登录
 	MESSAGE, // 用户发送消息
 	SEARCH_FRIEND,//找朋友
-	FRIEND_REQUEST//好友申请
+	FRIEND_REQUEST,//好友申请
+	ALL_CONTRIBUTES
 }

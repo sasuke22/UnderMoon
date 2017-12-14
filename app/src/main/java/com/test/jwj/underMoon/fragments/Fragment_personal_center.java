@@ -6,10 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.test.jwj.underMoon.activity.WomenPhotoActivity;
-import com.test.jwj.underMoon.global.UnderMoonApplication;
-import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.PersonalInfoActivity;
+import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.utils.SpUtil;
 
 /**
@@ -61,4 +60,5 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
                 break;
         }
     }
+
 }

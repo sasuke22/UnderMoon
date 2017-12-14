@@ -30,6 +30,7 @@ public class Fragment_my_photo extends BaseFragment {
         gv_my_photo.setAdapter(new MyAdapter(getActivity()));
     }
 
+
     class MyAdapter extends BaseAdapter {
         //上下文对象
         private Context context;

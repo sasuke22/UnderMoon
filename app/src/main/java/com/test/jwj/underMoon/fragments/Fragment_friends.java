@@ -46,7 +46,8 @@ public class Fragment_friends extends BaseFragment implements View.OnClickListen
         }
     }
 
-//    class MyAdapter extends BaseAdapter{
+
+    //    class MyAdapter extends BaseAdapter{
 //        private LayoutInflater mInflater;
 //        private Friends friend;
 //

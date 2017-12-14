@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 
@@ -36,4 +36,5 @@ public class Fragment_my_invitation extends BaseFragment {
         });
         return view;
     }
+
 }

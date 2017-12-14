@@ -5,6 +5,7 @@ import android.content.Context;
 import com.test.jwj.underMoon.activity.SearchFriendActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.TranObject;
+import com.test.jwj.underMoon.fragments.BaseFragment;
 import com.test.jwj.underMoon.regist.StepAccount;
 import com.test.jwj.underMoon.regist.StepPhoto;
 
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 public class ClientListenThread extends Thread {
@@ -67,6 +69,10 @@ public class ClientListenThread extends Thread {
 					break;
 				case MESSAGE:
 					ApplicationData.getInstance().messageArrived(mReceived);
+					break;
+				case ALL_CONTRIBUTES:
+					//TODO 将获取到的list转给fragment_all_contributes
+					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				default:
 					break;

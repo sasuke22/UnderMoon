@@ -43,7 +43,8 @@ public class Fragment_today_contributes extends BaseFragment {
         return view;
     }
 
-//    private class TodayContributesAdapter extends BaseAdapter{
+
+    //    private class TodayContributesAdapter extends BaseAdapter{
 //        private LayoutInflater mInflater;
 //        public TodayContributesAdapter(Context context){
 //            mInflater = LayoutInflater.from(context);

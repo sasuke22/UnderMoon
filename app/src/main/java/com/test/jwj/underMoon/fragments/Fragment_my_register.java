@@ -42,4 +42,5 @@ public class Fragment_my_register extends BaseFragment {
         });
         return view;
     }
+
 }
