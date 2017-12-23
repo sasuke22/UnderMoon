@@ -1,7 +1,13 @@
 package com.test.jwj.underMoon.fragments;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -15,6 +21,15 @@ import java.util.List;
 
 public class BaseFragment extends Fragment {
     protected static List<MeetingDetail> mAllContributesList;
+    public static Dialog loadingDialog;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        loadingDialog = new Dialog(getActivity());
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     protected void addToBackStack(Fragment fragment){
         FragmentTransaction transaction=getFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_content,fragment);
@@ -24,6 +39,7 @@ public class BaseFragment extends Fragment {
 
     public static void setMeetingList(ArrayList meetingList){
         mAllContributesList = meetingList;
+        loadingDialog.dismiss();
     }
 //    protected void addToMeetingBackStack(Fragment fragment){
 //        FragmentTransaction transaction=getFragmentManager().beginTransaction();

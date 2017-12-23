@@ -71,7 +71,7 @@ public class ClientListenThread extends Thread {
 					ApplicationData.getInstance().messageArrived(mReceived);
 					break;
 				case ALL_CONTRIBUTES:
-					//TODO 将获取到的list转给fragment_all_contributes
+					//将获取到的list转给fragment_all_contributes
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				default:

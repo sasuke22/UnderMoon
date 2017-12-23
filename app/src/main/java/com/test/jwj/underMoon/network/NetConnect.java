@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class NetConnect {
 
 	private Socket mClientSocket = null;
-	private static final String SERVER_IP = "192.168.107.38";/*"192.168.1.161";*/
+	private static final String SERVER_IP = "192.168.107.29";/*"192.168.1.161";*/
 	private static final int SERVER_PORT = 8399;
 	private boolean mIsConnected = false;
 
