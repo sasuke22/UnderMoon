@@ -37,6 +37,13 @@ public class Fragment_all_contributes extends BaseFragment {
     public void showDialogGetAllContributes(){
         UserAction.getAllContributes(user.getId());
         loadingDialog.show();
+        synchronized (key){
+            try {
+                key.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setResourceAndItemClick() {

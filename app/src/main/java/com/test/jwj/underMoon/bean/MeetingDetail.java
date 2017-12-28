@@ -1,10 +1,13 @@
 package com.test.jwj.underMoon.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/7/20.
  */
 
-public class MeetingDetail {
+public class MeetingDetail implements Serializable{
+    public static final long serialVersionUID =1L;
     public int meetingId;
     public int id;
     public String city;

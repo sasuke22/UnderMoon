@@ -53,7 +53,7 @@ public class ContributesAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_today_contributes, null);
             holder = new ViewHolder();
-            holder.city = (TextView) convertView.findViewById(R.id.tv_city);
+            holder.city = (TextView) convertView.findViewById(R.id.tv_today_contributes_city);
             holder.summary = (TextView) convertView.findViewById(R.id.tv_today_contributes_describe);
             holder.date = (TextView) convertView.findViewById(R.id.tv_today_contributes_date);
             holder.read = (TextView) convertView.findViewById(R.id.tv_today_contributes_read);

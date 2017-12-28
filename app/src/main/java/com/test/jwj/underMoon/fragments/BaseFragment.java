@@ -20,6 +20,7 @@ import java.util.List;
  */
 
 public class BaseFragment extends Fragment {
+    public static final Object key = new Object();
     protected static List<MeetingDetail> mAllContributesList;
     public static Dialog loadingDialog;
 
@@ -40,6 +41,9 @@ public class BaseFragment extends Fragment {
     public static void setMeetingList(ArrayList meetingList){
         mAllContributesList = meetingList;
         loadingDialog.dismiss();
+        synchronized (key){
+            key.notify();
+        }
     }
 //    protected void addToMeetingBackStack(Fragment fragment){
 //        FragmentTransaction transaction=getFragmentManager().beginTransaction();
