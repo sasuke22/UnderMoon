@@ -1,15 +1,18 @@
 package com.test.jwj.underMoon.global;
 
+import android.util.Log;
+
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
+import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.bean.TranObjectType;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.network.NetService;
-import com.test.jwj.underMoon.bean.TranObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class UserAction {
@@ -80,6 +83,21 @@ public class UserAction {
 		t.setObject(userid);
 		try {
 			mNetService.send(t);
+			Log.d("tag","send request contributes success" + userid);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void getTodayContributes(int id, java.sql.Date curDate) {
+		HashMap map = new HashMap();
+		map.put(id,curDate);
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.TODAY_CONTRIBUTES);
+		t.setObject(map);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send request contributes success" + id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

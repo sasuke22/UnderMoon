@@ -13,5 +13,6 @@ public enum TranObjectType {
 	MESSAGE, // 用户发送消息
 	SEARCH_FRIEND,//找朋友
 	FRIEND_REQUEST,//好友申请
-	ALL_CONTRIBUTES
+	ALL_CONTRIBUTES,
+	TODAY_CONTRIBUTES
 }

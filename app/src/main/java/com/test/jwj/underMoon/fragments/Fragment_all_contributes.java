@@ -11,9 +11,7 @@ import android.widget.ListView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
-import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
-import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
 
 /**
@@ -22,11 +20,9 @@ import com.test.jwj.underMoon.global.UserAction;
 
 public class Fragment_all_contributes extends BaseFragment {
     private ListView mLv_all_contributes;
-    private User user = ApplicationData.getInstance().getUserInfo();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_all_contributes,container,false);
         mLv_all_contributes = (ListView) view.findViewById(R.id.lv_all_contributes);
         showDialogGetAllContributes();

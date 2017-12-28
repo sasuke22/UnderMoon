@@ -12,7 +12,9 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
+import com.test.jwj.underMoon.global.UserAction;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -27,7 +29,25 @@ public class Fragment_today_contributes extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_contributes,container,false);
         mLv_today_contributes = (ListView) view.findViewById(R.id.lv_today_contributes);
-        // TODO 获取数据给mTodayContributesList赋值
+        showDialogGetAllContributes();
+        setResourceAndItemClick();
+        return view;
+    }
+
+    private void showDialogGetAllContributes() {
+        Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
+        UserAction.getTodayContributes(user.getId(),curDate);
+        loadingDialog.show();
+        synchronized (key){
+            try {
+                key.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setResourceAndItemClick() {
         mLv_today_contributes.setAdapter(new ContributesAdapter(getActivity(),mTodayContributesList));
         mLv_today_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -40,7 +60,6 @@ public class Fragment_today_contributes extends BaseFragment {
                 startActivity(intent);
             }
         });
-        return view;
     }
 
 

@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.test.jwj.underMoon.activity.SearchFriendActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
@@ -71,7 +72,10 @@ public class ClientListenThread extends Thread {
 					ApplicationData.getInstance().messageArrived(mReceived);
 					break;
 				case ALL_CONTRIBUTES:
-					//将获取到的list转给fragment_all_contributes
+					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
+					break;
+				case TODAY_CONTRIBUTES:
+					Log.d("tag","get received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				default:

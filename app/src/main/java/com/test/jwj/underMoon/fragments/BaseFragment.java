@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
+import com.test.jwj.underMoon.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,8 @@ import java.util.List;
  */
 
 public class BaseFragment extends Fragment {
-    public static final Object key = new Object();
+    public static final Object key  = new Object();
+    protected              User   user = ApplicationData.getInstance().getUserInfo();
     protected static List<MeetingDetail> mAllContributesList;
     public static Dialog loadingDialog;
 

@@ -39,7 +39,7 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
 //        meetingList.setAdapter(new MyAdapter(this));
         // TODO 获取网络数据将mMeetingDetailList初始化
         initFragment();
-        changeFragment(mFragmentTodayContributes);
+        changeFragment(mFragmentAllContributes);
     }
 
     private void initFragment() {
@@ -126,8 +126,8 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
 //    }
 
     private void changeFragment(Fragment frag){
-        FragmentManager supportFragmentManager=getFragmentManager();
-        FragmentTransaction transaction=supportFragmentManager.beginTransaction();
+        FragmentManager supportFragmentManager = getFragmentManager();
+        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.fl_meeting_content,frag);
         transaction.commit();
     }
