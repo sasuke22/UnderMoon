@@ -35,7 +35,7 @@ public class ContributesAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return mMeetingDetailList.size();
+        return mMeetingDetailList == null ? 0 : mMeetingDetailList.size();
     }
 
     public Object getItem(int item) {
