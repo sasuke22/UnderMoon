@@ -102,4 +102,16 @@ public class UserAction {
 			e.printStackTrace();
 		}
 	}
+
+	public static void getInvitationDetail(int meetingId) {
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.INVITATION_DETAIL);
+		t.setObject(meetingId);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send request contributes success" + meetingId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

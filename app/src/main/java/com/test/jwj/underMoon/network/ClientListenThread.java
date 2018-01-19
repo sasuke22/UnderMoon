@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.test.jwj.underMoon.activity.SearchFriendActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.fragments.BaseFragment;
 import com.test.jwj.underMoon.regist.StepAccount;
@@ -21,8 +22,12 @@ public class ClientListenThread extends Thread {
 	private Socket mSocket = null;
 	private Context mContext = null;
 	private ObjectInputStream mOis;
-
+	private static IMessageArrived miDataListener;
 	private boolean isStart = true;
+
+	public static void setMiDataListener(IMessageArrived listener) {
+		miDataListener = listener;
+	}
 
 	public ClientListenThread(Context context, Socket socket) {
 		this.mContext = context;
@@ -77,6 +82,10 @@ public class ClientListenThread extends Thread {
 				case TODAY_CONTRIBUTES:
 					Log.d("tag","get received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
+					break;
+				case INVITATION_DETAIL:
+					Log.d("tag","meeting received");
+					miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;
 				default:
 					break;
