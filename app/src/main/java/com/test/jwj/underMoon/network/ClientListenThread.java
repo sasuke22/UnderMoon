@@ -87,6 +87,9 @@ public class ClientListenThread extends Thread {
 					Log.d("tag","meeting received");
 					miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;
+//				case ADD_CONTRIBUTE:
+//
+//					break;
 				default:
 					break;
 				}

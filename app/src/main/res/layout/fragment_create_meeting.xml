@@ -25,10 +25,33 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:text="邀约时间"
+            />
+        <EditText
+            android:id="@+id/date_create_meeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:hint="日期"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:text="邀约坐标"
             />
         <EditText
-            android:id="@+id/time_create_meeting"
+            android:id="@+id/city_create_meeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -51,7 +74,7 @@
             android:text="邀约描述"
             />
         <EditText
-            android:id="@+id/address_create_meeting"
+            android:id="@+id/et_create_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -73,7 +96,7 @@
             android:text="对方要求"
             />
         <EditText
-            android:id="@+id/detail_create_meeting"
+            android:id="@+id/et_create_lovetype"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

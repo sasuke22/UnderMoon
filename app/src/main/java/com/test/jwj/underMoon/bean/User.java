@@ -29,6 +29,51 @@ public class User implements Serializable {
 	private byte[] photo;
 	private int age;
 	private String userBriefIntro;
+	private int height;
+	private int marry;
+	private String job;
+	private String figure;
+	private String xingzuo;
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getMarry() {
+		return marry;
+	}
+
+	public void setMarry(int marry) {
+		this.marry = marry;
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+	public String getFigure() {
+		return figure;
+	}
+
+	public void setFigure(String figure) {
+		this.figure = figure;
+	}
+
+	public String getXingzuo() {
+		return xingzuo;
+	}
+
+	public void setXingzuo(String xingzuo) {
+		this.xingzuo = xingzuo;
+	}
 
 	public String getUserBriefIntro() {
 		return userBriefIntro;

@@ -64,7 +64,7 @@ public class ContributesAdapter extends BaseAdapter {
         }
         holder.city.setText(meetingDetail.city);
         holder.summary.setText(meetingDetail.summary);
-        holder.date.setText(meetingDetail.date);
+        holder.date.setText(meetingDetail.date.toString());
         holder.read.setText(meetingDetail.read ? "已读" : "未读");
         holder.approve.setText(meetingDetail.approve ? "对方已通过你的报名" : "对方未通过你的报名");
         return convertView;

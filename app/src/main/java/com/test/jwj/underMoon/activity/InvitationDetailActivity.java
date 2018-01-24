@@ -22,17 +22,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private final Object key = new Object();
     private Dialog mDialog;
     private MeetingDetail mInvitationDetail;
-    private TextView tv_leixing;
-    private TextView tv_loveleixing;
-    private TextView tv_age;
-    private TextView tv_marry;
-    private TextView tv_tall;
-    private TextView tv_job;
-    private TextView tv_tixing;
-    private TextView tv_xingzuo;
-    private TextView tv_address;
-    private TextView tv_time;
-    private TextView tv_invitation_detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +56,17 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         lv_chat_msg = (ListView) findViewById(R.id.lv_chat_msg);
         Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
         Button btn_stop_chat = (Button) findViewById(R.id.btn_stop_chat);
-        tv_leixing = (TextView) findViewById(R.id.tv_leixing);
-        tv_loveleixing = (TextView) findViewById(R.id.tv_loveleixing);
-        tv_age = (TextView) findViewById(R.id.tv_age);
-        tv_marry = (TextView) findViewById(R.id.tv_marry);
-        tv_tall = (TextView) findViewById(R.id.tv_tall);
-        tv_job = (TextView) findViewById(R.id.tv_job);
-        tv_tixing = (TextView) findViewById(R.id.tv_tixing);
-        tv_xingzuo = (TextView) findViewById(R.id.tv_xingzuo);
-        tv_address = (TextView) findViewById(R.id.tv_address);
-        tv_time = (TextView) findViewById(R.id.tv_time);
-        tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
+        TextView tv_leixing = (TextView) findViewById(R.id.tv_leixing);
+        TextView tv_loveleixing = (TextView) findViewById(R.id.tv_loveleixing);
+        TextView tv_age = (TextView) findViewById(R.id.tv_age);
+        TextView tv_marry = (TextView) findViewById(R.id.tv_marry);
+        TextView tv_tall = (TextView) findViewById(R.id.tv_tall);
+        TextView tv_job = (TextView) findViewById(R.id.tv_job);
+        TextView tv_tixing = (TextView) findViewById(R.id.tv_tixing);
+        TextView tv_xingzuo = (TextView) findViewById(R.id.tv_xingzuo);
+        TextView tv_address = (TextView) findViewById(R.id.tv_address);
+        TextView tv_time = (TextView) findViewById(R.id.tv_time);
+        TextView tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
         if (getIntent().getBooleanExtra("chat",false)){
             ll_liuyan.setVisibility(View.GONE);//隐藏留言
             btn_register_meeting.setVisibility(View.GONE);//隐藏包名按钮
@@ -93,14 +82,14 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         }
         tv_leixing.setText(mInvitationDetail.type);
         tv_loveleixing.setText(mInvitationDetail.loveType);
-        tv_age.setText(mInvitationDetail.age + "");
-        tv_marry.setText(mInvitationDetail.marry + "");
-        tv_tall.setText(mInvitationDetail.height + "");
+        tv_age.setText(String.valueOf(mInvitationDetail.age));
+        tv_marry.setText(String.valueOf(mInvitationDetail.marry));//需要根据具体的值改成对应的文字
+        tv_tall.setText(String.valueOf(mInvitationDetail.height));
         tv_job.setText(mInvitationDetail.job);
         tv_tixing.setText(mInvitationDetail.figure);
         tv_xingzuo.setText(mInvitationDetail.xingzuo);
         tv_address.setText(mInvitationDetail.city);
-        tv_time.setText(mInvitationDetail.date);
+        tv_time.setText(mInvitationDetail.date.toString());
         tv_invitation_detail.setText(mInvitationDetail.content);
 
         btn_register_meeting.setOnClickListener(this);

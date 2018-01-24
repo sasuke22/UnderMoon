@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
+import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.bean.TranObjectType;
 import com.test.jwj.underMoon.bean.User;
@@ -90,7 +91,7 @@ public class UserAction {
 	}
 
 	public static void getTodayContributes(int id, java.sql.Date curDate) {
-		HashMap map = new HashMap();
+		HashMap<Integer, java.sql.Date> map = new HashMap<>();
 		map.put(id,curDate);
 		TranObject t = new TranObject();
 		t.setTranType(TranObjectType.TODAY_CONTRIBUTES);
@@ -110,6 +111,18 @@ public class UserAction {
 		try {
 			mNetService.send(t);
 			Log.d("tag","send request contributes success" + meetingId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void addContribute(MeetingDetail meetingDetail){
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.ADD_CONTRIBUTE);
+		t.setObject(meetingDetail);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send add contributes success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
