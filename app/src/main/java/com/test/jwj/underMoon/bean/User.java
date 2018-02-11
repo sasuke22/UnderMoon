@@ -101,7 +101,7 @@ public class User implements Serializable {
 		this.friendList = friendList;
 	}
 
-	public User(String account, String username, String password,
+	public User(String account, String username, String password, String city, String figure, String job, int height, int marry,
 			Date birthday, int gender, byte[] photo) {
 		this.account = account;
 		this.userName = username;
@@ -109,6 +109,11 @@ public class User implements Serializable {
 		this.birthday = birthday;
 		this.gender = gender;
 		this.photo = photo;
+		this.location = city;
+		this.figure = figure;
+		this.job = job;
+		this.height = height;
+		this.marry = marry;
 	}
 
 	public User() {

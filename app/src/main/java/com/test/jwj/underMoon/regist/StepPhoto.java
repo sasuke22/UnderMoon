@@ -1,7 +1,5 @@
 package com.test.jwj.underMoon.regist;
 
-import java.util.Date;
-
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.TranObject;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.bean.User;
-import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.utils.PhotoUtils;
+
+import java.util.Date;
 
 
 public class StepPhoto extends RegisterStep implements OnClickListener {
@@ -33,6 +33,11 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 	private Date mBirthday;
 	private String mName;
 	private int mGender;
+	private String mCity;
+	private String mFigure;
+	private String mJob;
+	private int mHeight;
+	private int mMarry;
 	private static TranObject mReceivedInfo = null;
 	private static boolean mIsReceived = false;
 
@@ -98,7 +103,7 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 						return 0;
 					} else {
 						byte[] photoByte = PhotoUtils.getBytes(mUserPhoto);
-						User user = new User(mAccount, mName, mPassword,
+						User user = new User(mAccount, mName, mPassword,mCity,mFigure,mJob,mHeight,mMarry,
 								mBirthday, mGender, photoByte);
 						UserAction.register(user);
 						while (!mIsReceived) {
@@ -177,6 +182,26 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 
 	public void setPassword(String password) {
 		this.mPassword = password;
+	}
+
+	public void setCity(String city) {
+		this.mCity = city;
+	}
+
+	public void setFigure(String Figure) {
+		mFigure = Figure;
+	}
+
+	public void setJob(String Job) {
+		mJob = Job;
+	}
+
+	public void setHeight(int Height) {
+		mHeight = Height;
+	}
+
+	public void setMarry(int Marry) {
+		mMarry = Marry;
 	}
 
 	public static void setRegisterInfo(TranObject object, boolean isReceived) {

@@ -28,26 +28,13 @@
                 <EditText
                     android:id="@+id/reg_baseinfo_et_name"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dip"
+                    android:layout_height="60dp"
                     android:background="@drawable/edittext_default"
                     android:hint="输入您的用户名"
                     android:singleLine="true" />
 
-               <com.test.jwj.underMoon.CustomView.HandyTextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dip"
-                    android:layout_marginRight="8dip"
-                    android:text="填写真实姓名将便于朋友们找到你"
-                    android:textColor="@color/notes_color"
-                    android:textSize="14sp" />
-            </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="@color/devideline" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -55,7 +42,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
-                android:paddingTop="8dip" >
+                >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -106,6 +93,70 @@
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/devideline" />
+
+            <com.test.jwj.underMoon.CustomView.HandyTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginBottom="10dp"
+                android:text="以下内容如若不便透露请填不详"
+                android:textColor="@color/notes_color"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/reg_baseinfo_et_city"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dip"
+                android:background="@drawable/edittext_default"
+                android:hint="输入您的城市"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/reg_baseinfo_et_height"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dip"
+                android:background="@drawable/edittext_default"
+                android:hint="输入您的身高"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/reg_baseinfo_et_figure"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dip"
+                android:background="@drawable/edittext_default"
+                android:hint="输入您的身材"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/reg_baseinfo_et_job"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dip"
+                android:background="@drawable/edittext_default"
+                android:hint="输入您的工作"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/reg_baseinfo_et_marry"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dip"
+                android:background="@drawable/edittext_default"
+                android:hint="输入您的情感状况"
+                android:singleLine="true" />
+
         </LinearLayout>
     </ScrollView>
 

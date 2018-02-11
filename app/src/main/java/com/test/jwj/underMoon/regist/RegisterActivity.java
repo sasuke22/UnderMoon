@@ -1,14 +1,12 @@
 package com.test.jwj.underMoon.regist;
 
-import java.util.Date;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask; 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.view.View;
@@ -21,6 +19,8 @@ import com.test.jwj.underMoon.CustomView.HeaderLayout;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.BaseActivity;
 import com.test.jwj.underMoon.utils.PhotoUtils;
+
+import java.util.Date;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener,
 		RegisterStep.onNextActionListener {
@@ -227,8 +227,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 			mStepPhoto.setName(getName());
 			mStepPhoto.setGender(getGender());
 			mStepPhoto.setPassword(getPassword());
-			
-			
+			mStepPhoto.setCity(getCity());
+			mStepPhoto.setFigure(getFigure());
+			mStepPhoto.setJob(getJob());
+			mStepPhoto.setHeight(getHeight());
+			mStepPhoto.setMarry(getMarry());
 			return mStepPhoto;
 		}
 		return null;
@@ -328,5 +331,39 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		}
 		return null;
 	}
-	
+
+	public String getCity(){
+		if(mStepBaseInfo != null) {
+			return mStepBaseInfo.getCity();
+		}
+		return "";
+	}
+
+	public String getFigure(){
+		if(mStepBaseInfo != null) {
+			return mStepBaseInfo.getFigure();
+		}
+		return "";
+	}
+
+	public String getJob(){
+		if(mStepBaseInfo != null) {
+			return mStepBaseInfo.getJob();
+		}
+		return "";
+	}
+
+	public String getHeight(){
+		if(mStepBaseInfo != null) {
+			return mStepBaseInfo.getHeight();
+		}
+		return "";
+	}
+
+	public int getMarry(){
+		if(mStepBaseInfo != null) {
+			return mStepBaseInfo.getMarry();
+		}
+		return -1;
+	}
 }

@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/image_add_photo"
+            android:src="@mipmap/icon_addpic_unfocused"
             />
         <TextView
             android:layout_width="wrap_content"

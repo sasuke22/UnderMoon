@@ -117,7 +117,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@mipmap/image_add_photo"/>
+            android:src="@mipmap/icon_addpic_unfocused"/>
     </LinearLayout>
     <Button
         android:id="@+id/upload_meeting"
