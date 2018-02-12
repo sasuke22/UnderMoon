@@ -353,11 +353,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		return "";
 	}
 
-	public String getHeight(){
+	public int getHeight(){
 		if(mStepBaseInfo != null) {
 			return mStepBaseInfo.getHeight();
 		}
-		return "";
+		return -1;
 	}
 
 	public int getMarry(){

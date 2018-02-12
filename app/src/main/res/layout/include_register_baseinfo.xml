@@ -156,7 +156,10 @@
                 android:background="@drawable/edittext_default"
                 android:hint="输入您的情感状况"
                 android:singleLine="true" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单身/已恋/已婚/不详"/>
         </LinearLayout>
     </ScrollView>
 

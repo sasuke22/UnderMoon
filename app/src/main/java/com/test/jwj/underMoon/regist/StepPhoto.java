@@ -109,9 +109,9 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 						while (!mIsReceived) {
 						}// 如果没收到的话就会一直阻塞;
 						mNetService.closeConnection();
-						if (mReceivedInfo.getResult() == Result.REGISTER_SUCCESS)
+						if (mReceivedInfo.getResult() == Result.REGISTER_SUCCESS) {
 							return 1;
-						else
+						}else
 							return 2;
 					}
 				} catch (Exception e) {

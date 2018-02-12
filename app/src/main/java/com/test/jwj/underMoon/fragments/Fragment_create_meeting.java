@@ -46,6 +46,7 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
         meetingDetail.city = String.valueOf(Et_city_create_meeting.getText());
         meetingDetail.date = String.valueOf(Et_date_create_meeting.getText());
         meetingDetail.content = String.valueOf(Et_content_create_meeting.getText());
+        meetingDetail.type = ApplicationData.getInstance().getUserInfo().getFigure();
         meetingDetail.loveType = String.valueOf(Et_lovetype_create_meeting.getText());
         meetingDetail.age = user.getAge();
         meetingDetail.marry = user.getMarry();
