@@ -85,11 +85,31 @@ public class ClientListenThread extends Thread {
 					break;
 				case INVITATION_DETAIL:
 					Log.d("tag","meeting received");
-					miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
+					if (miDataListener != null)
+						miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;
-//				case ADD_CONTRIBUTE:
-//
-//					break;
+				case ADD_CONTRIBUTE:
+					int res = (int)mReceived.getObject();
+					switch (res){
+						case 1:
+							// TODO 通知上传成功
+							break;
+						case -1:
+							// TODO 通知上传失败
+							break;
+					}
+					break;
+				case ENLIST:
+					res = (int)mReceived.getObject();
+					switch (res){
+						case 1:
+							// TODO 通知报名成功
+							break;
+						case 0:
+							// TODO 通知报名失败
+							break;
+					}
+					break;
 				default:
 					break;
 				}

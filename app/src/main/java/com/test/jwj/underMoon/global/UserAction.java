@@ -127,4 +127,17 @@ public class UserAction {
 			e.printStackTrace();
 		}
 	}
+
+	public static void enlist(int meetingId,int userId){
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.ENLIST);
+		t.setObject(meetingId);
+		t.setSendId(userId);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send request enlist success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

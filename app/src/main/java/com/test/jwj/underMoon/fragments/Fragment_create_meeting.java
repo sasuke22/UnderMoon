@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
+import com.test.jwj.underMoon.utils.VerifyUtils;
 
 /**
  * Created by Administrator on 2017/3/18.
@@ -40,6 +42,11 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        if (VerifyUtils.isNull(Et_city_create_meeting) || VerifyUtils.isNull(Et_date_create_meeting) || VerifyUtils.isNull(Et_content_create_meeting)
+                || VerifyUtils.isNull(Et_lovetype_create_meeting)){
+            Toast.makeText(getActivity(),"请输入完整信息",Toast.LENGTH_SHORT).show();
+            return;
+        }
         User user = ApplicationData.getInstance().getUserInfo();
         MeetingDetail meetingDetail = new MeetingDetail();
         meetingDetail.id = user.getId();
@@ -55,5 +62,6 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
         meetingDetail.figure = user.getFigure();
         meetingDetail.xingzuo = user.getXingzuo();
         UserAction.addContribute(meetingDetail);
+        getActivity().onBackPressed();
     }
 }

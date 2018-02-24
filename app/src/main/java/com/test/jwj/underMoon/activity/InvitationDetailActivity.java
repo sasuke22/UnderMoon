@@ -97,7 +97,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        //TODO 报名的相关网络操作√
+        UserAction.enlist(meetingId,id);
     }
 
     @Override
