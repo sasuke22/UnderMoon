@@ -12,29 +12,47 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
-
-import java.util.List;
+import com.test.jwj.underMoon.global.UserAction;
 
 /**
  * Created by Administrator on 2017/3/25.
  */
 
 public class Fragment_my_invitation extends BaseFragment {
-    private List<MeetingDetail> mMyInvitationList;
     ListView mLv_my_invitation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_invitation,container,false);
         mLv_my_invitation = (ListView) view.findViewById(R.id.lv_my_invitation);
-        //TODO 获取网络数据给list赋值
-        mLv_my_invitation.setAdapter(new ContributesAdapter(getActivity(),mMyInvitationList));
+        showDialogGetMyContributes();
+        setResourceAndItemClick();
+        return view;
+    }
+
+    private void showDialogGetMyContributes() {
+        UserAction.getMyContributes(user.getId());
+        loadingDialog.show();
+        synchronized (key){
+            try {
+                key.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setResourceAndItemClick() {
+        mLv_my_invitation.setAdapter(new ContributesAdapter(getActivity(),mAllContributesList));
         mLv_my_invitation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getActivity(), InvitationDetailActivity.class));
+                MeetingDetail detailItem = mAllContributesList.get(position);
+                Intent intent = new Intent(getActivity(), InvitationDetailActivity.class);
+                intent.putExtra("id",detailItem.id);
+                intent.putExtra("meetingId",detailItem.meetingId);
+                startActivity(intent);
             }
         });
-        return view;
     }
 
 }

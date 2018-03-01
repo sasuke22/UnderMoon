@@ -204,7 +204,6 @@ public class PhotoUtils {
 			// 获取缩放后图片
 			return BitmapFactory.decodeFile(path, newOpts);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return null;
 		}
 	}

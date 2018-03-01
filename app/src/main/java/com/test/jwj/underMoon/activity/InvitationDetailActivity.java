@@ -39,7 +39,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         meetingId = getIntent().getIntExtra("meetingId",0);
         UserAction.getInvitationDetail(meetingId);
         mDialog.show();
-        synchronized (key){
+        synchronized (key){// wait for the callback
             try {
                 key.wait();
             } catch (InterruptedException e) {
@@ -54,6 +54,8 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
         ListView lv_chat_msg;
         lv_chat_msg = (ListView) findViewById(R.id.lv_chat_msg);
+        ListView lv_enlist_people;
+        lv_enlist_people = (ListView) findViewById(R.id.lv_enlist_people);
         Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
         Button btn_stop_chat = (Button) findViewById(R.id.btn_stop_chat);
         TextView tv_leixing = (TextView) findViewById(R.id.tv_leixing);
@@ -67,18 +69,32 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         TextView tv_address = (TextView) findViewById(R.id.tv_address);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
         TextView tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
+        if (id == mInvitationDetail.id){
+            // TODO 将其他按钮隐藏，显示报名列表信息
+            lv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
+            ll_liuyan.setVisibility(View.GONE);
+            btn_register_meeting.setVisibility(View.GONE);
+            lv_chat_msg.setVisibility(View.GONE);
+            btn_send_msg.setVisibility(View.GONE);
+            btn_stop_chat.setVisibility(View.GONE);
+            initEnlist();
+        }
         if (getIntent().getBooleanExtra("chat",false)){
+            lv_enlist_people.setVisibility(View.GONE);
             ll_liuyan.setVisibility(View.GONE);//隐藏留言
             btn_register_meeting.setVisibility(View.GONE);//隐藏包名按钮
             lv_chat_msg.setVisibility(View.VISIBLE);//显示聊天信息
             btn_send_msg.setVisibility(View.VISIBLE);
             btn_stop_chat.setVisibility(View.VISIBLE);
+            initChatList();
         }else{
+            lv_enlist_people.setVisibility(View.GONE);
             ll_liuyan.setVisibility(View.VISIBLE);
             btn_register_meeting.setVisibility(View.VISIBLE);
             lv_chat_msg.setVisibility(View.GONE);
             btn_send_msg.setVisibility(View.GONE);
             btn_stop_chat.setVisibility(View.GONE);
+            btn_register_meeting.setOnClickListener(this);
         }
         tv_leixing.setText(mInvitationDetail.type);
         tv_loveleixing.setText(mInvitationDetail.loveType);
@@ -92,7 +108,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         tv_time.setText(mInvitationDetail.date.toString());
         tv_invitation_detail.setText(mInvitationDetail.content);
 
-        btn_register_meeting.setOnClickListener(this);
     }
 
     @Override
@@ -107,5 +122,13 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
             key.notify();
             mDialog.dismiss();
         }
+    }
+
+    private void initEnlist(){
+        // TODO 初始化报名列表
+    }
+
+    private void initChatList(){
+        // TODO 初始化聊天列表
     }
 }

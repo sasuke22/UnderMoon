@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:text="微信号:"/>
         <EditText
+            android:id="@+id/personal_info_wechat"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="ID:"/>
-        <EditText
+        <TextView
+            android:id="@+id/personal_info_userId"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -54,6 +56,7 @@
             android:layout_height="wrap_content"
             android:text="类型定位:"/>
         <EditText
+            android:id="@+id/personal_info_leixing"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -71,10 +74,12 @@
             android:layout_height="wrap_content"
             android:text="年龄:"/>
         <EditText
+            android:id="@+id/personal_info_age"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="（预设选择）"
+            android:inputType="number"
             android:textSize="15dp"/>
     </LinearLayout>
     <LinearLayout
@@ -88,10 +93,12 @@
             android:layout_height="wrap_content"
             android:text="身高:"/>
         <EditText
+            android:id="@+id/personal_info_height"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="（预设选择）"
+            android:inputType="number"
             android:textSize="15dp"/>
     </LinearLayout>
     <LinearLayout
@@ -105,6 +112,7 @@
             android:layout_height="wrap_content"
             android:text="体型:"/>
         <EditText
+            android:id="@+id/personal_info_tixing"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -122,6 +130,7 @@
             android:layout_height="wrap_content"
             android:text="喜欢类型:"/>
         <EditText
+            android:id="@+id/personal_info_lovetype"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -139,6 +148,7 @@
             android:layout_height="wrap_content"
             android:text="恋爱状况:"/>
         <EditText
+            android:id="@+id/personal_info_marry"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -156,6 +166,7 @@
             android:layout_height="wrap_content"
             android:text="行业:"/>
         <EditText
+            android:id="@+id/personal_info_job"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -173,6 +184,7 @@
             android:layout_height="wrap_content"
             android:text="星座:"/>
         <EditText
+            android:id="@+id/personal_info_xingzuo"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -181,6 +193,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/personal_info_btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="保存"

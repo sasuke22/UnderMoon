@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
-import com.test.jwj.underMoon.utils.SpUtil;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -18,10 +17,9 @@ import com.test.jwj.underMoon.utils.SpUtil;
 public class Fragment_personal_center extends BaseFragment implements View.OnClickListener {
     private boolean ismale;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ismale = SpUtil.getSharePerference(getActivity()).getBoolean("ismale",false);
+        ismale = user.getGender() == 1;// 1为男
         View view = inflater.inflate(R.layout.fragment_personal_center,container,false);
         view.findViewById(R.id.rl_personal_info).setOnClickListener(this);
         initViews(view);

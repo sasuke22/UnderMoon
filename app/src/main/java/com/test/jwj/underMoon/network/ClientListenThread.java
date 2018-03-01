@@ -110,6 +110,9 @@ public class ClientListenThread extends Thread {
 							break;
 					}
 					break;
+				case MY_CONTRIBUTES:
+					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
+					break;
 				default:
 					break;
 				}

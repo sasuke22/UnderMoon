@@ -59,7 +59,6 @@ public class UserAction {
 		try {
 			mNetService.send(t);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -85,6 +84,18 @@ public class UserAction {
 		try {
 			mNetService.send(t);
 			Log.d("tag","send request contributes success" + userid);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void getMyContributes(int userid){
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.MY_CONTRIBUTES);
+		t.setSendId(userid);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send request my contributes success" + userid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

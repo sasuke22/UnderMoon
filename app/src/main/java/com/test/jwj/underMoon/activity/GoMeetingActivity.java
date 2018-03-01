@@ -12,16 +12,12 @@ import com.test.jwj.underMoon.fragments.Fragment_all_contributes;
 import com.test.jwj.underMoon.fragments.Fragment_my_invitation;
 import com.test.jwj.underMoon.fragments.Fragment_my_register;
 import com.test.jwj.underMoon.fragments.Fragment_today_contributes;
-import com.test.jwj.underMoon.bean.MeetingDetail;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/25.
  */
 
 public class GoMeetingActivity extends Activity implements View.OnClickListener {
-    private List<MeetingDetail> mMeetingDetailList;
 //    ListView meetingList;
     Fragment_today_contributes mFragmentTodayContributes;
     Fragment_all_contributes mFragmentAllContributes;
@@ -37,9 +33,8 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.rb_my_invitation).setOnClickListener(this);
 //        meetingList = (ListView) findViewById(R.id.lv_meeting_list);
 //        meetingList.setAdapter(new MyAdapter(this));
-        // TODO 获取网络数据将mMeetingDetailList初始化
         initFragment();
-        changeFragment(mFragmentAllContributes);
+        changeFragment(mFragmentTodayContributes);
     }
 
     private void initFragment() {

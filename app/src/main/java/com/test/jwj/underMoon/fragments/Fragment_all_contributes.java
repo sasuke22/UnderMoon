@@ -56,7 +56,6 @@ public class Fragment_all_contributes extends BaseFragment {
                 startActivity(intent);
             }
         });
-        //TODO 获取数据库信息，展示消息???
     }
 
 

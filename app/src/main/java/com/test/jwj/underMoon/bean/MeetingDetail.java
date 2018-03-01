@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class MeetingDetail implements Serializable{
     public static final long serialVersionUID =1L;
     public int     meetingId;
-    public int     id;
+    public int     id;//meeting的人的ID？
     public String  city;
     public String  summary;
     public String  date;
