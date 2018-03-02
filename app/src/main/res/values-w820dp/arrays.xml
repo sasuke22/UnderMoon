@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string-array name="Marryspinarr">
+        <item>单身</item>
+        <item>已恋</item>
+        <item>已婚</item>
+        <item>不详</item>
+    </string-array>
     <array name="guide_content">
         <item>@mipmap/index_content_1</item>
         <item>@mipmap/index_content_2</item>

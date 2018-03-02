@@ -34,6 +34,15 @@ public class User implements Serializable {
 	private String job;
 	private String figure;
 	private String xingzuo;
+	private String loveType;
+
+	public String getLoveType() {
+		return loveType;
+	}
+
+	public void setLoveType(String loveType) {
+		this.loveType = loveType;
+	}
 
 	public int getHeight() {
 		return height;

@@ -151,4 +151,16 @@ public class UserAction {
 			e.printStackTrace();
 		}
 	}
+
+	public static void saveUserInfo(User user) {
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.SAVE_USER_INFO);
+		t.setObject(user);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send request save success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

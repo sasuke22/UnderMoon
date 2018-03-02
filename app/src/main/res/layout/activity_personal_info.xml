@@ -36,13 +36,13 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="ID:"/>
-        <TextView
-            android:id="@+id/personal_info_userId"
+            android:text="城市:"/>
+        <EditText
+            android:id="@+id/personal_info_city"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="（系统指定）"
+            android:hint="（所在城市）"
             android:textSize="15dp"/>
     </LinearLayout>
     <LinearLayout
@@ -147,12 +147,12 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="恋爱状况:"/>
-        <EditText
+        <Spinner
             android:id="@+id/personal_info_marry"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="（预设选择）"
+            android:entries="@array/Marryspinarr"
             android:textSize="15dp"/>
     </LinearLayout>
     <LinearLayout
