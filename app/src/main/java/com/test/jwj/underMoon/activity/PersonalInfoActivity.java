@@ -21,7 +21,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     User user;
     GridView gv_personal_info_photo;
     private EditText mEt_wechat;
-    private TextView mTv_userId;
+    private TextView mEt_city;
     private EditText mEt_age;
     private EditText mEt_height;
     private EditText mEt_job;
@@ -42,7 +42,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private void initViews() {
         gv_personal_info_photo = (GridView) findViewById(R.id.gv_personal_info_photo);
         mEt_wechat = (EditText)findViewById(R.id.personal_info_wechat);
-        mTv_userId = (TextView) findViewById(R.id.personal_info_userId);
+        mEt_city = (EditText) findViewById(R.id.personal_info_city);
         mEt_age = (EditText) findViewById(R.id.personal_info_age);
         mEt_height = (EditText) findViewById(R.id.personal_info_height);
         mEt_job = (EditText) findViewById(R.id.personal_info_job);
@@ -64,6 +64,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         // TODO 保存个人信息到网上
         user.setAge(Integer.parseInt(mEt_age.getText().toString().trim()));
         user.setHeight(Integer.parseInt(mEt_height.getText().toString().trim()));
+        user.setLocation(mEt_city.getText().toString().trim());
         user.setFigure(mEt_leixing.getText().toString().trim());
         user.setJob(mEt_job.getText().toString().trim());
         user.setLoveType(mEt_lovetype.getText().toString().trim());

@@ -113,6 +113,18 @@ public class ClientListenThread extends Thread {
 				case MY_CONTRIBUTES:
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
+				case SAVE_USER_INFO:
+					res = (int)mReceived.getObject();
+					switch (res){
+						case 1:
+							// TODO 通知修改成功，可能还要改，因为图片
+
+							break;
+						case 0:
+							// TODO 通知修改失败
+							break;
+					}
+					break;
 				default:
 					break;
 				}
