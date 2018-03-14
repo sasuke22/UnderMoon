@@ -1,57 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.test.jwj.underMoon.activity.MainActivity">
+    android:layout_height="match_parent" >
 
-
-    <RadioGroup
-        android:id="@+id/bottom_bar"
+    <LinearLayout
+        android:id="@+id/buttom_bar_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:weightSum="3">
-        <RadioButton
-            android:id="@+id/rb_bapa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/BottomBarItem"
-            android:drawableTop="@drawable/selector_bottom_bar_rb_home"
-            android:checked="true"
-            android:text="Bapa"/>
-        <RadioButton
-            android:id="@+id/rb_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/BottomBarItem"
-            android:drawableTop="@drawable/selector_bottom_bar_rb_brand"
-            android:text="扒友"/>
-        <RadioButton
-            android:id="@+id/rb_personal_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/BottomBarItem"
-            android:drawableTop="@drawable/selector_bottom_bar_rb_search"
-            android:text="个人中心"/>
-        <!--<RadioButton-->
-            <!--android:id="@+id/rb_settings"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--style="@style/BottomBarItem"-->
-            <!--android:drawableTop="@drawable/selector_bottom_bar_rb_more"-->
-            <!--android:text="设置"/>-->
-    </RadioGroup>
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RelativeLayout style="@style/ButtomBar" >
+
+            <ImageButton
+                android:id="@+id/buttom_news"
+                style="@style/ButtomBarImgBtn"
+                android:background="@drawable/bar_news"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/ButtomBar" >
+
+            <ImageButton
+                android:id="@+id/buttom_constact"
+                style="@style/ButtomBarImgBtn"
+                android:background="@drawable/bar_constact"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/ButtomBar" >
+
+            <ImageButton
+                android:id="@+id/buttom_deynaimic"
+                style="@style/ButtomBarImgBtn"
+                android:background="@drawable/bar_deynaimic"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/ButtomBar" >
+
+            <ImageButton
+                android:id="@+id/buttom_setting"
+                style="@style/ButtomBarImgBtn"
+                android:background="@drawable/bar_setting"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/buttom_bar_group"
+        android:background="@color/devide_line" />
+
     <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        />
+        android:layout_above="@id/line" />
+
 </RelativeLayout>

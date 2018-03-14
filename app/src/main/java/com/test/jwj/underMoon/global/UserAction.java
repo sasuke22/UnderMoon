@@ -163,4 +163,16 @@ public class UserAction {
 			e.printStackTrace();
 		}
 	}
+
+	public static void getEnlist(int meetingId) {
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.GET_ENLIST);
+		t.setObject(meetingId);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send get enlist success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

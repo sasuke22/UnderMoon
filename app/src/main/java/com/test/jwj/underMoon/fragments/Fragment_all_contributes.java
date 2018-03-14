@@ -50,7 +50,7 @@ public class Fragment_all_contributes extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MeetingDetail detailItem = mAllContributesList.get(position);
                 Intent intent = new Intent(getActivity(), InvitationDetailActivity.class);
-                intent.putExtra("chat",true);
+//                intent.putExtra("chat",true);
                 intent.putExtra("id",detailItem.id);
                 intent.putExtra("meetingId",detailItem.meetingId);
                 startActivity(intent);

@@ -5,10 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
@@ -28,12 +24,10 @@ public class BaseFragment extends Fragment {
     protected static List<MeetingDetail> mAllContributesList;
     public static Dialog loadingDialog;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         loadingDialog = new Dialog(getActivity());
-        Log.d("tag","create dialog");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
     protected void addToBackStack(Fragment fragment){

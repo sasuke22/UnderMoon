@@ -175,4 +175,6 @@
     <color name="light_notes_color">#ff999999</color>
     <color name="link_color">#ff4abad7</color>
     <color name="whites">#ffffff</color>
+    <color name="gray_font">#818181</color>
+    <color name="timestampline">#ffe5e1de</color>
 </resources>

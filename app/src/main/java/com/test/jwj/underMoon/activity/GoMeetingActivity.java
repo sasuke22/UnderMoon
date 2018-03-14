@@ -121,8 +121,8 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
 //    }
 
     private void changeFragment(Fragment frag){
-        FragmentManager supportFragmentManager = getFragmentManager();
-        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fl_meeting_content,frag);
         transaction.commit();
     }
