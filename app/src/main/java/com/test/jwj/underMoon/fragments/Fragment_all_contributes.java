@@ -23,12 +23,18 @@ public class Fragment_all_contributes extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_all_contributes,container,false);
         mLv_all_contributes = (ListView) view.findViewById(R.id.lv_all_contributes);
-        showDialogGetAllContributes();
-        setResourceAndItemClick();
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            showDialogGetAllContributes();
+            setResourceAndItemClick();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     public void showDialogGetAllContributes(){

@@ -27,9 +27,17 @@ public class Fragment_today_contributes extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_contributes,container,false);
         mLv_today_contributes = (ListView) view.findViewById(R.id.lv_today_contributes);
-        showDialogGetTodayContributes();
-        setResourceAndItemClick();
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            showDialogGetTodayContributes();
+            setResourceAndItemClick();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+
     }
 
     private void showDialogGetTodayContributes() {

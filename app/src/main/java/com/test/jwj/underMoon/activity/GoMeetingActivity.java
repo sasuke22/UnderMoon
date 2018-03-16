@@ -27,14 +27,19 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_meeting);
-        findViewById(R.id.rb_today_contributes).setOnClickListener(this);
-        findViewById(R.id.rb_all_contributes).setOnClickListener(this);
-        findViewById(R.id.rb_my_register).setOnClickListener(this);
-        findViewById(R.id.rb_my_invitation).setOnClickListener(this);
 //        meetingList = (ListView) findViewById(R.id.lv_meeting_list);
 //        meetingList.setAdapter(new MyAdapter(this));
         initFragment();
         changeFragment(mFragmentTodayContributes);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findViewById(R.id.rb_today_contributes).setOnClickListener(this);
+        findViewById(R.id.rb_all_contributes).setOnClickListener(this);
+        findViewById(R.id.rb_my_register).setOnClickListener(this);
+        findViewById(R.id.rb_my_invitation).setOnClickListener(this);
     }
 
     private void initFragment() {
@@ -44,7 +49,6 @@ public class GoMeetingActivity extends Activity implements View.OnClickListener 
         mFragmentMyInvitation = new Fragment_my_invitation();
     }
 
-    //TODO 这里的点击用来获取列表数据进行网络刷新
     @Override
     public void onClick(View v) {
         switch (v.getId()){

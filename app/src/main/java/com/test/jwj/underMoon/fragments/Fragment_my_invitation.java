@@ -24,9 +24,16 @@ public class Fragment_my_invitation extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_invitation,container,false);
         mLv_my_invitation = (ListView) view.findViewById(R.id.lv_my_invitation);
-        showDialogGetMyContributes();
-        setResourceAndItemClick();
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            showDialogGetMyContributes();
+            setResourceAndItemClick();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void showDialogGetMyContributes() {
