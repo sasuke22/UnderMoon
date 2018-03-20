@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -45,8 +46,13 @@ public class Fragment_today_contributes extends BaseFragment {
     }
 
     private void showDialogGetTodayContributes() {
-        Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
-        UserAction.getTodayContributes(user.getId(),curDate);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
+                UserAction.getTodayContributes(user.getId(),curDate);
+            }
+        });
         loadingDialog.show();
         synchronized (key){
             try {
