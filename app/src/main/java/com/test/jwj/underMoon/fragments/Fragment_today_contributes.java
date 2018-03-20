@@ -2,6 +2,8 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +33,14 @@ public class Fragment_today_contributes extends BaseFragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser){
+    public void setUserVisibleHint(boolean isVleToUser) {
+        Log.e("tag","toady isvisible " + isVleToUser);
+        if (isVleToUser){
+            Log.e("tag","toady isvisible " + isVleToUser);
             showDialogGetTodayContributes();
             setResourceAndItemClick();
         }
-        super.setUserVisibleHint(isVisibleToUser);
+        super.setUserVisibleHint(isVleToUser);
 
     }
 
@@ -46,6 +50,7 @@ public class Fragment_today_contributes extends BaseFragment {
         loadingDialog.show();
         synchronized (key){
             try {
+                Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
                 key.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -54,7 +59,7 @@ public class Fragment_today_contributes extends BaseFragment {
     }
 
     private void setResourceAndItemClick() {
-        mLv_today_contributes.setAdapter(new ContributesAdapter(getActivity(),mAllContributesList));
+        mLv_today_contributes.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_today_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

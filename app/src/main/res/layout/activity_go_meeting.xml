@@ -54,12 +54,10 @@
             android:gravity="center"
             android:padding="5dp"/>
     </RadioGroup>
-    <!--<ListView-->
-        <!--android:id="@+id/lv_meeting_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
-    <FrameLayout
-        android:id="@+id/fl_meeting_content"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/go_meeting_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
 </LinearLayout>

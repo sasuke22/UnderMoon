@@ -1,10 +1,12 @@
 package com.test.jwj.underMoon.fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 
 public class BaseFragment extends Fragment {
+    public Activity act;
     public static final Object key  = new Object();
     protected              User   user = ApplicationData.getInstance().getUserInfo();
     protected static List<MeetingDetail> mAllContributesList;
@@ -31,7 +34,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected void addToBackStack(Fragment fragment){
-        FragmentTransaction transaction=getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_content,fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -40,14 +43,9 @@ public class BaseFragment extends Fragment {
     public static void setMeetingList(ArrayList meetingList){
         mAllContributesList = meetingList;
         loadingDialog.dismiss();
+        Log.e("tag","notify " + loadingDialog);
         synchronized (key){
             key.notify();
         }
     }
-//    protected void addToMeetingBackStack(Fragment fragment){
-//        FragmentTransaction transaction=getFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fl_meeting_content,fragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-//    }
 }

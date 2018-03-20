@@ -50,7 +50,7 @@ public class Fragment_all_contributes extends BaseFragment {
     }
 
     private void setResourceAndItemClick() {
-        mLv_all_contributes.setAdapter(new ContributesAdapter(getActivity(),mAllContributesList));
+        mLv_all_contributes.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_all_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

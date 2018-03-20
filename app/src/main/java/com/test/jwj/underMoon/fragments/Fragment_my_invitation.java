@@ -49,7 +49,7 @@ public class Fragment_my_invitation extends BaseFragment {
     }
 
     private void setResourceAndItemClick() {
-        mLv_my_invitation.setAdapter(new ContributesAdapter(getActivity(),mAllContributesList));
+        mLv_my_invitation.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_my_invitation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

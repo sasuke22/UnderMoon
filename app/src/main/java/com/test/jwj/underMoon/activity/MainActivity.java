@@ -1,13 +1,14 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import com.test.jwj.underMoon.fragments.FriendListFragment;
 import com.test.jwj.underMoon.fragments.MessageFragment;
 import com.test.jwj.underMoon.network.NetService;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	protected static final String TAG = "MainActivity";
 	private Context mContext;
@@ -46,7 +47,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mContext=this;
-		System.out.println("初始化Main");
 		findView();
 		init();
 	}
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 	private OnClickListener newsOnClickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			FragmentManager fm=getFragmentManager();
+			FragmentManager fm=getSupportFragmentManager();
 			FragmentTransaction ft=fm.beginTransaction();
 			MessageFragment messageFragment=new MessageFragment();
 			ft.replace(R.id.fl_content, messageFragment,MainActivity.TAG);
@@ -116,7 +116,7 @@ public class MainActivity extends Activity {
 	private OnClickListener constactOnClickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			FragmentManager fm=getFragmentManager();
+			FragmentManager fm=getSupportFragmentManager();
 			FragmentTransaction ft=fm.beginTransaction();
 			FriendListFragment constactFatherFragment=new FriendListFragment();
 			ft.replace(R.id.fl_content, constactFatherFragment,MainActivity.TAG);
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
 	private OnClickListener deynaimicOnClickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			FragmentManager fm=getFragmentManager();
+			FragmentManager fm=getSupportFragmentManager();
 			FragmentTransaction ft=fm.beginTransaction();
 			Fragment_bapa dynamicFragment=new Fragment_bapa();
 			ft.replace(R.id.fl_content, dynamicFragment,MainActivity.TAG);
@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
 	private OnClickListener settingOnClickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			FragmentManager fm=getFragmentManager();
+			FragmentManager fm=getSupportFragmentManager();
 			FragmentTransaction ft=fm.beginTransaction();
 			Fragment_personal_center settingFragment=new Fragment_personal_center();
 			ft.replace(R.id.fl_content, settingFragment,MainActivity.TAG);
