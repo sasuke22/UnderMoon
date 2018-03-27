@@ -1,9 +1,7 @@
 package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,29 +37,29 @@ public class Fragment_today_contributes extends BaseFragment {
         if (isVleToUser){
             Log.e("tag","toady isvisible " + isVleToUser);
             showDialogGetTodayContributes();
-            setResourceAndItemClick();
+//            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVleToUser);
 
     }
 
     private void showDialogGetTodayContributes() {
-        AsyncTask.execute(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
                 UserAction.getTodayContributes(user.getId(),curDate);
             }
-        });
+        }).start();
         loadingDialog.show();
-        synchronized (key){
-            try {
-                Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
-                key.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        synchronized (key){
+//            try {
+//                Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
+//                key.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     private void setResourceAndItemClick() {

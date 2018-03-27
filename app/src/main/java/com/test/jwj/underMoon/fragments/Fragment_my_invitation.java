@@ -37,15 +37,21 @@ public class Fragment_my_invitation extends BaseFragment {
     }
 
     private void showDialogGetMyContributes() {
-        UserAction.getMyContributes(user.getId());
-        loadingDialog.show();
-        synchronized (key){
-            try {
-                key.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserAction.getMyContributes(user.getId());
             }
-        }
+        }).start();
+
+        loadingDialog.show();
+//        synchronized (key){
+//            try {
+//                key.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     private void setResourceAndItemClick() {

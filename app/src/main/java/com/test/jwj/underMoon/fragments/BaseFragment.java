@@ -3,6 +3,7 @@ package com.test.jwj.underMoon.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,9 +44,9 @@ public class BaseFragment extends Fragment {
     public static void setMeetingList(ArrayList meetingList){
         mAllContributesList = meetingList;
         loadingDialog.dismiss();
-        Log.e("tag","notify " + loadingDialog);
-        synchronized (key){
-            key.notify();
-        }
+        Log.e("tag","notify " + (Looper.getMainLooper() == Looper.myLooper()));
+//        synchronized (key){
+//            key.notify();
+//        }
     }
 }
