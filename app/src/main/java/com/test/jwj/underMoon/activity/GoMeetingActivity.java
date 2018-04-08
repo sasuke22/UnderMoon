@@ -69,4 +69,5 @@ public class GoMeetingActivity extends FragmentActivity implements View.OnClickL
     private void changeFragment(int index){
         mGo_meeting_pager.setCurrentItem(index);
     }
+
 }

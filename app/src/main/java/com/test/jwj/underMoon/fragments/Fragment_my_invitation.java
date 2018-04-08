@@ -30,31 +30,36 @@ public class Fragment_my_invitation extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser){
+            setCurrentFragment(this);
             showDialogGetMyContributes();
-            setResourceAndItemClick();
+//            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void showDialogGetMyContributes() {
+        loadingDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 UserAction.getMyContributes(user.getId());
+                synchronized (key){
+                    try {
+                        key.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mHandler.sendEmptyMessage(0);
+//                setResourceAndItemClick();
+                loadingDialog.dismiss();
             }
         }).start();
 
-        loadingDialog.show();
-//        synchronized (key){
-//            try {
-//                key.wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
-    private void setResourceAndItemClick() {
+    @Override
+    public void setResourceAndItemClick() {
         mLv_my_invitation.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_my_invitation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

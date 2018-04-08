@@ -18,4 +18,8 @@ public class Fragment_settings extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
 }

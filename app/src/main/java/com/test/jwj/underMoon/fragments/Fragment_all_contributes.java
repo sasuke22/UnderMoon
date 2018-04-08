@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,9 @@ public class Fragment_all_contributes extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser){
+            setCurrentFragment(this);
             showDialogGetAllContributes();
-            setResourceAndItemClick();
+//            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -43,19 +45,24 @@ public class Fragment_all_contributes extends BaseFragment {
             @Override
             public void run() {
                 UserAction.getAllContributes(user.getId());
-
+                synchronized (key){
+                    try {
+                        key.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.e("tag","send message ");
+                mHandler.sendEmptyMessage(0);
+//                setResourceAndItemClick();
+                loadingDialog.dismiss();
             }
-        });
-//        synchronized (key){
-//            try {
-//                key.wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        }).start();
+
     }
 
-    private void setResourceAndItemClick() {
+    @Override
+    public void setResourceAndItemClick() {
         mLv_all_contributes.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_all_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

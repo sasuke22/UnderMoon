@@ -59,4 +59,8 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
         }
     }
 
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
 }

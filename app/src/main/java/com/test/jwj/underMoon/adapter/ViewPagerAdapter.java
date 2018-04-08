@@ -1,12 +1,12 @@
 package com.test.jwj.underMoon.adapter;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.fragments.BaseFragment;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final static String FRAGMENT_ARGUMENTS = "fragment_arguments";
     private ArrayList<Class<? extends BaseFragment>> fragmentClassList;
-    private Activity act;
+    private GoMeetingActivity act;
 
-    public ViewPagerAdapter(Activity act, FragmentManager fm, ArrayList<Class<? extends BaseFragment>> fragments){
+    public ViewPagerAdapter(GoMeetingActivity act, FragmentManager fm, ArrayList<Class<? extends BaseFragment>> fragments){
         super(fm);
         this.act = act;
         this.fragmentClassList = fragments;

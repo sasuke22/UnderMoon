@@ -30,6 +30,11 @@ public class Fragment_my_photo extends BaseFragment {
         gv_my_photo.setAdapter(new MyAdapter(getActivity()));
     }
 
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
+
 
     class MyAdapter extends BaseAdapter {
         //上下文对象

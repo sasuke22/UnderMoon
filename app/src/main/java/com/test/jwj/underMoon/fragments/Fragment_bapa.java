@@ -50,4 +50,8 @@ public class Fragment_bapa extends BaseFragment implements View.OnClickListener 
         }
     }
 
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
 }

@@ -46,6 +46,11 @@ public class Fragment_friends extends BaseFragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
+
 
     //    class MyAdapter extends BaseAdapter{
 //        private LayoutInflater mInflater;

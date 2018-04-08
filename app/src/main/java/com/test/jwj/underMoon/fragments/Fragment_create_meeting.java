@@ -64,4 +64,9 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
         UserAction.addContribute(meetingDetail);
         getActivity().onBackPressed();
     }
+
+    @Override
+    public void setResourceAndItemClick() {
+
+    }
 }

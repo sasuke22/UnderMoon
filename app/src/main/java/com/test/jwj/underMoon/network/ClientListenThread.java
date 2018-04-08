@@ -53,8 +53,7 @@ public class ClientListenThread extends Thread {
 				TranObject mReceived = null;
 				//System.out.println("开始接受服务器");
 				mReceived = (TranObject) mOis.readObject();
-				System.out.println("接受成功");
-				System.out.println(mReceived.getTranType());
+				Log.e("tag","接受成功 " + mReceived.getTranType());
 				switch (mReceived.getTranType()) {
 				case REGISTER_ACCOUNT:
 					StepAccount.setRegisterInfo(mReceived, true);
@@ -77,14 +76,15 @@ public class ClientListenThread extends Thread {
 					ApplicationData.getInstance().messageArrived(mReceived);
 					break;
 				case ALL_CONTRIBUTES:
+					Log.e("tag","all received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case TODAY_CONTRIBUTES:
-					Log.d("tag","get received");
+					Log.e("tag","get received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case INVITATION_DETAIL:
-					Log.d("tag","meeting received");
+					Log.e("tag","meeting received");
 					if (miDataListener != null)
 						miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;

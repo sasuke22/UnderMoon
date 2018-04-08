@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,8 @@ public class Fragment_today_contributes extends BaseFragment {
     public void setUserVisibleHint(boolean isVleToUser) {
         Log.e("tag","toady isvisible " + isVleToUser);
         if (isVleToUser){
-            Log.e("tag","toady isvisible " + isVleToUser);
+            Log.e("tag","set fragemnt");
+            setCurrentFragment(this);
             showDialogGetTodayContributes();
 //            setResourceAndItemClick();
         }
@@ -44,25 +46,30 @@ public class Fragment_today_contributes extends BaseFragment {
     }
 
     private void showDialogGetTodayContributes() {
+        loadingDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
-                UserAction.getTodayContributes(user.getId(),curDate);
+            Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
+            UserAction.getTodayContributes(user.getId(),curDate);
+            synchronized (key){
+                try {
+                    Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
+                    key.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            mHandler.sendEmptyMessage(0);
+//            setResourceAndItemClick();
+            loadingDialog.dismiss();
             }
         }).start();
-        loadingDialog.show();
-//        synchronized (key){
-//            try {
-//                Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
-//                key.wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+
     }
 
-    private void setResourceAndItemClick() {
+    @Override
+    public void setResourceAndItemClick() {
         mLv_today_contributes.setAdapter(new ContributesAdapter(act,mAllContributesList));
         mLv_today_contributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
