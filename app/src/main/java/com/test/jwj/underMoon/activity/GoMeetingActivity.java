@@ -1,5 +1,6 @@
 package com.test.jwj.underMoon.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -20,11 +21,13 @@ import java.util.Arrays;
  */
 
 public class GoMeetingActivity extends FragmentActivity implements View.OnClickListener {
+    public Dialog mLoadingDialog;
     ViewPager                  mGo_meeting_pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_meeting);
+        mLoadingDialog = new Dialog(this);
         mGo_meeting_pager = (ViewPager) findViewById(R.id.go_meeting_viewpager);
         initFragment();
         changeFragment(0);

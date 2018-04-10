@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
@@ -23,17 +24,23 @@ import java.sql.Date;
  */
 
 public class Fragment_today_contributes extends BaseFragment {
+    private View rootView;
+    private ProgressBar mToday_PGBar;
     private ListView mLv_today_contributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_today_contributes,container,false);
-        mLv_today_contributes = (ListView) view.findViewById(R.id.lv_today_contributes);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_today_contributes,container,false);
+        mLv_today_contributes = (ListView) rootView.findViewById(R.id.lv_today_contributes);
+        mToday_PGBar = (ProgressBar) rootView.findViewById(R.id.today_pgbar);
+        Log.e("tag","bar " + mToday_PGBar);
+        return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVleToUser) {
+        if (rootView == null)
+            return;
         Log.e("tag","toady isvisible " + isVleToUser);
         if (isVleToUser){
             Log.e("tag","set fragemnt");
@@ -46,7 +53,7 @@ public class Fragment_today_contributes extends BaseFragment {
     }
 
     private void showDialogGetTodayContributes() {
-        loadingDialog.show();
+        mToday_PGBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -62,7 +69,7 @@ public class Fragment_today_contributes extends BaseFragment {
             }
             mHandler.sendEmptyMessage(0);
 //            setResourceAndItemClick();
-            loadingDialog.dismiss();
+            mToday_PGBar.setVisibility(View.GONE);
             }
         }).start();
 

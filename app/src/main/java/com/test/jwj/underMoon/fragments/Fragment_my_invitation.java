@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
@@ -19,11 +20,13 @@ import com.test.jwj.underMoon.global.UserAction;
  */
 
 public class Fragment_my_invitation extends BaseFragment {
+    private ProgressBar mMyInvi_pgbar;
     ListView mLv_my_invitation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_invitation,container,false);
         mLv_my_invitation = (ListView) view.findViewById(R.id.lv_my_invitation);
+        mMyInvi_pgbar = (ProgressBar)view.findViewById(R.id.myInvi_pgbar);
         return view;
     }
 
@@ -38,7 +41,7 @@ public class Fragment_my_invitation extends BaseFragment {
     }
 
     private void showDialogGetMyContributes() {
-        loadingDialog.show();
+        mMyInvi_pgbar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,7 +55,7 @@ public class Fragment_my_invitation extends BaseFragment {
                 }
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                loadingDialog.dismiss();
+                mMyInvi_pgbar.setVisibility(View.GONE);
             }
         }).start();
 

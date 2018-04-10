@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
@@ -19,12 +20,14 @@ import com.test.jwj.underMoon.global.UserAction;
  */
 
 public class Fragment_my_register extends BaseFragment {
+    private ProgressBar mMyRegi_pgbar;
     ListView mLv_my_register;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_register,container,false);
         mLv_my_register = (ListView) view.findViewById(R.id.lv_my_register);
+        mMyRegi_pgbar = (ProgressBar)view.findViewById(R.id.myRegi_pgbar);
         return view;
     }
 
@@ -39,7 +42,7 @@ public class Fragment_my_register extends BaseFragment {
     }
 
     private void showDialogGetMyContributes() {
-        loadingDialog.show();
+        mMyRegi_pgbar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +56,7 @@ public class Fragment_my_register extends BaseFragment {
                 }
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                loadingDialog.dismiss();
+                mMyRegi_pgbar.setVisibility(View.GONE);
             }
         }).start();
 

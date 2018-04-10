@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
@@ -20,27 +21,33 @@ import com.test.jwj.underMoon.global.UserAction;
  */
 
 public class Fragment_all_contributes extends BaseFragment {
+    private View rootView;
+    private ProgressBar mAll_PGBar;
     private ListView mLv_all_contributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_contributes,container,false);
-        mLv_all_contributes = (ListView) view.findViewById(R.id.lv_all_contributes);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_all_contributes,container,false);
+        mLv_all_contributes = (ListView) rootView.findViewById(R.id.lv_all_contributes);
+        mAll_PGBar = (ProgressBar) rootView.findViewById(R.id.all_pgbar);
+        return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser){
+        if (rootView == null)
+            return;
+        if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetAllContributes();
-//            setResourceAndItemClick();
+            //            setResourceAndItemClick();
         }
+
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     public void showDialogGetAllContributes(){
-        loadingDialog.show();
+        mAll_PGBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +62,7 @@ public class Fragment_all_contributes extends BaseFragment {
                 Log.e("tag","send message ");
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                loadingDialog.dismiss();
+                mAll_PGBar.setVisibility(View.GONE);
             }
         }).start();
 

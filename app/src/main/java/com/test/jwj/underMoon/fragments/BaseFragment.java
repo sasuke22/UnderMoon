@@ -33,13 +33,11 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        loadingDialog = new Dialog(act);
         mHandler = new MyHandler();
         super.onActivityCreated(savedInstanceState);
     }
