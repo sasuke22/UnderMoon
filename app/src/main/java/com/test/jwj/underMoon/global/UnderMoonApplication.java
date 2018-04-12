@@ -1,10 +1,14 @@
 package com.test.jwj.underMoon.global;
 
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.IBinder;
 
-import com.test.jwj.underMoon.bean.Friends;
 import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.services.GlobalService;
 
 /**
  * Created by Administrator on 2017/7/28.
@@ -12,7 +16,8 @@ import com.test.jwj.underMoon.bean.User;
 
 public class UnderMoonApplication extends Application {
     private User mUser;
-//    private Friends mUser;
+    private ServiceConnection mConnection;
+    //    private Friends mUser;
 
     public void setUser(User user){
         mUser = user;
@@ -122,4 +127,21 @@ public class UnderMoonApplication extends Application {
 //    public BitmapDrawable getUserTouxiang() {
 //        return new BitmapDrawable(mUser.getPhoto());
 //    }
+
+    @Override
+    public void onCreate() {
+        mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        bindService(new Intent(this, GlobalService.class),mConnection,MODE_PRIVATE);
+        super.onCreate();
+    }
 }

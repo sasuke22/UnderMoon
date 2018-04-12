@@ -81,6 +81,10 @@
         <activity android:name=".imageFactory.ImageFactoryActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+
+        <service android:name=".services.GlobalService">
+
+        </service>
     </application>
 
 </manifest>

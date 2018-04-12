@@ -130,7 +130,13 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        UserAction.enlist(meetingId,id);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserAction.enlist(meetingId,id);
+            }
+        }).start();
+
     }
 
     @Override
