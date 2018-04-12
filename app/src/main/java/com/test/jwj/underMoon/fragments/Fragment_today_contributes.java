@@ -69,7 +69,13 @@ public class Fragment_today_contributes extends BaseFragment {
             }
             mHandler.sendEmptyMessage(0);
 //            setResourceAndItemClick();
-            mToday_PGBar.setVisibility(View.GONE);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mToday_PGBar.setVisibility(View.GONE);
+                }
+            });
+
             }
         }).start();
 

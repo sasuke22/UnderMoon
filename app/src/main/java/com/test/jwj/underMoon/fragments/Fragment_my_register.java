@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +21,22 @@ import com.test.jwj.underMoon.global.UserAction;
  */
 
 public class Fragment_my_register extends BaseFragment {
+    private View rootView;
     private ProgressBar mMyRegi_pgbar;
     ListView mLv_my_register;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_register,container,false);
-        mLv_my_register = (ListView) view.findViewById(R.id.lv_my_register);
-        mMyRegi_pgbar = (ProgressBar)view.findViewById(R.id.myRegi_pgbar);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_my_register,container,false);
+        mLv_my_register = (ListView) rootView.findViewById(R.id.lv_my_register);
+        mMyRegi_pgbar = (ProgressBar)rootView.findViewById(R.id.myRegi_pgbar);
+        return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (rootView == null)
+            return;
         if (isVisibleToUser){
             setCurrentFragment(this);
             showDialogGetMyContributes();
@@ -46,6 +50,7 @@ public class Fragment_my_register extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.e("tag","id1 " + user.getId());
                 UserAction.getMyContributes(user.getId());
                 synchronized (key){
                     try {
@@ -56,7 +61,13 @@ public class Fragment_my_register extends BaseFragment {
                 }
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                mMyRegi_pgbar.setVisibility(View.GONE);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMyRegi_pgbar.setVisibility(View.GONE);
+                    }
+                });
+
             }
         }).start();
 

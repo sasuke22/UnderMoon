@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +21,21 @@ import com.test.jwj.underMoon.global.UserAction;
  */
 
 public class Fragment_my_invitation extends BaseFragment {
+    private View rootView;
     private ProgressBar mMyInvi_pgbar;
     ListView mLv_my_invitation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_invitation,container,false);
-        mLv_my_invitation = (ListView) view.findViewById(R.id.lv_my_invitation);
-        mMyInvi_pgbar = (ProgressBar)view.findViewById(R.id.myInvi_pgbar);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_my_invitation,container,false);
+        mLv_my_invitation = (ListView) rootView.findViewById(R.id.lv_my_invitation);
+        mMyInvi_pgbar = (ProgressBar)rootView.findViewById(R.id.myInvi_pgbar);
+        return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (rootView == null)
+            return;
         if (isVisibleToUser){
             setCurrentFragment(this);
             showDialogGetMyContributes();
@@ -45,6 +49,7 @@ public class Fragment_my_invitation extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.e("tag","id " + user.getId());
                 UserAction.getMyContributes(user.getId());
                 synchronized (key){
                     try {
@@ -55,7 +60,13 @@ public class Fragment_my_invitation extends BaseFragment {
                 }
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                mMyInvi_pgbar.setVisibility(View.GONE);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMyInvi_pgbar.setVisibility(View.GONE);
+                    }
+                });
+
             }
         }).start();
 

@@ -95,7 +95,7 @@ public class UserAction {
 		t.setSendId(userid);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request my contributes success" + userid);
+			Log.e("tag","send request my contributes success" + userid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class UserAction {
 		t.setObject(meetingId);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request contributes success" + meetingId);
+			Log.e("tag","send request contributes success" + meetingId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

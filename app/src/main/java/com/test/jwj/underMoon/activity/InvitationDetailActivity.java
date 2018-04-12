@@ -1,12 +1,13 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
@@ -19,35 +20,49 @@ import com.test.jwj.underMoon.network.IMessageArrived;
 public class InvitationDetailActivity extends Activity implements View.OnClickListener,IMessageArrived<MeetingDetail> {
     private int id;
     private int meetingId;
+    private ProgressBar loadingBar;
     private Button btn_register_meeting;
     private final Object key = new Object();
-    private Dialog mDialog;
     private MeetingDetail mInvitationDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_detail);
+        loadingBar = (ProgressBar) findViewById(R.id.invitation_detail_bar);
         ClientListenThread.setMiDataListener(this);
-        mDialog = new Dialog(this);
         getInvitationDetailActivity();
-        initViews();
 
     }
 
     private void getInvitationDetailActivity() {
+        loadingBar.setVisibility(View.VISIBLE);
         id = ApplicationData.getInstance().getUserInfo().getId();
 //        id = getIntent().getIntExtra("id",0);
-        meetingId = getIntent().getIntExtra("meetingId",0);
-        UserAction.getInvitationDetail(meetingId);
-        mDialog.show();
-        synchronized (key){// wait for the callback
-            try {
-                key.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                meetingId = getIntent().getIntExtra("meetingId",0);
+                UserAction.getInvitationDetail(meetingId);
+                synchronized (key){// wait for the callback
+                    try {
+                        key.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("tag","init views");
+                        loadingBar.setVisibility(View.GONE);
+                        initViews();
+                    }
+                });
+
             }
-        }
+        }).start();
+
     }
 
     private void initViews() {
@@ -120,10 +135,10 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     @Override
     public void OnDataArrived(MeetingDetail invitationDetail) {
+        Log.e("tag","data arrived");
         mInvitationDetail = invitationDetail;
         synchronized (key){
             key.notify();
-            mDialog.dismiss();
         }
     }
 

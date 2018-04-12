@@ -62,7 +62,13 @@ public class Fragment_all_contributes extends BaseFragment {
                 Log.e("tag","send message ");
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
-                mAll_PGBar.setVisibility(View.GONE);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAll_PGBar.setVisibility(View.GONE);
+                    }
+                });
+
             }
         }).start();
 
