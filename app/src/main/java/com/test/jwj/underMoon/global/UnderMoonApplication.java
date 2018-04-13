@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.services.GlobalService;
@@ -15,8 +16,9 @@ import com.test.jwj.underMoon.services.GlobalService;
  */
 
 public class UnderMoonApplication extends Application {
-    private User mUser;
-    private ServiceConnection mConnection;
+    private User                      mUser;
+    private ServiceConnection         mConnection;
+    public GlobalService.ToastBinder mBinder;
     //    private Friends mUser;
 
     public void setUser(User user){
@@ -130,18 +132,20 @@ public class UnderMoonApplication extends Application {
 
     @Override
     public void onCreate() {
+        Log.e("tag","app create");
         mConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-
+                Log.e("tag","service bind " + service);
+                mBinder = (GlobalService.ToastBinder) service;
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-
+                mBinder = null;
             }
         };
-        bindService(new Intent(this, GlobalService.class),mConnection,MODE_PRIVATE);
+        bindService(new Intent(this, GlobalService.class),mConnection,BIND_AUTO_CREATE);
         super.onCreate();
     }
 }

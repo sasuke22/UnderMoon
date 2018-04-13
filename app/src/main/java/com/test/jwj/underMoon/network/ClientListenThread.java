@@ -8,6 +8,7 @@ import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.fragments.BaseFragment;
+import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.regist.StepAccount;
 import com.test.jwj.underMoon.regist.StepPhoto;
 
@@ -24,6 +25,7 @@ public class ClientListenThread extends Thread {
 	private ObjectInputStream mOis;
 	private static IMessageArrived miDataListener;
 	private boolean isStart = true;
+	private UnderMoonApplication mApplication;
 
 	public static void setMiDataListener(IMessageArrived listener) {
 		miDataListener = listener;
@@ -32,6 +34,7 @@ public class ClientListenThread extends Thread {
 	public ClientListenThread(Context context, Socket socket) {
 		this.mContext = context;
 		this.mSocket = socket;
+		mApplication = (UnderMoonApplication)context.getApplicationContext();
 		try {
 			mOis = new ObjectInputStream(mSocket.getInputStream());
 		} catch (StreamCorruptedException e) {
@@ -92,10 +95,10 @@ public class ClientListenThread extends Thread {
 					int res = (int)mReceived.getObject();
 					switch (res){
 						case 1:
-							// TODO 通知上传成功
+							mApplication.mBinder.AlertToast("邀约上传成功");
 							break;
 						case -1:
-							// TODO 通知上传失败
+							mApplication.mBinder.AlertToast("邀约上传失败");
 							break;
 					}
 					break;
@@ -103,10 +106,11 @@ public class ClientListenThread extends Thread {
 					res = (int)mReceived.getObject();
 					switch (res){
 						case 1:
-							// TODO 通知报名成功
+							Log.e("tag","app " + mApplication + ",bin " + mApplication.mBinder);
+							mApplication.mBinder.AlertToast("报名成功");
 							break;
 						case 0:
-							// TODO 通知报名失败
+							mApplication.mBinder.AlertToast("报名失败");
 							break;
 					}
 					break;
@@ -118,10 +122,10 @@ public class ClientListenThread extends Thread {
 					switch (res){
 						case 1:
 							// TODO 通知修改成功，可能还要改，因为图片
-
+							mApplication.mBinder.AlertToast("信息修改成功");
 							break;
 						case 0:
-							// TODO 通知修改失败
+							mApplication.mBinder.AlertToast("信息修改失败");
 							break;
 					}
 					break;
