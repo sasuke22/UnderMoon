@@ -8,6 +8,7 @@ import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.fragments.BaseFragment;
+import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.regist.StepAccount;
 import com.test.jwj.underMoon.regist.StepPhoto;
@@ -79,15 +80,12 @@ public class ClientListenThread extends Thread {
 					ApplicationData.getInstance().messageArrived(mReceived);
 					break;
 				case ALL_CONTRIBUTES:
-					Log.e("tag","all received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case TODAY_CONTRIBUTES:
-					Log.e("tag","get received");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case INVITATION_DETAIL:
-					Log.e("tag","meeting received");
 					if (miDataListener != null)
 						miDataListener.OnDataArrived((MeetingDetail)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;
@@ -103,14 +101,16 @@ public class ClientListenThread extends Thread {
 					}
 					break;
 				case ENLIST:
-					res = (int)mReceived.getObject();
-					switch (res){
-						case 1:
-							Log.e("tag","app " + mApplication + ",bin " + mApplication.mBinder);
+					Result registRes = (Result)mReceived.getObject();
+					switch (registRes){
+						case ENLIST_SUCCESS:
 							mApplication.mBinder.AlertToast("报名成功");
 							break;
-						case 0:
+						case ENLIST_FAILED:
 							mApplication.mBinder.AlertToast("报名失败");
+							break;
+						case ENLIST_EXIST:
+							mApplication.mBinder.AlertToast("已报过名");
 							break;
 					}
 					break;
@@ -128,6 +128,9 @@ public class ClientListenThread extends Thread {
 							mApplication.mBinder.AlertToast("信息修改失败");
 							break;
 					}
+					break;
+				case GET_ENLIST:
+					//TODO 在查看自己发布的邀约，查看报名列表
 					break;
 				default:
 					break;

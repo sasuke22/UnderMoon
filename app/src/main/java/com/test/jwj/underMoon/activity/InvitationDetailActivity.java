@@ -149,8 +149,12 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     }
 
     private void initEnlist(){
-        // TODO 初始化报名列表
-        UserAction.getEnlist(meetingId);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserAction.getEnlist(meetingId);
+            }
+        }).start();
     }
 
     private void initChatList(){
