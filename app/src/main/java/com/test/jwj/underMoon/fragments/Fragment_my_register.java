@@ -51,7 +51,7 @@ public class Fragment_my_register extends BaseFragment {
             @Override
             public void run() {
                 Log.e("tag","id1 " + user.getId());
-                UserAction.getMyContributes(user.getId());
+                UserAction.getEnlist();
                 synchronized (key){
                     try {
                         key.wait();

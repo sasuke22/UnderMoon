@@ -1,9 +1,13 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
+import com.test.jwj.underMoon.fragments.Fragment_personal_center;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.ClientListenThread;
 import com.test.jwj.underMoon.network.IMessageArrived;
@@ -24,6 +29,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private Button btn_register_meeting;
     private final Object key = new Object();
     private MeetingDetail mInvitationDetail;
+    private ListView lv_enlist_people;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +77,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
         ListView lv_chat_msg;
         lv_chat_msg = (ListView) findViewById(R.id.lv_chat_msg);
-        ListView lv_enlist_people;
         lv_enlist_people = (ListView) findViewById(R.id.lv_enlist_people);
         Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
         Button btn_stop_chat = (Button) findViewById(R.id.btn_stop_chat);
@@ -149,12 +154,16 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     }
 
     private void initEnlist(){
-        new Thread(new Runnable() {
+        lv_enlist_people.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,mInvitationDetail.registId));
+        lv_enlist_people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void run() {
-                UserAction.getEnlist(meetingId);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO 先打开报名人的信息框，再在信息框中加入聊天按钮
+                Intent intent = new Intent(InvitationDetailActivity.this,EnlistInfoActivity.class);
+                intent.putExtra("enlistId",mInvitationDetail.registId.get((int)id));
+                startActivity(intent);
             }
-        }).start();
+        });
     }
 
     private void initChatList(){

@@ -164,13 +164,35 @@ public class UserAction {
 		}
 	}
 
-	public static void getEnlist(int meetingId) {
+	public static void getEnlist() {
 		TranObject t = new TranObject();
 		t.setTranType(TranObjectType.GET_ENLIST);
-		t.setObject(meetingId);
 		try {
 			mNetService.send(t);
 			Log.d("tag","send get enlist success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void getEnlistName(int meetingId) {
+		TranObject t = new TranObject();
+		t.setTranType(TranObjectType.GET_ENLIST_NAME);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send get enlist success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void getUserInfo(int userId) {
+		TranObject t = new TranObject();
+		t.setObject(userId);
+		t.setTranType(TranObjectType.GET_USER_INFO);
+		try {
+			mNetService.send(t);
+			Log.d("tag","send get user info success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

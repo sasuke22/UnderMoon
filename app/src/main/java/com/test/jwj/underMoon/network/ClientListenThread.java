@@ -130,7 +130,11 @@ public class ClientListenThread extends Thread {
 					}
 					break;
 				case GET_ENLIST:
-					//TODO 在查看自己发布的邀约，查看报名列表
+					Log.e("tag","get enlist rec");
+					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
+					break;
+				case GET_ENLIST_NAME:
+
 					break;
 				default:
 					break;
