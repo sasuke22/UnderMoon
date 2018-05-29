@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:text="月下扒啪" />
                 <TextView
+                    android:id="@+id/enlist_info_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -46,7 +47,7 @@
                     android:text="ID:" />
 
                 <TextView
-                    android:id="@+id/enlist_info_age"
+                    android:id="@+id/enlist_info_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -64,12 +65,12 @@
                     android:layout_height="wrap_content"
                     android:text="工作生活在" />
 
-                <TextView
-                    android:id="@+id/enlist_info_province"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="山东"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/enlist_info_province"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:text="山东"/>-->
 
                 <TextView
                     android:id="@+id/enlist_info_city"
