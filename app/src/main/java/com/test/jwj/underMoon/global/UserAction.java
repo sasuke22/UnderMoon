@@ -139,11 +139,12 @@ public class UserAction {
 		}
 	}
 
-	public static void enlist(int meetingId,int userId){
+	public static void enlist(int meetingId,int userId,String enlisterName){
 		TranObject t = new TranObject();
 		t.setTranType(TranObjectType.ENLIST);
 		t.setObject(meetingId);
 		t.setSendId(userId);
+		t.setSendName(enlisterName);
 		try {
 			mNetService.send(t);
 			Log.d("tag","send request enlist success");
@@ -178,6 +179,7 @@ public class UserAction {
 	public static void getEnlistName(int meetingId) {
 		TranObject t = new TranObject();
 		t.setTranType(TranObjectType.GET_ENLIST_NAME);
+		t.setObject(meetingId);
 		try {
 			mNetService.send(t);
 			Log.d("tag","send get enlist success");

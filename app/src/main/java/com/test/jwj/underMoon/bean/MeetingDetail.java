@@ -26,6 +26,7 @@ public class MeetingDetail implements Serializable{
     public String  xingzuo;
     public String  content;
     public ArrayList<String> registId;//报名人的ID
+    public ArrayList<String> enlistersName;
 
     public MeetingDetail(){}
 

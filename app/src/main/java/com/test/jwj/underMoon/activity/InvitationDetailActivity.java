@@ -1,35 +1,36 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.test.jwj.underMoon.CustomView.EnlisterView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
-import com.test.jwj.underMoon.fragments.Fragment_personal_center;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.ClientListenThread;
 import com.test.jwj.underMoon.network.IMessageArrived;
 
+import java.util.HashMap;
+
 public class InvitationDetailActivity extends Activity implements View.OnClickListener,IMessageArrived<MeetingDetail> {
-    private int id;
-    private int meetingId;
+    private User        mUser;
+    private int         meetingId;
     private ProgressBar loadingBar;
-    private Button btn_register_meeting;
+    private Button      btn_register_meeting;
     private final Object key = new Object();
     private MeetingDetail mInvitationDetail;
-    private ListView lv_enlist_people;
+    private EnlisterView tv_enlist_people;
+    private HashMap<String,String> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +44,14 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     private void getInvitationDetailActivity() {
         loadingBar.setVisibility(View.VISIBLE);
-        id = ApplicationData.getInstance().getUserInfo().getId();
+        mUser = ApplicationData.getInstance().getUserInfo();
 //        id = getIntent().getIntExtra("id",0);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 meetingId = getIntent().getIntExtra("meetingId",0);
                 UserAction.getInvitationDetail(meetingId);
+//                UserAction.getEnlistName(meetingId);
                 synchronized (key){// wait for the callback
                     try {
                         key.wait();
@@ -57,14 +59,17 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
                         e.printStackTrace();
                     }
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("tag","init views");
-                        loadingBar.setVisibility(View.GONE);
-                        initViews();
-                    }
-                });
+                if (mInvitationDetail != null){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.e("tag","init views");
+                            loadingBar.setVisibility(View.GONE);
+                            initViews();
+                        }
+                    });
+                }else
+                    Toast.makeText(InvitationDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
             }
         }).start();
@@ -77,7 +82,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
         ListView lv_chat_msg;
         lv_chat_msg = (ListView) findViewById(R.id.lv_chat_msg);
-        lv_enlist_people = (ListView) findViewById(R.id.lv_enlist_people);
+        tv_enlist_people = (EnlisterView) findViewById(R.id.tv_enlist_people);
         Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
         Button btn_stop_chat = (Button) findViewById(R.id.btn_stop_chat);
         TextView tv_leixing = (TextView) findViewById(R.id.tv_leixing);
@@ -91,9 +96,9 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         TextView tv_address = (TextView) findViewById(R.id.tv_address);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
         TextView tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
-        if (id == mInvitationDetail.id){//自己点进自己的邀请
+        if (mUser.getId() == mInvitationDetail.id){//自己点进自己的邀请
             // TODO 将其他按钮隐藏，显示报名列表信息
-            lv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
+            tv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
             ll_liuyan.setVisibility(View.GONE);
             btn_register_meeting.setVisibility(View.GONE);
             lv_chat_msg.setVisibility(View.GONE);
@@ -110,7 +115,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 //            btn_stop_chat.setVisibility(View.VISIBLE);
 //            initChatList();
         }else{
-            lv_enlist_people.setVisibility(View.GONE);
+            tv_enlist_people.setVisibility(View.GONE);
             ll_liuyan.setVisibility(View.VISIBLE);
             btn_register_meeting.setVisibility(View.VISIBLE);
             lv_chat_msg.setVisibility(View.VISIBLE);
@@ -138,7 +143,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserAction.enlist(meetingId,id);
+                UserAction.enlist(meetingId,mUser.getId(),mUser.getUserName());
             }
         }).start();
 
@@ -148,22 +153,17 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     public void OnDataArrived(MeetingDetail invitationDetail) {
         Log.e("tag","data arrived");
         mInvitationDetail = invitationDetail;
+        map = new HashMap<>();
+        for (int i = 0;i < mInvitationDetail.registId.size();i++){
+            map.put(mInvitationDetail.registId.get(i),mInvitationDetail.enlistersName.get(i));
+        }
         synchronized (key){
             key.notify();
         }
     }
 
     private void initEnlist(){
-        lv_enlist_people.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,mInvitationDetail.registId));
-        lv_enlist_people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO 先打开报名人的信息框，再在信息框中加入聊天按钮
-                Intent intent = new Intent(InvitationDetailActivity.this,EnlistInfoActivity.class);
-                intent.putExtra("enlistId",mInvitationDetail.registId.get((int)id));
-                startActivity(intent);
-            }
-        });
+        tv_enlist_people.setData(map);
     }
 
     private void initChatList(){
