@@ -1,8 +1,5 @@
 package com.test.jwj.underMoon.regist;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
@@ -11,6 +8,9 @@ import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.utils.DateUtils;
 import com.test.jwj.underMoon.utils.TextUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class StepBirthday extends RegisterStep implements OnDateChangedListener {
 
@@ -25,6 +25,7 @@ public class StepBirthday extends RegisterStep implements OnDateChangedListener 
 	private Date mSelectDate;
 	private static final int MAX_AGE = 100;
 	private static final int MIN_AGE = 12;
+	private String constellation;
 
 	public StepBirthday(RegisterActivity activity, View contentRootView) {
 		super(activity, contentRootView);
@@ -33,7 +34,7 @@ public class StepBirthday extends RegisterStep implements OnDateChangedListener 
 	}
 
 	private void flushBirthday(Calendar calendar) {
-		String constellation = TextUtils.getConstellation(
+		constellation = TextUtils.getConstellation(
 				calendar.get(Calendar.MONTH),
 				calendar.get(Calendar.DAY_OF_MONTH));
 		mSelectDate = calendar.getTime();
@@ -118,5 +119,5 @@ public class StepBirthday extends RegisterStep implements OnDateChangedListener 
 	public int getAge() {
 		return mAge;
 	}
-
+	public String getConstellation(){return constellation;}
 }

@@ -81,7 +81,15 @@
         <activity android:name=".imageFactory.ImageFactoryActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
-
+        <activity android:name=".activity.SearchFriendActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.ChatActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.EnlistInfoActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
         <service android:name=".services.GlobalService">
 
         </service>

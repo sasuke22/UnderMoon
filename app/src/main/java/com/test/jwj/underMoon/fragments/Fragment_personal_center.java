@@ -2,13 +2,17 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
+import com.test.jwj.underMoon.utils.PhotoUtils;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -16,17 +20,19 @@ import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 
 public class Fragment_personal_center extends BaseFragment implements View.OnClickListener {
     private boolean ismale;
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ismale = user.getGender() == 1;// 1为男
-        View view = inflater.inflate(R.layout.fragment_personal_center,container,false);
-        view.findViewById(R.id.rl_personal_info).setOnClickListener(this);
-        initViews(view);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_personal_center,container,false);
+        initViews(rootView);
+        return rootView;
     }
 
     private void initViews(View view) {
+        Log.e("tag","init view");
+        rootView.findViewById(R.id.rl_personal_info).setOnClickListener(this);
         View rl_vip_center = view.findViewById(R.id.rl_vip_center);
         View rl_women_photo = view.findViewById(R.id.rl_women_photo);
         if (ismale){
@@ -38,6 +44,12 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
             rl_women_photo.setVisibility(View.VISIBLE);
             rl_vip_center.setOnClickListener(this);
         }
+        ((TextView)view.findViewById(R.id.name)).setText(user.getUserName());
+        ((TextView)view.findViewById(R.id.age)).setText(user.getAge() + "岁");
+        ((TextView)view.findViewById(R.id.id)).setText(String.valueOf(user.getId()));
+        ((TextView)view.findViewById(R.id.province)).setText(user.getLocation());
+        ((TextView)view.findViewById(R.id.job)).setText(user.getJob());
+        ((ImageView)view.findViewById(R.id.head_photo)).setImageBitmap(PhotoUtils.getBitmap(user.getPhoto()));
     }
 
     @Override

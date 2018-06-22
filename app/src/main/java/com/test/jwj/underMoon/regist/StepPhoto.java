@@ -103,8 +103,11 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 						return 0;
 					} else {
 						byte[] photoByte = PhotoUtils.getBytes(mUserPhoto);
+						int age = mActivity.getAge();
 						User user = new User(mAccount, mName, mPassword,mCity,mFigure,mJob,mHeight,mMarry,
 								mBirthday, mGender, photoByte);
+						user.setAge(age);
+						user.setXingzuo(mActivity.getXingzuo());
 						UserAction.register(user);
 						while (!mIsReceived) {
 						}// 如果没收到的话就会一直阻塞;

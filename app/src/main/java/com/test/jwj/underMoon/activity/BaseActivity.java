@@ -1,9 +1,5 @@
 package com.test.jwj.underMoon.activity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +17,10 @@ import com.test.jwj.underMoon.CustomView.FlippingLoadingDialog;
 import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.utils.NetWorkUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 public abstract class BaseActivity extends FragmentActivity {
@@ -52,6 +52,8 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onDestroy() {
 		clearAsyncTask();
+		if(mLoadingDialog != null)
+			mLoadingDialog.dismiss();
 		super.onDestroy();
 	}
 

@@ -332,6 +332,20 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		return null;
 	}
 
+	public int getAge(){
+		if(mStepBirthday != null) {
+			return mStepBirthday.getAge();
+		}
+		return 0;
+	}
+
+	public String getXingzuo(){
+		if(mStepBirthday != null) {
+			return mStepBirthday.getConstellation();
+		}
+		return "";
+	}
+
 	public String getCity(){
 		if(mStepBaseInfo != null) {
 			return mStepBaseInfo.getCity();

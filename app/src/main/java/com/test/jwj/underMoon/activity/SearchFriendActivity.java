@@ -1,8 +1,5 @@
 package com.test.jwj.underMoon.activity;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +11,13 @@ import android.widget.Spinner;
 
 import com.test.jwj.underMoon.CustomView.TitleBarView;
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.bean.ApplicationData;
-import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.bean.TranObject;
-import com.test.jwj.underMoon.utils.VerifyUtils;
+import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.global.UserAction;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class SearchFriendActivity extends BaseActivity implements
@@ -85,9 +84,9 @@ public class SearchFriendActivity extends BaseActivity implements
 			if (searchName.equals("")) {
 				showCustomToast("请填写账号");
 				mSearchEtName.requestFocus();
-			} else if (!VerifyUtils.matchAccount(searchName)) {
-				showCustomToast("账号格式错误");
-				mSearchEtName.requestFocus();
+//			} else if (!VerifyUtils.matchAccount(searchName)) {
+//				showCustomToast("账号格式错误");
+//				mSearchEtName.requestFocus();
 			} else {
 				try {
 					flag = true;

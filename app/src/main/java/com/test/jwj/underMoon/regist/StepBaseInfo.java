@@ -115,7 +115,7 @@ public class StepBaseInfo extends RegisterStep implements TextWatcher,
 			return false;
 		}
 
-		if (!mMarry.equals("单身") | !mMarry.equals("已恋") | !mMarry.equals("已婚") | !mMarry.equals("不详")){
+		if (!mMarry.equals("单身") && !mMarry.equals("已恋") && !mMarry.equals("已婚") && !mMarry.equals("不详")){
 			showCustomToast("请输入正确的情感状况");
 			mEtMarry.requestFocus();
 			return false;
@@ -181,7 +181,7 @@ public class StepBaseInfo extends RegisterStep implements TextWatcher,
 		return mGender;
 	}
 	public String getCity() {
-		return mName;
+		return mCity;
 	}
 	public String getFigure(){
 		return mFigure;

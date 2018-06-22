@@ -1,7 +1,6 @@
 package com.test.jwj.underMoon.regist;
 
-import java.io.IOException;
-
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,10 +10,12 @@ import android.widget.EditText;
 
 import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.utils.VerifyUtils;
+
+import java.io.IOException;
 
 
 public class StepAccount extends RegisterStep implements TextWatcher {
@@ -27,9 +28,11 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 
 	private static TranObject mReceivedInfo = null;
 	private static boolean mIsReceived = false;
+	private Context mContext;
 
 	public StepAccount(RegisterActivity activity, View contentRootView) {
 		super(activity, contentRootView);
+		mContext = activity;
 	}
 
 	public String getAccount() {
@@ -63,6 +66,7 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 				try {
 					mNetService.closeConnection();
 					System.out.println("setupConnection");
+					mNetService.onInit(mContext);
 					mNetService.setupConnection();
 					if (!mNetService.isConnected()) {
 						return 0;
