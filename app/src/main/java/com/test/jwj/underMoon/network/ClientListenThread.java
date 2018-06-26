@@ -83,6 +83,7 @@ public class ClientListenThread extends Thread {
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case TODAY_CONTRIBUTES:
+					Log.e("tag","today arrived");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case INVITATION_DETAIL:

@@ -83,7 +83,7 @@ public class UserAction {
 		t.setObject(userid);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request contributes success" + userid);
+			Log.e("tag","send request contributes success" + userid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +109,7 @@ public class UserAction {
 		t.setObject(map);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request contributes success" + id);
+			Log.e("tag","send request contributes success" + id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ public class UserAction {
 		t.setObject(meetingDetail);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send add contributes success");
+			Log.e("tag","send add contributes success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +147,7 @@ public class UserAction {
 		t.setSendName(enlisterName);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request enlist success");
+			Log.e("tag","send request enlist success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -159,7 +159,7 @@ public class UserAction {
 		t.setObject(user);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send request save success");
+			Log.e("tag","send request save success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -170,7 +170,7 @@ public class UserAction {
 		t.setTranType(TranObjectType.GET_ENLIST);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send get enlist success");
+			Log.e("tag","send get enlist success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -182,7 +182,7 @@ public class UserAction {
 		t.setObject(meetingId);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send get enlist success");
+			Log.e("tag","send get enlist success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -194,7 +194,7 @@ public class UserAction {
 		t.setTranType(TranObjectType.GET_USER_INFO);
 		try {
 			mNetService.send(t);
-			Log.d("tag","send get user info success");
+			Log.e("tag","send get user info success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

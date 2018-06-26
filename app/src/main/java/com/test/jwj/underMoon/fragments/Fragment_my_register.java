@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -22,31 +22,26 @@ import com.test.jwj.underMoon.global.UserAction;
 
 public class Fragment_my_register extends BaseFragment {
     private View rootView;
-    private ProgressBar mMyRegi_pgbar;
     ListView mLv_my_register;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_my_register,container,false);
         mLv_my_register = (ListView) rootView.findViewById(R.id.lv_my_register);
-        mMyRegi_pgbar = (ProgressBar)rootView.findViewById(R.id.myRegi_pgbar);
         return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (rootView == null)
-            return;
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetMyContributes();
-//            setResourceAndItemClick();
+            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void showDialogGetMyContributes() {
-        mMyRegi_pgbar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,6 +50,7 @@ public class Fragment_my_register extends BaseFragment {
                 synchronized (key){
                     try {
                         key.wait();
+                        Log.e("tag","register wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -64,7 +60,7 @@ public class Fragment_my_register extends BaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMyRegi_pgbar.setVisibility(View.GONE);
+                        ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
                     }
                 });
 

@@ -55,6 +55,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
                 synchronized (key){// wait for the callback
                     try {
                         key.wait();
+                        Log.e("tag","detail wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

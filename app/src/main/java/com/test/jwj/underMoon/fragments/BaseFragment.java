@@ -3,7 +3,6 @@ package com.test.jwj.underMoon.fragments;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,7 +51,7 @@ public abstract class BaseFragment extends Fragment {
     public static void setMeetingList(ArrayList meetingList){
         mAllContributesList = meetingList;
 //        loadingDialog.dismiss();
-        Log.e("tag","notify " + (Looper.getMainLooper() == Looper.myLooper()));
+        Log.e("tag","notify " + mAllContributesList);
         synchronized (key){
             key.notify();
         }

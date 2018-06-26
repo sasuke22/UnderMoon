@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -22,32 +22,26 @@ import com.test.jwj.underMoon.global.UserAction;
 
 public class Fragment_all_contributes extends BaseFragment {
     private View rootView;
-    private ProgressBar mAll_PGBar;
     private ListView mLv_all_contributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_contributes,container,false);
         mLv_all_contributes = (ListView) rootView.findViewById(R.id.lv_all_contributes);
-        mAll_PGBar = (ProgressBar) rootView.findViewById(R.id.all_pgbar);
         return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (rootView == null)
-            return;
         if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetAllContributes();
             //            setResourceAndItemClick();
         }
-
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     public void showDialogGetAllContributes(){
-        mAll_PGBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,17 +49,18 @@ public class Fragment_all_contributes extends BaseFragment {
                 synchronized (key){
                     try {
                         key.wait();
+                        Log.e("tag","all wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                Log.e("tag","send message ");
                 mHandler.sendEmptyMessage(0);
 //                setResourceAndItemClick();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAll_PGBar.setVisibility(View.GONE);
+                        Log.e("tag","set gone ");
+                        ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
                     }
                 });
 

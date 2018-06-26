@@ -25,6 +25,6 @@ public class ClientSendThread {
 	public void sendMessage(TranObject t) throws IOException{
 		oos.writeObject(t);
 		oos.flush();
-		Log.d("tag","send msg " + t.getSendName());
+		Log.e("tag","send msg " + t.getSendName());
 	}
 }

@@ -26,10 +26,12 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         >
         <activity android:name=".activity.MainActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
-        <activity android:name=".activity.GoMeetingActivity"/>
+        <activity android:name=".activity.GoMeetingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
         <activity android:name=".activity.InvitationDetailActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>

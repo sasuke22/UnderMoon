@@ -2,16 +2,15 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -25,35 +24,30 @@ import java.sql.Date;
 
 public class Fragment_today_contributes extends BaseFragment {
     private View rootView;
-    private ProgressBar mToday_PGBar;
     private ListView mLv_today_contributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_today_contributes,container,false);
         mLv_today_contributes = (ListView) rootView.findViewById(R.id.lv_today_contributes);
-        mToday_PGBar = (ProgressBar) rootView.findViewById(R.id.today_pgbar);
-        Log.e("tag","bar " + mToday_PGBar);
+        Log.e("tag","today oncreate");
         return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVleToUser) {
-        if (rootView == null)
-            return;
-        Log.e("tag","toady isvisible " + isVleToUser);
-        if (isVleToUser){
-            Log.e("tag","set fragemnt");
+        Log.e("tag", "toady isvisible " + isVleToUser);
+        if (isVleToUser) {
+            Log.e("tag", "set fragemnt");
             setCurrentFragment(this);
             showDialogGetTodayContributes();
-//            setResourceAndItemClick();
+            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVleToUser);
 
     }
 
     private void showDialogGetTodayContributes() {
-        mToday_PGBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -61,8 +55,8 @@ public class Fragment_today_contributes extends BaseFragment {
             UserAction.getTodayContributes(user.getId(),curDate);
             synchronized (key){
                 try {
-                    Log.e("tag","today wait " + (Looper.myLooper() == Looper.getMainLooper()));
                     key.wait();
+                    Log.e("tag","today wait");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -72,7 +66,7 @@ public class Fragment_today_contributes extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mToday_PGBar.setVisibility(View.GONE);
+                    ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
                 }
             });
 

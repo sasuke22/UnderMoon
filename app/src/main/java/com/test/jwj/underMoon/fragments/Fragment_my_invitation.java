@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -22,30 +22,25 @@ import com.test.jwj.underMoon.global.UserAction;
 
 public class Fragment_my_invitation extends BaseFragment {
     private View rootView;
-    private ProgressBar mMyInvi_pgbar;
     ListView mLv_my_invitation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_my_invitation,container,false);
         mLv_my_invitation = (ListView) rootView.findViewById(R.id.lv_my_invitation);
-        mMyInvi_pgbar = (ProgressBar)rootView.findViewById(R.id.myInvi_pgbar);
         return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (rootView == null)
-            return;
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetMyContributes();
-//            setResourceAndItemClick();
+            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void showDialogGetMyContributes() {
-        mMyInvi_pgbar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,6 +49,7 @@ public class Fragment_my_invitation extends BaseFragment {
                 synchronized (key){
                     try {
                         key.wait();
+                        Log.e("tag","invitation wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -63,7 +59,7 @@ public class Fragment_my_invitation extends BaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMyInvi_pgbar.setVisibility(View.GONE);
+                        ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
                     }
                 });
 

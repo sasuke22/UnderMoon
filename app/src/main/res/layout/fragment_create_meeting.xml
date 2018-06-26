@@ -19,6 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -27,12 +29,13 @@
             android:layout_marginLeft="10dp"
             android:text="邀约时间"
             />
-        <EditText
+        <TextView
             android:id="@+id/date_create_meeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:hint="日期"
+            android:hint="点击选择日期"
+            android:textSize="18dp"
             />
     </LinearLayout>
     <View

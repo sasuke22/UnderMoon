@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.ViewPagerAdapter;
@@ -23,12 +24,15 @@ import java.util.Arrays;
 public class GoMeetingActivity extends FragmentActivity implements View.OnClickListener {
     public Dialog mLoadingDialog;
     ViewPager                  mGo_meeting_pager;
+    public ProgressBar mBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_meeting);
         mLoadingDialog = new Dialog(this);
         mGo_meeting_pager = (ViewPager) findViewById(R.id.go_meeting_viewpager);
+        mBar = (ProgressBar) findViewById(R.id.meetings_bar);
         initFragment();
         changeFragment(0);
     }
@@ -53,6 +57,7 @@ public class GoMeetingActivity extends FragmentActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        mBar.setVisibility(View.VISIBLE);
         switch (v.getId()){
             case R.id.rb_today_contributes:
                 changeFragment(0);
