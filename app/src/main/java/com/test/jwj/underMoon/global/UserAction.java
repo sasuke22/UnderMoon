@@ -199,4 +199,20 @@ public class UserAction {
 			e.printStackTrace();
 		}
 	}
+
+	public static void getPhotos(int userId) {
+		TranObject t = new TranObject();
+		t.setObject(userId);
+		t.setTranType(TranObjectType.GET_USER_PHOTOS);
+		try {
+			mNetService.send(t);
+			Log.e("tag","send get user photos success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void uploadNewPic(int userid, String path) {
+		mNetService.uploadFile(userid,path);
+	}
 }

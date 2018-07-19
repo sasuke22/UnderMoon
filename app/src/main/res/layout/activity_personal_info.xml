@@ -4,11 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="10dp">
-    <GridView
-        android:id="@+id/gv_personal_info_photo"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -191,7 +186,11 @@
             android:hint="（预设选择）"
             android:textSize="15dp"/>
     </LinearLayout>
-
+    <GridView
+        android:id="@+id/gv_personal_info_photo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
     <Button
         android:id="@+id/personal_info_btnSave"
         android:layout_width="wrap_content"

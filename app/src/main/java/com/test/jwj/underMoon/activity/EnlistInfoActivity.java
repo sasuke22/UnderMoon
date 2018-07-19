@@ -55,6 +55,10 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
 
     @Override
     public void onClick(View v) {
-        //open the window of chat
+        //TODO open the window of chat
+        Intent intent = new Intent(this,ChatActivity.class);
+        intent.putExtra("friendName", enlister.getUserName());
+        intent.putExtra("friendId", enlister.getId());
+        startActivity(intent);
     }
 }

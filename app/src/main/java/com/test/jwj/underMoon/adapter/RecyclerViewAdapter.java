@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.utils.Bimp;
 
@@ -21,13 +22,13 @@ import java.util.List;
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>{
-//    private List<Bitmap> mPhotoList;
+    private List<Bitmap> mPhotoList;
     private Context      mContext;
     MyItemClickListener itemClickListener;
     MyItemLongClickListener itemLongClickListener;
     public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
-//        this.mPhotoList = list;
+        this.mPhotoList = list;
 //        mPhotoList.add(0,addBitmap);
     }
 
@@ -55,7 +56,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.iv_photo.setImageBitmap(addBitmap);
             holder.itemView.setTag(0);
         }else{
-            holder.iv_photo.setImageBitmap(Bimp.tempSelectBitmap.get(position - 1).getBitmap());
+            Glide.with(mContext).load(mPhotoList.get(position - 1)).//减1是为了去掉一开始的添加图片按钮
+                    centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
             holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
         }
     }

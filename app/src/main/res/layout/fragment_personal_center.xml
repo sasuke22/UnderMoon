@@ -119,13 +119,19 @@
                 android:layout_centerVertical="true"
                 android:src="@mipmap/arrow" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
         <RelativeLayout
             android:id="@+id/rl_women_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:visibility="gone">
+            >
 
             <TextView
                 android:layout_width="match_parent"
@@ -174,27 +180,27 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
 
-        <RelativeLayout
-            android:id="@+id/rl_machine_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_machine_setting"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginTop="10dp">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:text="系统设置" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:text="系统设置" />-->
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/arrow" />
-        </RelativeLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="15dp"-->
+                <!--android:layout_height="15dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@mipmap/arrow" />-->
+        <!--</RelativeLayout>-->
 
         <View
             android:layout_width="match_parent"

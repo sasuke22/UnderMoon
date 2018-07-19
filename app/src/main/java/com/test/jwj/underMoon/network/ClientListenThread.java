@@ -61,7 +61,6 @@ public class ClientListenThread extends Thread {
 				switch (mReceived.getTranType()) {
 				case REGISTER_ACCOUNT:
 					StepAccount.setRegisterInfo(mReceived, true);
-					 System.out.println("注册账号成功");
 					break;
 				case REGISTER:
 					StepPhoto.setRegisterInfo(mReceived, true);
@@ -70,7 +69,6 @@ public class ClientListenThread extends Thread {
 					ApplicationData.getInstance().loginMessageArrived(mReceived);
 					break;
 				case SEARCH_FRIEND:
-					System.out.println("收到朋友查找结果");
 					SearchFriendActivity.messageArrived(mReceived);
 					break;
 				case FRIEND_REQUEST:
@@ -131,11 +129,18 @@ public class ClientListenThread extends Thread {
 					}
 					break;
 				case GET_ENLIST:
-					Log.e("tag","get enlist rec");
 					BaseFragment.setMeetingList((ArrayList) mReceived.getObject());
 					break;
 				case GET_ENLIST_NAME:
 
+					break;
+				case GET_USER_PHOTOS:
+					if (miDataListener!= null)
+						miDataListener.OnDataArrived((String)mReceived.getObject());//如果不行还是直接将数据传过去吧
+					break;
+				case UPLOAD_RESULT:
+					res = (int) mReceived.getObject();
+					mApplication.mBinder.AlertToast("上传图片" + ((res == 0) ? "失败" : "成功"));
 					break;
 				default:
 					break;

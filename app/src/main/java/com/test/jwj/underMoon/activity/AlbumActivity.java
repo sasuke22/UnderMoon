@@ -99,6 +99,12 @@ public class AlbumActivity extends Activity {
         public void onClick(View v) {
             overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
             //TODO 开启一个线程上传照片
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    UserAction.sendUserPhoto();
+//                }
+//            }).start();
             intent.setClass(mContext, WomenPhotoActivity.class);
             startActivity(intent);
             finish();

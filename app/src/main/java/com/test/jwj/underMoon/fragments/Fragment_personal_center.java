@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,18 +30,13 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
     }
 
     private void initViews(View view) {
-        Log.e("tag","init view");
         rootView.findViewById(R.id.rl_personal_info).setOnClickListener(this);
         View rl_vip_center = view.findViewById(R.id.rl_vip_center);
-        View rl_women_photo = view.findViewById(R.id.rl_women_photo);
+        view.findViewById(R.id.rl_women_photo).setOnClickListener(this);
         if (ismale){
             rl_vip_center.setVisibility(View.VISIBLE);
-            rl_women_photo.setVisibility(View.GONE);
-            rl_women_photo.setOnClickListener(this);
         }else{
             rl_vip_center.setVisibility(View.GONE);
-            rl_women_photo.setVisibility(View.VISIBLE);
-            rl_vip_center.setOnClickListener(this);
         }
         ((TextView)view.findViewById(R.id.name)).setText(user.getUserName());
         ((TextView)view.findViewById(R.id.age)).setText(user.getAge() + "岁");
@@ -65,7 +59,7 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
                 break;
             case R.id.rl_women_photo:
                 Intent WomenIntent = new Intent(getActivity(), WomenPhotoActivity.class);
-                //TODO 可能需要从上个界面传过来的数据，到底是哪个人等信息，然后传到下个界面进行网络访问获取具体数据
+                WomenIntent.putExtra("id",user.getId());
                 startActivity(WomenIntent);
                 break;
         }

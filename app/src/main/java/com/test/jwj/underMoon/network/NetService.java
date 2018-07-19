@@ -72,4 +72,8 @@ public class NetService {
 		mIsConnected = false;
 		mClientSocket = null;
 	}
+
+	public void uploadFile(int userid,String path){
+		mClientSendThread.uploadFile(userid,path);
+	}
 }

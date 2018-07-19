@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.test.jwj.underMoon.global.UserAction;
 
 public class PersonalInfoActivity extends Activity implements View.OnClickListener {
     User user;
-    GridView gv_personal_info_photo;
     private EditText mEt_wechat;
     private TextView mEt_city;
     private EditText mEt_age;
@@ -40,7 +38,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     }
 
     private void initViews() {
-        gv_personal_info_photo = (GridView) findViewById(R.id.gv_personal_info_photo);
         mEt_wechat = (EditText)findViewById(R.id.personal_info_wechat);
         mEt_city = (EditText) findViewById(R.id.personal_info_city);
         mEt_age = (EditText) findViewById(R.id.personal_info_age);
@@ -51,12 +48,11 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         mSp_marry = (Spinner) findViewById(R.id.personal_info_marry);
         mEt_xingzuo = (EditText) findViewById(R.id.personal_info_xingzuo);
         findViewById(R.id.personal_info_btnSave).setOnClickListener(this);
-        if (user.getGender() == 0){//女的
-            gv_personal_info_photo.setVisibility(View.INVISIBLE);
-        }else{
-            gv_personal_info_photo.setVisibility(View.VISIBLE);
-            //TODO 网络获取图片赋值gridView
-        }
+//        if (user.getGender() == 0){//女的
+//            gv_personal_info_photo.setVisibility(View.INVISIBLE);
+//        }else{
+//            gv_personal_info_photo.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override
