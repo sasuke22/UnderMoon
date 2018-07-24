@@ -148,4 +148,10 @@ public class UnderMoonApplication extends Application {
         bindService(new Intent(this, GlobalService.class),mConnection,BIND_AUTO_CREATE);
         super.onCreate();
     }
+
+    @Override
+    public void onTerminate() {
+        Log.e("tag","app stop");
+        super.onTerminate();
+    }
 }

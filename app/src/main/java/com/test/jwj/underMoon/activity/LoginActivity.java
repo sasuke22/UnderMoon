@@ -1,7 +1,5 @@
 package com.test.jwj.underMoon.activity;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +21,8 @@ import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.NetService;
 import com.test.jwj.underMoon.regist.RegisterActivity;
 import com.test.jwj.underMoon.utils.VerifyUtils;
+
+import java.io.IOException;
 
 public class LoginActivity extends BaseActivity {
 
@@ -102,7 +102,6 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			protected Integer doInBackground(Void... params) {
 				try {
-					
 					mNetService.closeConnection();
 					mNetService.onInit(LoginActivity.this);
 					mNetService.setupConnection();
@@ -110,7 +109,6 @@ public class LoginActivity extends BaseActivity {
 					if (!mNetService.isConnected()) {
 						return 0;
 					}
-					//TODO 将下面的数据改成自己想要的
 					User user = new User();
 					user.setAccount(account);
 					user.setPassword(password);

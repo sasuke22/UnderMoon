@@ -7,13 +7,16 @@ import com.test.jwj.underMoon.bean.TranObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.Socket;
 
 
 public class ClientSendThread {
-	private Socket mSocket = null;
-	private ObjectOutputStream oos = null;
+	private Socket             mSocket     = null;
+	private ObjectOutputStream oos         = null;
+	private OutputStream       fileOOS     = null;
+	private Socket             mFileSocket = null;
 	public ClientSendThread(Socket socket) {
 		this.mSocket = socket;
 		try {
@@ -34,28 +37,45 @@ public class ClientSendThread {
 	public void uploadFile(int userid,String path){
 		RandomAccessFile fileOutStream = null;
 		try {
-//			String head = "userid=" + userid + "\r\n";
-			oos.writeInt(userid);
-//			oos.write(head.getBytes());
+			fileOOS = getFileSocket();
+			if (fileOOS == null)
+				return;
+			fileOOS.write(userid);
 			File file = new File(path);
 			fileOutStream = new RandomAccessFile(file,"r");
 			byte[] buffer = new byte[1024];
-			int len = -1;
+			int len;
 			while((len = fileOutStream.read(buffer)) != -1){
-				oos.write(buffer,0,len);
+				fileOOS.write(buffer,0,len);
 			}
 			fileOutStream.close();
-			oos.flush();
+			fileOOS.flush();
+			fileOOS.close();
+			mFileSocket.close();
 		} catch (Exception e){
-			Log.e("tag",e.getMessage().toString());
+			Log.e("tag","heh " + e.getMessage());
 		} finally {
 			try {
 				if (fileOutStream != null)
 					fileOutStream.close();
+				if (fileOOS != null)
+					fileOOS.close();
+				if (mFileSocket != null && mFileSocket.isConnected())
+					mFileSocket.close();
 			} catch (IOException e) {
-				Log.e("tag",e.getMessage().toString());
+				Log.e("tag",e.getMessage());
 			}
 		}
 
+	}
+
+	private OutputStream getFileSocket() throws IOException {
+		FileNetConnect fileConnect = new FileNetConnect();
+		fileConnect.startConnect();
+		if (fileConnect.getIsConnected()){
+			mFileSocket = fileConnect.getSocket();
+			return mFileSocket.getOutputStream();
+		}
+		return null;
 	}
 }

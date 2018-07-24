@@ -248,6 +248,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
 //                                setUserPhoto(PhotoUtils.compressImage(bitmap));
 //                            }
                             uploadPic(path);
+
                             mPhotoList.add(uri.toString());
                             adapter.notifyDataSetChanged();
                         }
