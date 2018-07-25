@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.GoMeetingActivity;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public abstract class BaseFragment extends Fragment {
     public GoMeetingActivity act;
     public static final Object key  = new Object();
-    protected User   user;
+    protected User   user = ApplicationData.getInstance().getUserInfo();
     protected static ArrayList<MeetingDetail> mAllContributesList;
     public static Dialog loadingDialog;
     public static Handler mHandler;

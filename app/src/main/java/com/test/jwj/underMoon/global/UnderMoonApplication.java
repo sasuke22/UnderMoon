@@ -25,6 +25,8 @@ public class UnderMoonApplication extends Application {
         mUser = user;
     }
 
+    public User getUser(){return mUser;}
+
     public void setUserId(int id) {
         this.mUser.setId(id);
     }

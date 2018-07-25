@@ -24,12 +24,13 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>{
     private List<Bitmap> mPhotoList;
     private Context      mContext;
+    private int          mUserId;
     MyItemClickListener itemClickListener;
     MyItemLongClickListener itemLongClickListener;
-    public RecyclerViewAdapter(Context context, List list){
+    public RecyclerViewAdapter(Context context, List list, int userId){
+        this.mUserId = userId;
         this.mContext = context;
         this.mPhotoList = list;
-//        mPhotoList.add(0,addBitmap);
     }
 
     Handler handler = new Handler() {
@@ -56,7 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.iv_photo.setImageBitmap(addBitmap);
             holder.itemView.setTag(0);
         }else{
-            Glide.with(mContext).load(mPhotoList.get(position - 1)).//减1是为了去掉一开始的添加图片按钮
+            Glide.with(mContext).load("http://192.168.107.41:8089/" + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                     centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
             holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
         }
@@ -64,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return (Bimp.tempSelectBitmap.size() + 1);
+        return (mPhotoList.size());
     }
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private User        mUser;
     private int         meetingId;
     private ProgressBar loadingBar;
-    private Button      btn_register_meeting;
     private final Object key = new Object();
     private MeetingDetail mInvitationDetail;
     private EnlisterView tv_enlist_people;
@@ -64,7 +62,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("tag","init views");
                             loadingBar.setVisibility(View.GONE);
                             initViews();
                         }
@@ -80,12 +77,9 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private void initViews() {
         LinearLayout ll_liuyan;
         ll_liuyan = (LinearLayout) findViewById(R.id.ll_liuyan);
-        btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
-        ListView lv_chat_msg;
-        lv_chat_msg = (ListView) findViewById(R.id.lv_chat_msg);
+        Button btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
         tv_enlist_people = (EnlisterView) findViewById(R.id.tv_enlist_people);
         Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
-        Button btn_stop_chat = (Button) findViewById(R.id.btn_stop_chat);
         TextView tv_leixing = (TextView) findViewById(R.id.tv_leixing);
         TextView tv_loveleixing = (TextView) findViewById(R.id.tv_loveleixing);
         TextView tv_age = (TextView) findViewById(R.id.tv_age);
@@ -97,14 +91,13 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         TextView tv_address = (TextView) findViewById(R.id.tv_address);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
         TextView tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
+        Log.e("tag","user " + mUser.getId() + ",mee " + mInvitationDetail.id);
         if (mUser.getId() == mInvitationDetail.id){//自己点进自己的邀请
             // TODO 将其他按钮隐藏，显示报名列表信息
             tv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
             ll_liuyan.setVisibility(View.GONE);
             btn_register_meeting.setVisibility(View.GONE);
-            lv_chat_msg.setVisibility(View.GONE);
             btn_send_msg.setVisibility(View.GONE);
-            btn_stop_chat.setVisibility(View.GONE);
             initEnlist();
 //        }
 //        if (getIntent().getBooleanExtra("chat",false)){
@@ -119,11 +112,8 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
             tv_enlist_people.setVisibility(View.GONE);
             ll_liuyan.setVisibility(View.VISIBLE);
             btn_register_meeting.setVisibility(View.VISIBLE);
-            lv_chat_msg.setVisibility(View.VISIBLE);
             btn_send_msg.setVisibility(View.VISIBLE);
-            btn_stop_chat.setVisibility(View.VISIBLE);
             btn_register_meeting.setOnClickListener(this);
-            initChatList();
         }
         tv_leixing.setText(mInvitationDetail.type);
         tv_loveleixing.setText(mInvitationDetail.loveType);
@@ -152,7 +142,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     @Override
     public void OnDataArrived(MeetingDetail invitationDetail) {
-        Log.e("tag","data arrived");
         mInvitationDetail = invitationDetail;
         map = new HashMap<>();
         for (int i = 0;i < mInvitationDetail.registId.size();i++){
@@ -167,7 +156,4 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         tv_enlist_people.setData(map);
     }
 
-    private void initChatList(){
-        // TODO 初始化聊天列表
-    }
 }

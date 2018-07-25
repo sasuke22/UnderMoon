@@ -55,7 +55,6 @@ public class ClientListenThread extends Thread {
 			isStart = true;
 			while (isStart) {
 				TranObject mReceived = null;
-				//System.out.println("开始接受服务器");
 				mReceived = (TranObject) mOis.readObject();
 				Log.e("tag","接受成功 " + mReceived.getTranType());
 				switch (mReceived.getTranType()) {
@@ -135,6 +134,7 @@ public class ClientListenThread extends Thread {
 
 					break;
 				case GET_USER_PHOTOS:
+					Log.e("tag","receive data " + miDataListener);
 					if (miDataListener!= null)
 						miDataListener.OnDataArrived((String)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;

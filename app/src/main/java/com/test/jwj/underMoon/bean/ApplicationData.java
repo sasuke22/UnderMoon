@@ -1,17 +1,19 @@
 package com.test.jwj.underMoon.bean;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.Result;
+import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.utils.PhotoUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApplicationData {
 
@@ -62,6 +64,7 @@ public class ApplicationData {
 		Result loginResult = mReceivedMessage.getResult();
 		if (loginResult == Result.LOGIN_SUCCESS) {
 			mUser = (User) mReceivedMessage.getObject();
+			((UnderMoonApplication)mContext.getApplicationContext()).setUser(mUser);
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
 			mUserPhoto = PhotoUtils.getBitmap(mUser.getPhoto());
 			List<User> friendListLocal = ImDB.getInstance(mContext)
@@ -74,7 +77,7 @@ public class ApplicationData {
 			}
 			mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
 		} else {
-
+			Log.e("tag","login message arrived");
 			mUser = null;
 			mFriendList = null;
 		}
@@ -99,7 +102,7 @@ public class ApplicationData {
 	}
 
 	public void initData(Context comtext) {
-		System.out.println("initdata");
+		Log.e("tag","init data");
 		mContext = comtext;
 		mIsReceived = false;
 		mFriendList = null;
@@ -167,7 +170,6 @@ public class ApplicationData {
 	public void messageArrived(TranObject tran) {
 		ChatEntity chat = (ChatEntity) tran.getObject();
 		int senderId = chat.getSenderId();
-		System.out.println("senderId" + senderId);
 		boolean hasMessageTab = false;
 		for (int i = 0; i < mMessageEntities.size(); i++) {
 			MessageTabEntity messageTab = mMessageEntities.get(i);

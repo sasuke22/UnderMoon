@@ -1,12 +1,5 @@
 package com.test.jwj.underMoon.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-
 import android.content.Context;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -18,6 +11,13 @@ import android.view.View.OnClickListener;
 
 import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 
 public class TextUtils {
@@ -84,7 +84,6 @@ public class TextUtils {
 	public static String getConstellation(int month, int day) {
 		month++;
 		int temp = month *100 + day;
-		System.out.println(month + " " + day);
 		if (temp >=120&&temp <= 218) {
 			return "水瓶座";
 		} else if (temp >= 219 && temp <= 320) {

@@ -47,7 +47,6 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 
 	@Override
 	public void initEvents() {
-		System.out.println(mEtAccount);
 		mEtAccount.addTextChangedListener(this);
 	}
 
@@ -65,7 +64,6 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 			protected Integer doInBackground(Void... params) {
 				try {
 					mNetService.closeConnection();
-					System.out.println("setupConnection");
 					mNetService.onInit(mContext);
 					mNetService.setupConnection();
 					if (!mNetService.isConnected()) {
@@ -73,10 +71,8 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 					}
 					UserAction.accountVerify(mAccount);
 					while (!mIsReceived) {
-						//System.out.println("阻塞中");
 					}// 如果没收到的话就会一直阻塞;
 					mNetService.closeConnection();
-					System.out.println(mReceivedInfo.getResult());
 					if (mReceivedInfo.getResult() == Result.ACCOUNT_EXISTED)
 						return 1;// 代表用户名已存在
 					else if(mReceivedInfo.getResult() == Result.ACCOUNT_CAN_USE)

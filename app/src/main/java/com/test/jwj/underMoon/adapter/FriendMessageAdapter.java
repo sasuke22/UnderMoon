@@ -63,7 +63,6 @@ public class FriendMessageAdapter extends BaseAdapter {
 		}
 		nameView.setText(name);
 		sendTimeView.setText(sendTime);
-		// System.out.println(messageType + "message类型");
 
 		contentView.setText(content);
 

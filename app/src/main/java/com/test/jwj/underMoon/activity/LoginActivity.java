@@ -17,6 +17,7 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.Result;
+import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.NetService;
 import com.test.jwj.underMoon.regist.RegisterActivity;
@@ -57,7 +58,6 @@ public class LoginActivity extends BaseActivity {
 
 	@Override
 	protected void initEvents() {
-		// TODO Auto-generated method stub
 		Animation anim = AnimationUtils.loadAnimation(mContext,
 				R.anim.login_anim);
 		anim.setFillAfter(true);
@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity {
 					mNetService.closeConnection();
 					mNetService.onInit(LoginActivity.this);
 					mNetService.setupConnection();
-					Log.d("network", "set up connection");
+					Log.e("network", "set up connection");
 					if (!mNetService.isConnected()) {
 						return 0;
 					}
@@ -116,13 +116,12 @@ public class LoginActivity extends BaseActivity {
 					ApplicationData data = ApplicationData.getInstance();
 					data.initData(LoginActivity.this);
 					data.start();
-					System.out.println(data.getReceivedMessage().getResult());
 					if (data.getReceivedMessage().getResult() == Result.LOGIN_SUCCESS)
 						return 1;// 登录成功
 					else if(data.getReceivedMessage().getResult() == Result.LOGIN_FAILED)
 						return 2;// 登录失败
 				} catch (IOException e) {
-					Log.d("network", "IO异常");
+					Log.e("network", "IO异常");
 				}
 				return 0;
 
@@ -157,5 +156,9 @@ public class LoginActivity extends BaseActivity {
 		}
 	};
 
-
+	@Override
+	protected void onDestroy() {
+		Log.e("tag","login destroy " + ((UnderMoonApplication)getApplicationContext()).getUser());
+		super.onDestroy();
+	}
 }

@@ -82,7 +82,6 @@ public class StepBirthday extends RegisterStep implements OnDateChangedListener 
 
 	@Override
 	public void doNext() {
-		System.out.println(mBirthday);
 		mOnNextActionListener.next();
 		
 	}
@@ -101,7 +100,6 @@ public class StepBirthday extends RegisterStep implements OnDateChangedListener 
 	public void onDateChanged(DatePicker view, int year, int monthOfYear,
 			int dayOfMonth) {
 		mCalendar = Calendar.getInstance();
-		//System.out.println(year + " "+monthOfYear+" "+ dayOfMonth);
 		mCalendar.set(year, monthOfYear, dayOfMonth);
 		if (mCalendar.getTime().after(mMinDate)
 				|| mCalendar.getTime().before(mMaxDate)) {

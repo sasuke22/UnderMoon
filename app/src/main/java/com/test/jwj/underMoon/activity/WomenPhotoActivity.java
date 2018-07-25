@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,15 +11,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,7 +40,6 @@ import com.test.jwj.underMoon.utils.Bimp;
 import com.test.jwj.underMoon.utils.FileUtils;
 import com.test.jwj.underMoon.utils.ImageItem;
 import com.test.jwj.underMoon.utils.PhotoUtils;
-import com.test.jwj.underMoon.utils.PublicWay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,12 +61,20 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     private final Object key = new Object();
     private int     userId;
     private Handler mHandler;
+    RecyclerView gv_women_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = getIntent().getIntExtra("id",-1);
-        mHandler = new Handler();
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 0)
+                    initPhotos();
+                super.handleMessage(msg);
+            }
+        };
         mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.icon_addpic_unfocused);//添加图片的按钮，需要将它放在第一个
         parentView = getLayoutInflater().inflate(R.layout.activity_women_photo,null);
         ClientListenThread.setMiDataListener(this);
@@ -80,9 +90,35 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
 
     private void initViews() {
         initPopupWindow();
-        Log.e("tag","init");
-        RecyclerView gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
-        adapter = new RecyclerViewAdapter(this,mPhotoList);
+        gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {//网络获取图片流转换成bitmap设置给mPhotoList
+                UserAction.getPhotos(userId);
+                synchronized (key){
+                    try {
+                        key.wait();
+                        Log.e("tag","photos wait");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.e("tag","notify");
+                mHandler.sendEmptyMessage(0);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //隐藏加载bar？
+                    }
+                });
+
+            }
+        }).start();
+    }
+
+    private void initPhotos(){
+        adapter = new RecyclerViewAdapter(this,mPhotoList,userId);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -90,17 +126,18 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 } else {
-                    //将图片放大
-//                    Intent intent = new Intent(WomenPhotoActivity.this,
-//                            GalleryActivity.class);
-//                    intent.putExtra("position", "1");
-//                    intent.putExtra("ID", position - 1);
-//                    startActivity(intent);
                     LayoutInflater inflater = LayoutInflater.from(WomenPhotoActivity.this);
                     View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
                     final AlertDialog dialog = new AlertDialog.Builder(WomenPhotoActivity.this).create();
-                    Glide.with(WomenPhotoActivity.this).load(mPhotoList.get(position - 1))
-                            .placeholder(R.mipmap.ic_launcher).crossFade().into((ImageView) bigPhoto.findViewById(R.id.large_photo));
+
+                    WindowManager wm = (WindowManager) WomenPhotoActivity.this
+                            .getSystemService(Context.WINDOW_SERVICE);
+                    Display display = wm.getDefaultDisplay();
+                    int width =display.getWidth();
+                    int height=display.getHeight();
+
+                    Glide.with(WomenPhotoActivity.this).load("http://192.168.107.41:8089/" + userId + "/" + mPhotoList.get(position) + ".jpg")
+                            .placeholder(R.mipmap.ic_launcher).crossFade().override(width,height).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
                     dialog.setView(bigPhoto);
                     dialog.show();
                     bigPhoto.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +153,6 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
             @Override
             public void onItemLongClick(View view, final int position) {
                 if (position != 0){
-                    //TODO 弹对话框删除
                     new AlertDialog.Builder(WomenPhotoActivity.this).setTitle("系统提示")
                             .setPositiveButton("sure", new DialogInterface.OnClickListener() {
                                 @Override
@@ -137,29 +173,6 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         gv_women_photo.setAdapter(adapter);
         gv_women_photo.setLayoutManager(new GridLayoutManager(this,4));
         gv_women_photo.addItemDecoration(new DividerGridItemDecoration(this));
-        new Thread(new Runnable() {
-            @Override
-            public void run() {//网络获取图片流转换成bitmap设置给mPhotoList
-                UserAction.getPhotos(userId);
-                synchronized (key){
-                    try {
-                        key.wait();
-                        Log.e("tag","photos wait");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //隐藏加载bar？
-                    }
-                });
-
-            }
-        }).start();
     }
 
     private void initPopupWindow() {
@@ -187,9 +200,6 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         });
         photoBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                Intent intent = new Intent(WomenPhotoActivity.this,
-//                        AlbumActivity.class);
-//                startActivity(intent);
                 PhotoUtils.selectPhoto(WomenPhotoActivity.this);
                 overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
@@ -240,15 +250,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                                 .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
                         if (cursor.getCount() > 0 && cursor.moveToFirst()) {
                             String path = cursor.getString(column_index);
-//                            Bitmap bitmap = BitmapFactory.decodeFile(path);
-//                            if (PhotoUtils.bitmapIsLarge(bitmap)) {
-//                                PhotoUtils.cropPhoto(this, this, path);
-//                            } else {
-//                                //TODO 给recyclerview添加一个图片，然后在点击确定时上传
-//                                setUserPhoto(PhotoUtils.compressImage(bitmap));
-//                            }
                             uploadPic(path);
-
                             mPhotoList.add(uri.toString());
                             adapter.notifyDataSetChanged();
                         }
@@ -268,17 +270,17 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         }).start();
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            for(int i = 0; i< PublicWay.activityList.size(); i++){
-                if (null != PublicWay.activityList.get(i)) {
-                    PublicWay.activityList.get(i).finish();
-                }
-            }
-            System.exit(0);
-        }
-        return true;
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            for(int i = 0; i< PublicWay.activityList.size(); i++){
+//                if (null != PublicWay.activityList.get(i)) {
+//                    PublicWay.activityList.get(i).finish();
+//                }
+//            }
+//            System.exit(0);
+//        }
+//        return true;
+//    }
 
     protected void onRestart() {
         adapter.loading();
@@ -287,6 +289,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
 
     @Override
     public void OnDataArrived(String urlStr) {
+        Log.e("tag","data arrived " + urlStr);
         String[] urlArray = urlStr.split("|");
         mPhotoList = new ArrayList<>(Arrays.asList(urlArray));
         synchronized (key){

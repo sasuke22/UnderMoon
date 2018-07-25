@@ -135,14 +135,12 @@ public class SearchFriendActivity extends BaseActivity implements
 			showLoadingDialog("正在查找...");
 			while (!mIsReceived) {
 			}
-			System.out.println("准备跳转查找结果页面");
 			Intent intent = new Intent(this, FriendSearchResultActivity.class);
 			//Bundle mBundle = new Bundle();
 			//mBundle.putSerializable("result", mReceivedMessage);
 			//intent.putExtras(mBundle);
 			startActivity(intent);
 			finish();
-			System.out.println("已跳转");
 		}
 
 	}

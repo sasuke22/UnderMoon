@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
-import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 /**
@@ -24,7 +24,6 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        user = ApplicationData.getInstance().getUserInfo();
         ismale = user.getGender() == 1;// 1为男
         rootView = inflater.inflate(R.layout.fragment_personal_center,container,false);
         initViews(rootView);
@@ -70,5 +69,11 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
     @Override
     public void setResourceAndItemClick() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.e("tag","fragment destrpy");
+        super.onDestroy();
     }
 }

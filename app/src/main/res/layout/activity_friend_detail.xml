@@ -219,11 +219,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@android:color/darker_gray"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -250,34 +245,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="添加扒友"/>
-    <RelativeLayout
+    <Button
+        android:id="@+id/btn_send_msg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/information_biankuang"
-        >
-        <ListView
-            android:id="@+id/lv_chat_msg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <LinearLayout
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_stop_chat"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="停止交流"/>
-            <Button
-                android:id="@+id/btn_send_msg"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="发送信息"/>
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:text="发送信息"/>
 </LinearLayout>

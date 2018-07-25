@@ -46,8 +46,7 @@ public class FriendSearchResultActivity extends Activity{
 		
 		
 		mFriendList = ApplicationData.getInstance().getFriendSearched();
-		System.out.println(mFriendList.size() + "friendSearch result");
-	
+
 		mListviewOfResults.setAdapter(new FriendSearchResultAdapter(FriendSearchResultActivity.this,mFriendList));
 		
 		mListviewOfResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,7 +59,6 @@ public class FriendSearchResultActivity extends Activity{
 						FriendSearchResultActivity.this);
 				
 				alertDialogBuilder.setTitle(null);
-				//System.out.println(mySelf.getId() +" "+requestee.getId());
 				if(mySelf.getId() == requestee.getId()) {
 					alertDialogBuilder
 					.setMessage("你不能添加自己为好友")

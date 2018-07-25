@@ -23,7 +23,7 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
     private void initViews() {
         findViewById(R.id.btn_add_friend).setOnClickListener(this);
         findViewById(R.id.btn_send_msg).setOnClickListener(this);
-        findViewById(R.id.btn_stop_chat).setOnClickListener(this);
+//        findViewById(R.id.btn_stop_chat).setOnClickListener(this);
     }
 
     //TODO 相应的网络操作
@@ -36,9 +36,9 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
             case R.id.btn_send_msg:
 
                 break;
-            case R.id.btn_stop_chat:
+//            case R.id.btn_stop_chat:
 
-                break;
+//                break;
         }
     }
 }
