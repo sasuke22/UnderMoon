@@ -7,6 +7,7 @@ import com.test.jwj.underMoon.activity.SearchFriendActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
+import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.fragments.BaseFragment;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
@@ -141,6 +142,10 @@ public class ClientListenThread extends Thread {
 				case UPLOAD_RESULT:
 					res = (int) mReceived.getObject();
 					mApplication.mBinder.AlertToast("上传图片" + ((res == 0) ? "失败" : "成功"));
+					break;
+				case GET_USER_INFO:
+					if (miDataListener!= null)
+						miDataListener.OnDataArrived((User)mReceived.getObject());//如果不行还是直接将数据传过去吧
 					break;
 				default:
 					break;

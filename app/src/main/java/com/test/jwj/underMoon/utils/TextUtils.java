@@ -107,7 +107,7 @@ public class TextUtils {
 		} else if (temp >= 1123&& temp <= 1221) {
 			return "射手座";
 		} else 
-			return "魔蝎座";
+			return "摩羯座";
 		
 	}
 

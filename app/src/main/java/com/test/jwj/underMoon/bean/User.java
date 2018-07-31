@@ -35,6 +35,16 @@ public class User implements Serializable {
 	private String figure;
 	private String xingzuo;
 	private String loveType;
+	private String photoAddress;
+	private int score;
+
+	public int getScore() {
+		return score;
+	}
+
+	public String getPhotos() {
+		return photoAddress;
+	}
 
 	public String getLoveType() {
 		return loveType;

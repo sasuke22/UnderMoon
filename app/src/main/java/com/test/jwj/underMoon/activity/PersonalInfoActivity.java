@@ -33,8 +33,13 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         user = ApplicationData.getInstance().getUserInfo();
         setContentView(R.layout.activity_personal_info);
-        initViews();
 
+    }
+
+    @Override
+    protected void onStart() {
+        initViews();
+        super.onStart();
     }
 
     private void initViews() {
@@ -48,16 +53,11 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         mSp_marry = (Spinner) findViewById(R.id.personal_info_marry);
         mEt_xingzuo = (EditText) findViewById(R.id.personal_info_xingzuo);
         findViewById(R.id.personal_info_btnSave).setOnClickListener(this);
-//        if (user.getGender() == 0){//女的
-//            gv_personal_info_photo.setVisibility(View.INVISIBLE);
-//        }else{
-//            gv_personal_info_photo.setVisibility(View.VISIBLE);
-//        }
+
     }
 
     @Override
     public void onClick(View v) {
-        // TODO 保存个人信息到网上
         user.setAge(Integer.parseInt(mEt_age.getText().toString().trim()));
         user.setHeight(Integer.parseInt(mEt_height.getText().toString().trim()));
         user.setLocation(mEt_city.getText().toString().trim());
@@ -66,6 +66,11 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         user.setLoveType(mEt_lovetype.getText().toString().trim());
         user.setMarry(mSp_marry.getSelectedItemPosition());
         user.setXingzuo(mEt_xingzuo.getText().toString().trim());
-        UserAction.saveUserInfo(user);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserAction.saveUserInfo(user);
+            }
+        }).start();
     }
 }

@@ -52,7 +52,6 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
         switch (v.getId()){
             case R.id.rl_personal_info:
                 Intent PersonalInfoIntent = new Intent(getActivity(), PersonalInfoActivity.class);
-                //TODO 可能需要从上个界面传过来的数据，到底是哪个人等信息，然后传到下个界面进行网络访问获取具体数据
                 startActivity(PersonalInfoIntent);
                 break;
             case R.id.rl_vip_center:

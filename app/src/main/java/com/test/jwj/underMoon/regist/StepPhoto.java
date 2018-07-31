@@ -1,7 +1,12 @@
 package com.test.jwj.underMoon.regist;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +45,8 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 	private int mMarry;
 	private static TranObject mReceivedInfo = null;
 	private static boolean mIsReceived = false;
+	private final int OPEN_CAMERA = 111;
+	private final int OPEN_ALBUM = 222;
 
 	public StepPhoto(RegisterActivity activity, View contentRootView) {
 		super(activity, contentRootView);
@@ -154,11 +161,29 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.reg_photo_layout_selectphoto:
-			PhotoUtils.selectPhoto(mActivity);
+			if (Build.VERSION.SDK_INT >= 23) {
+				int checkCallPhonePermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA);
+				if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+					ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, OPEN_ALBUM);
+					return;
+				}else
+					PhotoUtils.selectPhoto(mActivity);
+			}else
+				PhotoUtils.selectPhoto(mActivity);
 			break;
 
 		case R.id.reg_photo_layout_takepicture:
-			mTakePicturePath = PhotoUtils.takePicture(mActivity);
+			if (Build.VERSION.SDK_INT >= 23) {
+				int checkCallPhonePermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA);
+				if(checkCallPhonePermission != PackageManager.PERMISSION_GRANTED){
+					ActivityCompat.requestPermissions(mActivity,new String[]{Manifest.permission.CAMERA},OPEN_CAMERA);
+					return;
+				}else{
+					mTakePicturePath = PhotoUtils.takePicture(mActivity);
+				}
+			} else {
+				mTakePicturePath = PhotoUtils.takePicture(mActivity);
+			}
 			break;
 		}
 	}
@@ -212,5 +237,6 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 		mReceivedInfo = object;
 		mIsReceived = true;
 	}
+
 
 }

@@ -1,18 +1,24 @@
 package com.test.jwj.underMoon.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
@@ -62,6 +69,8 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     private int     userId;
     private Handler mHandler;
     RecyclerView gv_women_photo;
+    private final int OPEN_CANMER = 111;
+    private final int OPEN_ALBUM = 222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +144,8 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                     Display display = wm.getDefaultDisplay();
                     int width =display.getWidth();
                     int height=display.getHeight();
-
-                    Glide.with(WomenPhotoActivity.this).load("http://192.168.107.41:8089/" + userId + "/" + mPhotoList.get(position) + ".jpg")
+                    Log.e("tag","init " + position);
+                    Glide.with(WomenPhotoActivity.this).load("http://192.168.107.41:8089/" + userId + "/" + mPhotoList.get(position-1) + ".jpg")
                             .placeholder(R.mipmap.ic_launcher).crossFade().override(width,height).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
                     dialog.setView(bigPhoto);
                     dialog.show();
@@ -193,6 +202,15 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                 .findViewById(R.id.item_popupwindows_cancel);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    int checkCallPhonePermission = ContextCompat.checkSelfPermission(WomenPhotoActivity.this, Manifest.permission.CAMERA);
+                    if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.CAMERA}, OPEN_CANMER);
+                        return;
+                    }else
+                        photo();
+                }else
+                    photo();
                 photo();
                 pop.dismiss();
                 ll_popup.clearAnimation();
@@ -200,7 +218,16 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         });
         photoBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    int checkCallPhonePermission = ContextCompat.checkSelfPermission(WomenPhotoActivity.this, Manifest.permission.CAMERA);
+                    if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, OPEN_ALBUM);
+                        return;
+                    }else
+                        PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+                }else
+                    PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+//                PhotoUtils.selectPhoto(WomenPhotoActivity.this);
                 overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
                 ll_popup.clearAnimation();
@@ -289,13 +316,35 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
 
     @Override
     public void OnDataArrived(String urlStr) {
-        Log.e("tag","data arrived " + urlStr);
-        String[] urlArray = urlStr.split("|");
+        String[] urlArray = urlStr.split("\\|");
         mPhotoList = new ArrayList<>(Arrays.asList(urlArray));
+        if (mPhotoList.get(0) == "")
+            mPhotoList.remove(0);
+        Log.e("tag","data arrived " + mPhotoList);
         synchronized (key){
             key.notify();
         }
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case OPEN_CANMER:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    photo();
+                } else {
+                    Toast.makeText(WomenPhotoActivity.this, "相机权限禁用了。请务必开启相机权", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case OPEN_ALBUM:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+                } else {
+                    Toast.makeText(WomenPhotoActivity.this, "相机权限禁用了。请务必开启相机权", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }

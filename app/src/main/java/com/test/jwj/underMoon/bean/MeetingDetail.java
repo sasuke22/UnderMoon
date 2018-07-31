@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.bean;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/7/20.
@@ -26,8 +25,8 @@ public class MeetingDetail implements Serializable{
     public String            figure;
     public String            xingzuo;
     public String            content;
-    public ArrayList<String> registId;//报名人的ID
-    public ArrayList<String> enlistersName;
+    public String registId;//报名人的ID
+    public String enlistersName;
 
     public MeetingDetail(){}
 

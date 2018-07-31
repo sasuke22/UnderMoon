@@ -215,4 +215,5 @@ public class UserAction {
 	public static void uploadNewPic(int userid, String path) {
 		mNetService.uploadFile(userid,path);
 	}
+
 }

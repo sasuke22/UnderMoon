@@ -31,14 +31,17 @@ public class EnlisterView extends TextView {
 
     public EnlisterView(Context context) {
         super(context);
+        mContext = context;
     }
 
     public EnlisterView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
     }
 
     public EnlisterView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
     }
 
     public void setData(HashMap enlisters){

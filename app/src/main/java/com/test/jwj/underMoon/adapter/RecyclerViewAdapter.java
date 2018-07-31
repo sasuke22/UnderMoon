@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.utils.Bimp;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int          mUserId;
     MyItemClickListener itemClickListener;
     MyItemLongClickListener itemLongClickListener;
+    private final String SERVER_IP = "http://192.168.107.41:8089/";
     public RecyclerViewAdapter(Context context, List list, int userId){
         this.mUserId = userId;
         this.mContext = context;
@@ -52,21 +55,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        if (position == 0){
-            Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.icon_addpic_unfocused);
-            holder.iv_photo.setImageBitmap(addBitmap);
-            holder.itemView.setTag(0);
+        if (mContext instanceof WomenPhotoActivity) {
+            if (position == 0) {
+                Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
+                holder.iv_photo.setImageBitmap(addBitmap);
+                holder.itemView.setTag(0);
+            } else {
+                Glide.with(mContext).load( SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
+                        centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
+                holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
+            }
         }else{
-            Glide.with(mContext).load("http://192.168.107.41:8089/" + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
+            Glide.with(mContext).load(SERVER_IP + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                     centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
-            holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
+            holder.itemView.setTag(position);
         }
     }
 
     @Override
     public int getItemCount() {
-        return (mPhotoList.size());
-    }
+        Log.e("tag","size " + mPhotoList.size());
+        if (mContext instanceof WomenPhotoActivity)
+            return mPhotoList.size() == 0 ? 1 : mPhotoList.size() + 1;
+        else
+            return mPhotoList.size() == 0 ? 0 : mPhotoList.size();
+    }//加1为了增加一个加号的位置
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView iv_photo;

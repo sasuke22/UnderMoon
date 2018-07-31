@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.regist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,9 +10,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.test.jwj.underMoon.CustomView.BaseDialog;
@@ -37,7 +40,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	private StepBaseInfo mStepBaseInfo;
 	private StepBirthday mStepBirthday;
 	private StepPhoto mStepPhoto;
-
+	private final int OPEN_CAMERA = 111;
+	private final int OPEN_ALBUM = 222;
 	private int mCurrentStepIndex = 1;
 	
 	 
@@ -379,5 +383,27 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 			return mStepBaseInfo.getMarry();
 		}
 		return -1;
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		switch (requestCode) {
+			case OPEN_CAMERA:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					takePhoto();
+				} else {
+					Toast.makeText(RegisterActivity.this, "相机权限禁用了。请务必开启相机权", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			case OPEN_ALBUM:
+				PhotoUtils.selectPhoto(RegisterActivity.this);
+				break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+	}
+
+	public String takePhoto(){
+		return PhotoUtils.takePicture(this);
 	}
 }
