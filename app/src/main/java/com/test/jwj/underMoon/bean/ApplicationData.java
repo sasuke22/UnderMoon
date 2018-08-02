@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.bean;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,7 @@ import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.utils.PhotoUtils;
+import com.test.jwj.underMoon.utils.SpUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,8 @@ public class ApplicationData {
 	private Bitmap mUserPhoto;
 	private List<MessageTabEntity> mMessageEntities;// messageFragment显示的列表
 	private Map<Integer, List<ChatEntity>> mChatMessagesMap;
+	private SharedPreferences sp;
+	private int score;
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
 		return mChatMessagesMap;
@@ -76,6 +80,9 @@ public class ApplicationData {
 				mFriendPhotoMap.put(friend.getId(), photo);
 			}
 			mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
+			sp = SpUtil.getSharePreference(mContext);
+			score = mUser.getScore();
+			SpUtil.setIntSharedPreference(sp,"score",score);
 		} else {
 			Log.e("tag","login message arrived");
 			mUser = null;

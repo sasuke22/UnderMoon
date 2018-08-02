@@ -27,6 +27,7 @@ public class MeetingDetail implements Serializable{
     public String            content;
     public String registId;//报名人的ID
     public String enlistersName;
+    public int score;
 
     public MeetingDetail(){}
 

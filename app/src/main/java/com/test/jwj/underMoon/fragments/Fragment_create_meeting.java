@@ -65,21 +65,26 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
                     return;
                 }
                 User user = ApplicationData.getInstance().getUserInfo();
-                MeetingDetail meetingDetail = new MeetingDetail();
-                meetingDetail.id = user.getId();
-                meetingDetail.city = String.valueOf(Et_city_create_meeting.getText());
-                meetingDetail.date = meetingDate;
-                meetingDetail.content = String.valueOf(Et_content_create_meeting.getText());
-                meetingDetail.type = ApplicationData.getInstance().getUserInfo().getFigure();
-                meetingDetail.loveType = String.valueOf(Et_lovetype_create_meeting.getText());
-                meetingDetail.age = user.getAge();
-                meetingDetail.marry = user.getMarry();
-                meetingDetail.height = user.getHeight();
-                meetingDetail.job = user.getJob();
-                meetingDetail.figure = user.getFigure();
-                meetingDetail.xingzuo = user.getXingzuo();
-                UserAction.addContribute(meetingDetail);
-                getActivity().onBackPressed();
+                if (user.getGender() == 1 && user.getScore() < 100)
+                    Toast.makeText(getActivity(),"您剩余的积分不足，请及时充值",Toast.LENGTH_SHORT).show();
+                else {
+                    MeetingDetail meetingDetail = new MeetingDetail();
+                    meetingDetail.id = user.getId();
+                    meetingDetail.city = String.valueOf(Et_city_create_meeting.getText());
+                    meetingDetail.date = meetingDate;
+                    meetingDetail.content = String.valueOf(Et_content_create_meeting.getText());
+                    meetingDetail.type = ApplicationData.getInstance().getUserInfo().getFigure();
+                    meetingDetail.loveType = String.valueOf(Et_lovetype_create_meeting.getText());
+                    meetingDetail.age = user.getAge();
+                    meetingDetail.marry = user.getMarry();
+                    meetingDetail.height = user.getHeight();
+                    meetingDetail.job = user.getJob();
+                    meetingDetail.figure = user.getFigure();
+                    meetingDetail.xingzuo = user.getXingzuo();
+                    meetingDetail.score = user.getScore();
+                    UserAction.addContribute(meetingDetail);
+                    getActivity().onBackPressed();
+                }
                 break;
         }
 

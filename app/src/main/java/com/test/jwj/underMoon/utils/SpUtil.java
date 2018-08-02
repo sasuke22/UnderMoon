@@ -18,7 +18,7 @@ public class SpUtil {
 		return instance;
 	}
 	
-	public static SharedPreferences getSharePerference(Context context){
+	public static SharedPreferences getSharePreference(Context context){
 		return context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
 	}
 	
@@ -26,15 +26,19 @@ public class SpUtil {
 		return sp.getBoolean("isFirst", false);
 	}
 	
-	public static void setStringSharedPerference(SharedPreferences sp,String key,String value){
+	public static void setIntSharedPreference(SharedPreferences sp,String key,int value){
 		Editor editor=sp.edit();
-		editor.putString(key, value);
+		editor.putInt(key, value);
 		editor.commit();
 	}
 	
-	public static void setBooleanSharedPerference(SharedPreferences sp,String key,boolean value){
+	public static void setBooleanSharedPreference(SharedPreferences sp,String key,boolean value){
 		Editor editor=sp.edit();
 		editor.putBoolean(key, value);
 		editor.commit();
+	}
+
+	public static int getSPScore(SharedPreferences sp){
+		return sp.getInt("score",0);
 	}
 }

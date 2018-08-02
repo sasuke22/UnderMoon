@@ -216,4 +216,16 @@ public class UserAction {
 		mNetService.uploadFile(userid,path);
 	}
 
+	public static void updateScore(int id, int spScore) {
+		TranObject t = new TranObject();
+		t.setObject(spScore);
+		t.setSendId(id);
+		t.setTranType(TranObjectType.UPDATE_SCORE);
+		try {
+			mNetService.send(t);
+			Log.e("tag","send update score success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

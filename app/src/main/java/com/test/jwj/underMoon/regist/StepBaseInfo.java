@@ -147,13 +147,13 @@ public class StepBaseInfo extends RegisterStep implements TextWatcher,
 		case R.id.reg_baseinfo_rb_male:
 			mRbMale.setChecked(true);
 			mGender = 1;
-			SpUtil.setBooleanSharedPerference(SpUtil.getSharePerference(mContext),"ismale",true);
+			SpUtil.setBooleanSharedPreference(SpUtil.getSharePreference(mContext),"ismale",true);
 			break;
 
 		case R.id.reg_baseinfo_rb_female:
 			mRbFemale.setChecked(true);
 			mGender = 0;
-			SpUtil.setBooleanSharedPerference(SpUtil.getSharePerference(mContext),"ismale",false);
+			SpUtil.setBooleanSharedPreference(SpUtil.getSharePreference(mContext),"ismale",false);
 			break;
 		}
 	}

@@ -35,12 +35,12 @@ public class WelcomeActivity extends Activity {
 			@Override
 			public void run() {
 				SpUtil.getInstance();
-				sp = SpUtil.getSharePerference(mContext);
+				sp = SpUtil.getSharePreference(mContext);
 				SpUtil.getInstance();
 				boolean isFirst = SpUtil.isFirst(sp);
 				if (!isFirst) {
 					SpUtil.getInstance();
-					SpUtil.setBooleanSharedPerference(sp,
+					SpUtil.setBooleanSharedPreference(sp,
 							"isFirst", true);
 					Intent intent = new Intent(mContext, LoginActivity.class);
 					startActivity(intent);

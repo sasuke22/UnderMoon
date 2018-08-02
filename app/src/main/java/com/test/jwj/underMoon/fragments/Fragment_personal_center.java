@@ -36,8 +36,10 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
         view.findViewById(R.id.rl_women_photo).setOnClickListener(this);
         if (ismale){
             rl_vip_center.setVisibility(View.VISIBLE);
+            ((TextView)view.findViewById(R.id.score)).setText(String.valueOf(user.getScore()));
         }else{
             rl_vip_center.setVisibility(View.GONE);
+            view.findViewById(R.id.score).setVisibility(View.GONE);
         }
         ((TextView)view.findViewById(R.id.name)).setText(user.getUserName());
         ((TextView)view.findViewById(R.id.age)).setText(user.getAge() + "岁");

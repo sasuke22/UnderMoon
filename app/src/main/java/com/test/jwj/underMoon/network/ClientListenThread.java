@@ -13,6 +13,7 @@ import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.regist.StepAccount;
 import com.test.jwj.underMoon.regist.StepPhoto;
+import com.test.jwj.underMoon.utils.SpUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -92,6 +93,11 @@ public class ClientListenThread extends Thread {
 					int res = (int)mReceived.getObject();
 					switch (res){
 						case 1:
+							User user = ApplicationData.getInstance().getUserInfo();
+							if (user.getGender() == 1) {
+								user.setScore(user.getScore() - 100);
+								SpUtil.setIntSharedPreference(SpUtil.getSharePreference(mContext), "score", user.getScore());
+							}
 							mApplication.mBinder.AlertToast("邀约上传成功");
 							break;
 						case -1:
@@ -120,7 +126,6 @@ public class ClientListenThread extends Thread {
 					res = (int)mReceived.getObject();
 					switch (res){
 						case 1:
-							// TODO 通知修改成功，可能还要改，因为图片
 							mApplication.mBinder.AlertToast("信息修改成功");
 							break;
 						case 0:

@@ -42,6 +42,8 @@ public class User implements Serializable {
 		return score;
 	}
 
+	public void setScore(int score){this.score = score;}
+
 	public String getPhotos() {
 		return photoAddress;
 	}

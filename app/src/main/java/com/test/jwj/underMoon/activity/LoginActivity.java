@@ -47,7 +47,6 @@ public class LoginActivity extends BaseActivity {
 
 	@Override
 	protected void initViews() {
-		// TODO Auto-generated method stub
 		rl_user = (RelativeLayout) findViewById(R.id.rl_user);
 		mLoginButton = (Button) findViewById(R.id.login);
 		mRegisterButton = (Button) findViewById(R.id.register);
