@@ -41,4 +41,12 @@ public class SpUtil {
 	public static int getSPScore(SharedPreferences sp){
 		return sp.getInt("score",0);
 	}
+
+	public static void setInteger(Context context, String name, int value) {
+		getSharePreference(context).edit().putInt(name, value).commit();
+	}
+
+	public static int getInteger(Context context, String name, int default_i) {
+		return getSharePreference(context).getInt(name, default_i);
+	}
 }

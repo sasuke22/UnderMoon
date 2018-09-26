@@ -51,7 +51,7 @@ public class ContributesAdapter extends BaseAdapter {
         ViewHolder holder;
         meetingDetail = mMeetingDetailList.get(position);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_today_contributes, null);
+            convertView = mInflater.inflate(R.layout.item_today_contributes, parent,false);
             holder = new ViewHolder();
             holder.city = (TextView) convertView.findViewById(R.id.tv_today_contributes_city);
             holder.summary = (TextView) convertView.findViewById(R.id.tv_today_contributes_describe);

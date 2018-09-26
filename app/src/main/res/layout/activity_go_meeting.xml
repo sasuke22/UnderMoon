@@ -1,69 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                xmlns:tl="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RadioGroup
+        <com.flyco.tablayout.SegmentTabLayout
+            android:id="@+id/go_meeting_tab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_today_contributes"
-                style="@style/BottomBarItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/segment_selected_1_bg"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="今日投稿"
-                />
-
-            <RadioButton
-                android:id="@+id/rb_all_contributes"
-                style="@style/BottomBarItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/segment_selected_2_bg"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="所有投稿"/>
-
-            <RadioButton
-                android:id="@+id/rb_my_register"
-                style="@style/BottomBarItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/segment_selected_2_bg"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="我的报名"/>
-
-            <RadioButton
-                android:id="@+id/rb_my_invitation"
-                style="@style/BottomBarItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/segment_selected_3_bg"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="我的邀约"/>
-        </RadioGroup>
+            android:layout_height="36dp"
+            android:layout_margin="@dimen/ui_10_dip"
+            tl:tl_indicator_anim_enable="true"
+            tl:tl_indicator_bounce_enable="false"
+            tl:tl_indicator_color="@color/themeColor"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/go_meeting_viewpager"

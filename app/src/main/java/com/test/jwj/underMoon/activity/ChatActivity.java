@@ -1,16 +1,12 @@
 package com.test.jwj.underMoon.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.test.jwj.underMoon.CustomView.TitleBarView;
@@ -20,11 +16,10 @@ import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.database.ImDB;
+import com.test.jwj.underMoon.fragments.EmotionMainFragment;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.SpUtil;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -34,12 +29,9 @@ public class ChatActivity extends BaseActivity {
 	private String             friendName;
 	private ListView           chatMeessageListView;
 	private ChatMessageAdapter chatMessageAdapter;
-	private Button             sendButton;
-	private ImageButton        emotionButton;
-	private EditText           inputEdit;
 	private List<ChatEntity>   chatList;
 	private Handler            handler;
-	private User 			   mUser;
+	private User               mUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +52,7 @@ public class ChatActivity extends BaseActivity {
 		mTitleBarView.setCommonTitle(View.GONE, View.VISIBLE, View.GONE);
 		mTitleBarView.setTitleText("与" + friendName + "对话");
 		chatMeessageListView = (ListView) findViewById(R.id.chat_Listview);
-		sendButton = (Button) findViewById(R.id.chat_btn_send);
-		emotionButton = (ImageButton) findViewById(R.id.chat_btn_emote);
-		inputEdit = (EditText) findViewById(R.id.chat_edit_input);
-
+		initEmotionMainFragment();
 	}
 
 	@Override
@@ -89,45 +78,73 @@ public class ChatActivity extends BaseActivity {
 		}
 		chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this,chatList);
 		chatMeessageListView.setAdapter(chatMessageAdapter);
-		sendButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SharedPreferences sp = SpUtil.getSharePreference(ChatActivity.this);
-				int score = SpUtil.getSPScore(sp);
-				if (score <= 0)
-					showCustomToast("您剩余的积分不足，请及时充值");
-				else {
-					String content = inputEdit.getText().toString();
-					inputEdit.setText("");
-					ChatEntity chatMessage = new ChatEntity();
-					chatMessage.setContent(content);
-					chatMessage.setSenderId(ApplicationData.getInstance()
-							.getUserInfo().getId());
-					chatMessage.setReceiverId(friendId);
-					chatMessage.setMessageType(ChatEntity.SEND);
-					Date date = new Date();
-					SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
-					String sendTime = sdf.format(date);
-					chatMessage.setSendTime(sendTime);
-					chatList.add(chatMessage);
-					chatMessageAdapter.notifyDataSetChanged();
-					chatMeessageListView.setSelection(chatList.size());
-					UserAction.sendMessage(chatMessage);
-					ImDB.getInstance(ChatActivity.this)
-							.saveChatMessage(chatMessage);
-					if (mUser.getGender() == 1) {
-						SpUtil.setIntSharedPreference(sp, "score", score - 1);
-						mUser.setScore(score - 1);
-					}
-				}
-			}
-		});
+		chatMeessageListView.setSelection(chatList.size());
+//		sendButton.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				SharedPreferences sp = SpUtil.getSharePreference(ChatActivity.this);
+//				int score = SpUtil.getSPScore(sp);
+//				if (score <= 0)
+//					showCustomToast("您剩余的积分不足，请及时充值");
+//				else {
+//					String content = inputEdit.getText().toString();
+//					inputEdit.setText("");
+//					ChatEntity chatMessage = new ChatEntity();
+//					chatMessage.setContent(content);
+//					chatMessage.setSenderId(ApplicationData.getInstance()
+//							.getUserInfo().getId());
+//					chatMessage.setReceiverId(friendId);
+//					chatMessage.setMessageType(ChatEntity.SEND);
+//					Date date = new Date();
+//					SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
+//					String sendTime = sdf.format(date);
+//					chatMessage.setSendTime(sendTime);
+//					chatList.add(chatMessage);
+//					chatMessageAdapter.notifyDataSetChanged();
+//					chatMeessageListView.setSelection(chatList.size());
+//					UserAction.sendMessage(chatMessage);
+//					ImDB.getInstance(ChatActivity.this)
+//							.saveChatMessage(chatMessage);
+//					if (mUser.getGender() == 1) {
+//						SpUtil.setIntSharedPreference(sp, "score", score - 1);
+//						mUser.setScore(score - 1);
+//					}
+//				}
+//			}
+//		});
 	}
 
 	@Override
 	protected void onPause() {
 		if (mUser.getGender() == 1) {
-			UserAction.updateScore(mUser.getId(),SpUtil.getSPScore(SpUtil.getSharePreference(this)));
+			UserAction.updateScore(mUser.getId(), SpUtil.getSPScore(SpUtil.getSharePreference(this)));
 		}
 		super.onPause();
+	}
+
+	/**
+	 * 初始化表情面板
+	 */
+	public void initEmotionMainFragment(){
+		//构建传递参数
+		Bundle bundle = new Bundle();
+		//绑定主内容编辑框
+		bundle.putBoolean(EmotionMainFragment.BIND_TO_EDITTEXT,true);
+		//隐藏控件
+		bundle.putBoolean(EmotionMainFragment.HIDE_BAR_EDITTEXT_AND_BTN,false);
+
+		bundle.putInt("userID",mUser.getId());
+		bundle.putInt("friendID",friendId);
+		//替换fragment
+		//创建修改实例
+		EmotionMainFragment emotionMainFragment = new EmotionMainFragment();
+		emotionMainFragment.setArguments(bundle);
+		emotionMainFragment.bindToContentView(chatMeessageListView);
+		FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+		// Replace whatever is in thefragment_container view with this fragment,
+		// and add the transaction to the backstack
+		transaction.replace(R.id.fl_activity_chat_emotion,emotionMainFragment);
+		//        transaction.addToBackStack(null);
+		//提交修改
+		transaction.commit();
 	}
 }

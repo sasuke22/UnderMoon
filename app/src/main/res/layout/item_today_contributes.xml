@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
-    <TextView
-        android:id="@+id/tv_today_contributes_city"
-        android:layout_width="wrap_content"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    app:cardElevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="city"/>
-    <!--<TextView-->
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_today_contributes_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="city"/>
+        <!--<TextView-->
         <!--android:id="@+id/tv_today_contributes_read"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_marginLeft="20dp"-->
         <!--android:layout_toRightOf="@id/tv_today_contributes_city"-->
         <!--android:text="read"/>-->
-    <TextView
-        android:id="@+id/tv_today_contributes_approve"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:maxLines="1"
-        android:text="approve" />
-    <TextView
-        android:id="@+id/tv_today_contributes_describe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tv_today_contributes_approve"
-        android:maxLines="1"
-        android:text="describe" />
-    <TextView
-        android:id="@+id/tv_today_contributes_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"/>
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/contributes_arrow"
-        android:layout_alignParentRight="true"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_today_contributes_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_today_contributes_city"
+            android:maxLines="1"
+            android:text="describe" />
+        <TextView
+            android:id="@+id/tv_today_contributes_approve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_today_contributes_describe"
+            android:maxLines="1"
+            android:text="approve" />
+        <TextView
+            android:id="@+id/tv_today_contributes_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="date"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="50dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/contributes_arrow"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

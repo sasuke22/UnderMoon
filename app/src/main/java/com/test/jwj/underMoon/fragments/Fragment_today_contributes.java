@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +29,12 @@ public class Fragment_today_contributes extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_today_contributes,container,false);
         mLv_today_contributes = (ListView) rootView.findViewById(R.id.lv_today_contributes);
-        Log.e("tag","today oncreate");
         return rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVleToUser) {
-        Log.e("tag", "toady isvisible " + isVleToUser);
         if (isVleToUser) {
-            Log.e("tag", "set fragemnt");
             setCurrentFragment(this);
             showDialogGetTodayContributes();
             //            setResourceAndItemClick();
@@ -56,7 +52,6 @@ public class Fragment_today_contributes extends BaseFragment {
             synchronized (key){
                 try {
                     key.wait();
-                    Log.e("tag","today wait");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

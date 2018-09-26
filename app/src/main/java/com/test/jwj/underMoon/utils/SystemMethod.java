@@ -1,19 +1,21 @@
 package com.test.jwj.underMoon.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.DisplayMetrics;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class SystemMethod {
 	private static final int ww=480;
@@ -121,5 +123,14 @@ public class SystemMethod {
 		
 		return result;
 		
+	}
+
+	/**
+	 * 获取屏幕宽度
+	 */
+	public static int getScreenWidthPixels(Activity context) {
+		DisplayMetrics metric = new DisplayMetrics();
+		context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+		return metric.widthPixels;
 	}
 }

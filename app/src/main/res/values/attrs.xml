@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HomepageHeaderView">
+        <attr name="typename" format="string|reference" />
+        <attr name="lefthimage" format="reference"></attr>
+        <attr name="isrightivtvvisible" format="boolean"></attr>
+
+    </declare-styleable>
+    <declare-styleable name="AmountView">
+        <!-- 左右2边+-按钮的宽度 -->
+        <attr name="btnWidth" format="dimension" />
+        <!-- 中间TextView的宽度 -->
+        <attr name="tvWidth" format="dimension" />
+        <!--<attr name="tvColor" format="color"/>-->
+        <attr name="tvTextSize" format="dimension"/>
+        <attr name="btnTextSize" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="skill_item">
+        <!--item布局的图片-->
+        <attr name="itemImage" format="reference"/>
+        <!--item布局的文字-->
+        <attr name="itemName" format="string|reference"/>
+        <!--item布局的后文字-->
+        <attr name="itemAddition" format="string|reference"/>
+        <!--item布局尾部的图片-->
+        <attr name="itemBackImg" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="boolean" />
+    </declare-styleable>
+</resources>
