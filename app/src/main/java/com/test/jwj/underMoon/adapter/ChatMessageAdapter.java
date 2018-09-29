@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.utils.EmotionUtils;
+import com.test.jwj.underMoon.utils.SpanStringUtils;
 
 import java.util.List;
 
@@ -88,18 +91,18 @@ import java.util.List;
 public class ChatMessageAdapter extends BaseAdapter {
 	private List<ChatEntity> chatEntities;
 	private LayoutInflater   mInflater;
-	private Context          mContext0;
+	private Context          mContext;
 
 	public ChatMessageAdapter(Context context, List<ChatEntity> vector) {
 		this.chatEntities = vector;
 		mInflater = LayoutInflater.from(context);
-		mContext0 = context;
+		mContext = context;
 	}
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		LinearLayout leftLayout;
-		LinearLayout rightLayout;
+		RelativeLayout rightLayout;
 		TextView leftMessageView;
 		TextView rightMessageView;
 		TextView timeView;
@@ -109,7 +112,7 @@ public class ChatMessageAdapter extends BaseAdapter {
 		ChatEntity chatEntity = chatEntities.get(position);
 		leftLayout = (LinearLayout) view
 				.findViewById(R.id.chat_friend_left_layout);
-		rightLayout = (LinearLayout) view
+		rightLayout = (RelativeLayout) view
 				.findViewById(R.id.chat_user_right_layout);
 		timeView = (TextView) view.findViewById(R.id.message_time);
 		leftPhotoView = (ImageView) view
@@ -127,7 +130,9 @@ public class ChatMessageAdapter extends BaseAdapter {
 
 			rightPhotoView.setImageBitmap(ApplicationData.getInstance()
 					.getUserPhoto());
-			rightMessageView.setText(chatEntity.getContent());
+
+			rightMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
+							mContext, rightMessageView, chatEntity.getContent()));
 		} else if (chatEntity.getMessageType() == ChatEntity.RECEIVE) {// 本身作为接收方
 			leftLayout.setVisibility(View.VISIBLE);
 			rightLayout.setVisibility(View.GONE);
@@ -135,27 +140,24 @@ public class ChatMessageAdapter extends BaseAdapter {
 					.get(chatEntity.getSenderId());
 			if (photo != null)
 				leftPhotoView.setImageBitmap(photo);
-			leftMessageView.setText(chatEntity.getContent());
-
+			leftMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
+					mContext, leftMessageView, chatEntity.getContent()));
 		}
 		return view;
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return chatEntities.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return chatEntities.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 

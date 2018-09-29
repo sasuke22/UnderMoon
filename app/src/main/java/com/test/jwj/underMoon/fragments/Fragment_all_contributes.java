@@ -36,7 +36,6 @@ public class Fragment_all_contributes extends BaseFragment {
         if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetAllContributes();
-            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -55,11 +54,9 @@ public class Fragment_all_contributes extends BaseFragment {
                     }
                 }
                 mHandler.sendEmptyMessage(0);
-//                setResourceAndItemClick();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("tag","set gone ");
                         ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
                     }
                 });
@@ -84,53 +81,4 @@ public class Fragment_all_contributes extends BaseFragment {
             }
         });
     }
-
-
-    //    private class AllContributesAdapter extends BaseAdapter {
-//        private LayoutInflater mInflater;
-//
-//        public AllContributesAdapter(Context context) {
-//            mInflater = LayoutInflater.from(context);
-//        }
-//
-//        class ViewHolder {
-//            TextView tv_today_contributes_province;
-//            TextView tv_today_contributes_city;
-//            TextView tv_today_contributes_describe;
-//            TextView tv_today_contributes_date;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return 0;           //通过访问数据库获得信息
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder;
-//            if (convertView == null) {
-//                convertView = mInflater.inflate(R.layout.item_today_contributes, null);
-//                holder = new ViewHolder();
-//                holder.tv_today_contributes_province = (TextView) convertView.findViewById(R.id.tv_today_contributes_city);
-//                holder.tv_today_contributes_city = (TextView) convertView.findViewById(R.id.tv_today_contributes_city);
-//                holder.tv_today_contributes_describe = (TextView) convertView.findViewById(R.id.tv_today_contributes_describe);
-//                holder.tv_today_contributes_date = (TextView) convertView.findViewById(R.id.tv_today_contributes_date);
-//                convertView.setTag(holder);
-//            } else {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//            //TODO 给各个tv设置数据
-//            return convertView;
-//        }
-//    }
 }

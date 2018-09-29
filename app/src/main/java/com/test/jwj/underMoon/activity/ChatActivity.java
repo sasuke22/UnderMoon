@@ -20,6 +20,7 @@ import com.test.jwj.underMoon.fragments.EmotionMainFragment;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.SpUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -137,6 +138,14 @@ public class ChatActivity extends BaseActivity {
 		//替换fragment
 		//创建修改实例
 		EmotionMainFragment emotionMainFragment = new EmotionMainFragment();
+		bundle.putSerializable("callback",new MsgCallback() {
+			@Override
+			public void onMsgCallback(ChatEntity chatMsg) {
+				chatList.add(chatMsg);
+				chatMessageAdapter.notifyDataSetChanged();
+				chatMeessageListView.setSelection(chatList.size());
+			}
+		});
 		emotionMainFragment.setArguments(bundle);
 		emotionMainFragment.bindToContentView(chatMeessageListView);
 		FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
@@ -147,4 +156,9 @@ public class ChatActivity extends BaseActivity {
 		//提交修改
 		transaction.commit();
 	}
+
+	public interface MsgCallback extends Serializable{
+		void onMsgCallback(ChatEntity chatMsg);
+	}
+
 }

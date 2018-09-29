@@ -63,9 +63,7 @@ public abstract class BaseFragment extends Fragment {
     {
         @Override
         public void handleMessage(Message msg) {
-            Log.e("tag","receive message");
             if (msg.what == 0) {
-                Log.e("tag","handle " + mCurrentFragment);
                 mCurrentFragment.setResourceAndItemClick();
 //                loadingDialog.dismiss();
             }

@@ -3,7 +3,6 @@ package com.test.jwj.underMoon.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -75,9 +74,9 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private void initViews() {
         LinearLayout ll_liuyan;
         ll_liuyan = (LinearLayout) findViewById(R.id.ll_liuyan);
-        Button btn_register_meeting = (Button) findViewById(R.id.bt_register_meeting);
+        TextView btn_register_meeting = (TextView) findViewById(R.id.bt_register_meeting);
         tv_enlist_people = (EnlisterView) findViewById(R.id.tv_enlist_people);
-        Button btn_send_msg = (Button) findViewById(R.id.btn_send_msg);
+        TextView btn_send_msg = (TextView) findViewById(R.id.btn_send_msg);
         TextView tv_leixing = (TextView) findViewById(R.id.tv_leixing);
         TextView tv_loveleixing = (TextView) findViewById(R.id.tv_loveleixing);
         TextView tv_age = (TextView) findViewById(R.id.tv_age);

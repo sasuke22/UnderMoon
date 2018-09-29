@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.test.jwj.underMoon.CustomView.DYLoadingView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.ViewPagerAdapter;
 import com.test.jwj.underMoon.fragments.Fragment_all_contributes;
@@ -26,7 +27,7 @@ import java.util.Arrays;
 public class GoMeetingActivity extends FragmentActivity implements View.OnClickListener, OnTabSelectListener, ViewPager.OnPageChangeListener {
     public  Dialog           mLoadingDialog;
     private ViewPager        mGo_meeting_pager;
-    public  ProgressBar      mBar;
+    public  DYLoadingView      mBar;
     private SegmentTabLayout tablayout;
 
     @Override
@@ -35,7 +36,7 @@ public class GoMeetingActivity extends FragmentActivity implements View.OnClickL
         setContentView(R.layout.activity_go_meeting);
         mLoadingDialog = new Dialog(this);
         mGo_meeting_pager = (ViewPager) findViewById(R.id.go_meeting_viewpager);
-        mBar = (ProgressBar) findViewById(R.id.meetings_bar);
+        mBar = (DYLoadingView) findViewById(R.id.meetings_bar);
         initFragment();
         changeFragment(0);
     }
@@ -44,11 +45,13 @@ public class GoMeetingActivity extends FragmentActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
         String[] tabs = {"今日投稿", "所有投稿", "我的报名", "我的邀约"};
-
         tablayout = ((SegmentTabLayout) findViewById(R.id.go_meeting_tab));
         tablayout.setTabData(tabs);
         tablayout.setOnTabSelectListener(this);
         mGo_meeting_pager.addOnPageChangeListener(this);
+        ((TextView) findViewById(R.id.header_title)).setText("我要赴约");
+        findViewById(R.id.header_back).setOnClickListener(this);
+        findViewById(R.id.header_option).setVisibility(View.GONE);
     }
 
     private void initFragment() {
@@ -62,10 +65,16 @@ public class GoMeetingActivity extends FragmentActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        mBar.setVisibility(View.VISIBLE);
+        switch (v.getId()){
+            case R.id.header_back:
+                onBackPressed();
+                break;
+        }
     }
 
     private void changeFragment(int index) {
+        mBar.setVisibility(View.VISIBLE);
+        mBar.start();
         mGo_meeting_pager.setCurrentItem(index);
     }
 

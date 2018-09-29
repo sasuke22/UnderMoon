@@ -49,11 +49,17 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
         Tv_date_create_meeting.setOnClickListener(this);
         Et_content_create_meeting = (EditText) viewRoot.findViewById(R.id.et_create_content);
         Et_lovetype_create_meeting = (EditText) viewRoot.findViewById(R.id.et_create_lovetype);
+        ((TextView) viewRoot.findViewById(R.id.header_title)).setText("主动邀约");
+        viewRoot.findViewById(R.id.header_option).setVisibility(View.GONE);
+        viewRoot.findViewById(R.id.header_back).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.header_back:
+                getActivity().onBackPressed();
+                break;
             case R.id.date_create_meeting:
                 initDateTime();
                 ChooseDate();

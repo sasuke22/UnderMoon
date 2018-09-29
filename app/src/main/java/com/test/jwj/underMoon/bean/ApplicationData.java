@@ -36,6 +36,7 @@ public class ApplicationData {
 	private Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	private SharedPreferences sp;
 	private int score;
+	public static final String SERVER_IP = "http://192.168.107.41:8089/";
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
 		return mChatMessagesMap;
@@ -84,7 +85,6 @@ public class ApplicationData {
 			score = mUser.getScore();
 			SpUtil.setIntSharedPreference(sp,"score",score);
 		} else {
-			Log.e("tag","login message arrived");
 			mUser = null;
 			mFriendList = null;
 		}
@@ -109,7 +109,6 @@ public class ApplicationData {
 	}
 
 	public void initData(Context comtext) {
-		Log.e("tag","init data");
 		mContext = comtext;
 		mIsReceived = false;
 		mFriendList = null;
@@ -217,6 +216,7 @@ public class ApplicationData {
 		if (chatMessageHandler != null) {
 			Message message = new Message();
 			message.what = 1;
+			Log.e("tag","message arrived");
 			chatMessageHandler.sendMessage(message);
 		}
 	}

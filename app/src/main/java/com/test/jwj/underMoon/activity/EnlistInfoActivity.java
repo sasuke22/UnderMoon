@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.ClientListenThread;
@@ -66,6 +66,8 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         enlit_info_name = ((TextView) findViewById(R.id.enlist_info_name));
         enlist_info_photo = (ImageView) findViewById(R.id.enlist_info_photo);
         ClientListenThread.setMiDataListener(this);
+        findViewById(R.id.header_back).setOnClickListener(this);
+        findViewById(R.id.header_option).setVisibility(View.GONE);
         mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -88,7 +90,6 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
                 synchronized (key){
                     try {
                         key.wait();
-                        Log.e("tag","info wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -100,7 +101,6 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
 
     @Override
     public void OnDataArrived(User user) {
-        Log.e("tag","info " + user.getPhotos());
         enlister = user;
         if (user.getPhotos() == null || user.getPhotos().equals("")){
             mPhotoList = new ArrayList();
@@ -111,16 +111,22 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         synchronized (key){
             key.notify();
         }
-        Log.e("tag","init view");
 
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,ChatActivity.class);
-        intent.putExtra("friendName", enlister.getUserName());
-        intent.putExtra("friendId", enlister.getId());
-        startActivity(intent);
+        switch (v.getId()){
+            case R.id.header_back:
+                onBackPressed();
+                break;
+            case R.id.enlist_info_bt_chat:
+                Intent intent = new Intent(this,ChatActivity.class);
+                intent.putExtra("friendName", enlister.getUserName());
+                intent.putExtra("friendId", enlister.getId());
+                startActivity(intent);
+                break;
+        }
     }
 
     private void initPhotos(){
@@ -145,7 +151,7 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
                 int width =display.getWidth();
                 int height=display.getHeight();
 
-                Glide.with(EnlistInfoActivity.this).load("http://192.168.107.41:8089/" + userId + "/" + mPhotoList.get(position) + ".jpg")
+                Glide.with(EnlistInfoActivity.this).load(ApplicationData.SERVER_IP + userId + "/" + mPhotoList.get(position) + ".jpg")
                         .placeholder(R.mipmap.ic_launcher).crossFade().override(width,height).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
                 dialog.setView(bigPhoto);
                 dialog.show();
@@ -160,5 +166,7 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         rv_photos.setAdapter(adapter);
         rv_photos.setLayoutManager(new GridLayoutManager(this,4));
         rv_photos.addItemDecoration(new DividerGridItemDecoration(this));
+
+        ((TextView) findViewById(R.id.header_title)).setText(enlister.getUserName());
     }
 }

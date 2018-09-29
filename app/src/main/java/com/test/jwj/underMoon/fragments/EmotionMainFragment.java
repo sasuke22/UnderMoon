@@ -1,8 +1,10 @@
 package com.test.jwj.underMoon.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.test.jwj.underMoon.CustomView.EmotionKeyboard;
 import com.test.jwj.underMoon.CustomView.NoHorizontalScrollerViewPager;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.ChatActivity;
 import com.test.jwj.underMoon.adapter.NoHorizontalScrollerVPAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
@@ -72,6 +76,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 
     Bundle args;
     View rootView;
+    ChatActivity.MsgCallback mCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +97,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
         isHidenBarEditTextAndBtn= args.getBoolean(EmotionMainFragment.HIDE_BAR_EDITTEXT_AND_BTN);
         //获取判断绑定对象的参数
         isBindToBarEditText=args.getBoolean(EmotionMainFragment.BIND_TO_EDITTEXT);
+        mCallback = (ChatActivity.MsgCallback) args.getSerializable("callback");
         initView(rootView);
         mEmotionKeyboard = EmotionKeyboard.with(getActivity())
                 .setEmotionView(rootView.findViewById(R.id.ll_emotion_layout))//绑定表情面板
@@ -135,6 +141,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
         bar_edit_text= (EditText) rootView.findViewById(R.id.bar_edit_text);
         bar_image_add_btn= (ImageView) rootView.findViewById(R.id.bar_image_add_btn);
         bar_btn_send= (Button) rootView.findViewById(R.id.bar_btn_send);
+        bar_btn_send.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.themeColor));
         rl_editbar_bg= (LinearLayout) rootView.findViewById(R.id.rl_editbar_bg);
         if(isHidenBarEditTextAndBtn){//隐藏
             bar_edit_text.setVisibility(View.GONE);
@@ -252,21 +259,34 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bar_btn_send:
-                String content = bar_edit_text.getText().toString();
-                bar_edit_text.setText("");
-                ChatEntity chatMessage = new ChatEntity();
-                chatMessage.setContent(content);
-                chatMessage.setSenderId(ApplicationData.getInstance()
-                        .getUserInfo().getId());
-                chatMessage.setReceiverId(getArguments().getInt("friendID"));
-                chatMessage.setMessageType(ChatEntity.SEND);
-                Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
-                String sendTime = sdf.format(date);
-                chatMessage.setSendTime(sendTime);
-                UserAction.sendMessage(chatMessage);
-                ImDB.getInstance(getActivity())
-                        .saveChatMessage(chatMessage);
+                SharedPreferences sp = SpUtil.getSharePreference(getActivity());
+                int score = SpUtil.getSPScore(sp);
+                if (score <= 0)
+                    Toast.makeText(getActivity(),"您剩余的积分不足，请及时充值",Toast.LENGTH_SHORT).show();
+                else{
+                    String content = bar_edit_text.getText().toString();
+                    bar_edit_text.setText("");
+                    ChatEntity chatMessage = new ChatEntity();
+                    chatMessage.setContent(content);
+                    chatMessage.setSenderId(ApplicationData.getInstance()
+                            .getUserInfo().getId());
+                    chatMessage.setReceiverId(getArguments().getInt("friendID"));
+                    chatMessage.setMessageType(ChatEntity.SEND);
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
+                    String sendTime = sdf.format(date);
+                    chatMessage.setSendTime(sendTime);
+                    if (mCallback != null)
+                        mCallback.onMsgCallback(chatMessage);
+                    UserAction.sendMessage(chatMessage);
+                    ImDB.getInstance(getActivity())
+                            .saveChatMessage(chatMessage);
+                    if (ApplicationData.getInstance().getUserInfo().getGender() == 1) {
+                        SpUtil.setIntSharedPreference(sp, "score", score - 1);
+                        ApplicationData.getInstance().getUserInfo().setScore(score - 1);
+                    }
+                }
+
                 break;
         }
     }

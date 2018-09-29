@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ public class Fragment_my_register extends BaseFragment {
         if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetMyContributes();
-            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -45,18 +43,15 @@ public class Fragment_my_register extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.e("tag","id1 " + user.getId());
                 UserAction.getEnlist();
                 synchronized (key){
                     try {
                         key.wait();
-                        Log.e("tag","register wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 mHandler.sendEmptyMessage(0);
-//                setResourceAndItemClick();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

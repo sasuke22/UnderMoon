@@ -1,21 +1,22 @@
 package com.test.jwj.underMoon.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.test.jwj.underMoon.CustomView.SquareImageview;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.utils.Bimp;
+import com.test.jwj.underMoon.utils.SystemMethod;
 
 import java.util.List;
 
@@ -74,19 +75,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        Log.e("tag","size " + mPhotoList.size());
         if (mContext instanceof WomenPhotoActivity)
-            return mPhotoList.size() == 0 ? 1 : mPhotoList.size() + 1;
+            return mPhotoList == null ? 1 : mPhotoList.size() + 1;
         else
-            return mPhotoList.size() == 0 ? 0 : mPhotoList.size();
+            return mPhotoList == null ? 0 : mPhotoList.size();
     }//加1为了增加一个加号的位置
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        ImageView iv_photo;
+        SquareImageview iv_photo;
 
         public MyHolder(View itemView) {
             super(itemView);
-            iv_photo = (ImageView) itemView.findViewById(R.id.iv_personal_photo);
+            iv_photo = (SquareImageview) itemView.findViewById(R.id.iv_personal_photo);
+            ViewGroup.LayoutParams layoutParams = iv_photo.getLayoutParams();
+            int width = (SystemMethod.getScreenWidthPixels((Activity) mContext) - SystemMethod.dip2px(mContext,25)) / 4;
+            layoutParams.width = width;
+            layoutParams.height = width;
+            iv_photo.setLayoutParams(layoutParams);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

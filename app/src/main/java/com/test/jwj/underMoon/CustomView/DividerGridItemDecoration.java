@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.test.jwj.underMoon.utils.SystemMethod;
+
 /**
  * Created by Administrator on 2017/7/28.
  */
@@ -17,9 +19,11 @@ import android.view.View;
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration{
     private static final int[] ATTRS = new int[] { android.R.attr.listDivider };
     private Drawable mDivider;
+    private Context mContext;
 
     public DividerGridItemDecoration(Context context)
     {
+        mContext = context;
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
@@ -163,11 +167,11 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration{
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
         } else if (isLastColum(parent, itemPosition, spanCount, childCount))// 如果是最后一列，则不需要绘制右边
         {
-            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            outRect.set(0, 0, 0, SystemMethod.dip2px(mContext,5));
         } else
         {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(),
-                    mDivider.getIntrinsicHeight());
+                    SystemMethod.dip2px(mContext,5));
         }
     }
 }

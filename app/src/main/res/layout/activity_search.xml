@@ -2,132 +2,133 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include
+        layout="@layout/activity_header"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginBottom="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="坐标"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="省市"
+                android:background="@null"/>
+        </TableRow>
+
+        <TableRow
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="年龄"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="年龄"/>
+        </TableRow>
+
+        <TableRow
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="身高"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="身高"/>
+        </TableRow>
+
+        <TableRow
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="体型"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="体型"/>
+        </TableRow>
+
+        <TableRow
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="类型定位"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="喜欢的类型"/>
+        </TableRow>
+    </TableLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="对对方的要求"
-        android:textColor="#00c4ff"
-        android:textSize="25dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="坐标"
-            android:textSize="20dp" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/darker_gray" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="（预设    选择）" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="年龄"
-            android:textSize="20dp"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/darker_gray"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="（预设    选择    范围性选择）"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="身高"
-            android:textSize="20dp"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/darker_gray"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="（预设    选择    范围性选择）"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="体型"
-            android:textSize="20dp"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/darker_gray"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="（预设    选择    范围性选择）"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="类型定位"
-            android:textSize="20dp"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/darker_gray"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="（预设    选择    范围性选择）"/>
-    </LinearLayout>
-    <Button
         android:id="@+id/start_search"
-        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:background="@drawable/theme_color_3dp_bg"
+        android:gravity="center"
+        android:paddingTop="@dimen/ui_10_dip"
+        android:paddingBottom="@dimen/ui_10_dip"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:text="开始搜索"/>
 </LinearLayout>

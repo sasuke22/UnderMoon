@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -57,7 +58,7 @@ import java.util.List;
  * Created by Administrator on 2017/7/28.
  */
 
-public class WomenPhotoActivity extends Activity implements IMessageArrived<String>{
+public class WomenPhotoActivity extends Activity implements IMessageArrived<String>, View.OnClickListener {
     private static final int TAKE_PICTURE = 0x000001;
     private List<String> mPhotoList;
     private PopupWindow pop = null;
@@ -100,6 +101,9 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     private void initViews() {
         initPopupWindow();
         gv_women_photo = (RecyclerView) findViewById(R.id.gv_women_photo);
+        ((TextView) findViewById(R.id.header_title)).setText("个人相册");
+        findViewById(R.id.header_back).setOnClickListener(this);
+        findViewById(R.id.header_option).setVisibility(View.GONE);
         new Thread(new Runnable() {
             @Override
             public void run() {//网络获取图片流转换成bitmap设置给mPhotoList
@@ -144,8 +148,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                     Display display = wm.getDefaultDisplay();
                     int width =display.getWidth();
                     int height=display.getHeight();
-                    Log.e("tag","init " + position);
-                    Glide.with(WomenPhotoActivity.this).load("http://192.168.107.41:8089/" + userId + "/" + mPhotoList.get(position-1) + ".jpg")
+                    Glide.with(WomenPhotoActivity.this).load(ApplicationData.SERVER_IP + userId + "/" + mPhotoList.get(position-1) + ".jpg")
                             .placeholder(R.mipmap.ic_launcher).crossFade().override(width,height).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
                     dialog.setView(bigPhoto);
                     dialog.show();
@@ -345,6 +348,15 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.header_back:
+                onBackPressed();
+                break;
         }
     }
 }

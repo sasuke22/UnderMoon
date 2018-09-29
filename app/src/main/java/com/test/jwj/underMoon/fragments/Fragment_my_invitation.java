@@ -35,7 +35,6 @@ public class Fragment_my_invitation extends BaseFragment {
         if (isVisibleToUser) {
             setCurrentFragment(this);
             showDialogGetMyContributes();
-            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -44,7 +43,6 @@ public class Fragment_my_invitation extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.e("tag","id " + user.getId());
                 UserAction.getMyContributes(user.getId());
                 synchronized (key){
                     try {
@@ -55,7 +53,6 @@ public class Fragment_my_invitation extends BaseFragment {
                     }
                 }
                 mHandler.sendEmptyMessage(0);
-//                setResourceAndItemClick();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

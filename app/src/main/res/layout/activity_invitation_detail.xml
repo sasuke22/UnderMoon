@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <View
-            android:id="@+id/invitation_photo"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+        android:padding="@dimen/ui_10_dip">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,10 +25,7 @@
                 android:layout_height="wrap_content"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,10 +47,7 @@
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="23dp"
-                android:background="@android:color/darker_gray"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -78,10 +66,7 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,10 +88,7 @@
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="23dp"
-                android:background="@android:color/darker_gray"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -125,10 +107,7 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,10 +129,7 @@
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="23dp"
-                android:background="@android:color/darker_gray"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -172,10 +148,7 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -197,10 +170,7 @@
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="23dp"
-                android:background="@android:color/darker_gray"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -219,15 +189,12 @@
                     />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/dividerColor"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -244,10 +211,12 @@
                 android:layout_height="wrap_content"
                 />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/dividerColor"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -264,10 +233,12 @@
                 android:layout_height="wrap_content"
                 />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/dividerColor"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -284,15 +255,12 @@
                 android:layout_height="wrap_content"
                 />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/dividerColor"/>
+
         <LinearLayout
             android:id="@+id/ll_liuyan"
             android:layout_width="match_parent"
@@ -306,18 +274,21 @@
                 android:id="@+id/et_words"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="给对方留言（限100字）"
                 android:textSize="14dp"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <Button
+
+        <TextView
             android:id="@+id/bt_register_meeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/theme_color_3dp_bg"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/ui_10_dip"
             android:text="我要报名"/>
 
         <RelativeLayout
@@ -329,10 +300,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"/>
-            <Button
+            <TextView
                 android:id="@+id/btn_send_msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/theme_color_3dp_bg"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/ui_10_dip"
                 android:text="发送信息"/>
         </RelativeLayout>
     </LinearLayout>

@@ -2,15 +2,16 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.jwj.underMoon.CustomView.ItemLayout;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
+import com.test.jwj.underMoon.activity.RestMoneyActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
@@ -18,7 +19,7 @@ import com.test.jwj.underMoon.utils.PhotoUtils;
  * Created by Administrator on 2017/3/16.
  */
 
-public class Fragment_personal_center extends BaseFragment implements View.OnClickListener {
+public class Fragment_personal_center extends BaseFragment implements ItemLayout.LayoutClickListener {
     private boolean ismale;
     private View rootView;
 
@@ -31,11 +32,12 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
     }
 
     private void initViews(View view) {
-        rootView.findViewById(R.id.rl_personal_info).setOnClickListener(this);
-        View rl_vip_center = view.findViewById(R.id.rl_vip_center);
-        view.findViewById(R.id.rl_women_photo).setOnClickListener(this);
+        ((ItemLayout)view.findViewById(R.id.rl_personal_info)).setLayoutClickListener(this);
+        ItemLayout rl_vip_center = (ItemLayout)view.findViewById(R.id.rl_vip_center);
+        ((ItemLayout)view.findViewById(R.id.rl_women_photo)).setLayoutClickListener(this);
         if (ismale){
             rl_vip_center.setVisibility(View.VISIBLE);
+            rl_vip_center.setLayoutClickListener(this);
             ((TextView)view.findViewById(R.id.score)).setText(String.valueOf(user.getScore()));
         }else{
             rl_vip_center.setVisibility(View.GONE);
@@ -50,31 +52,26 @@ public class Fragment_personal_center extends BaseFragment implements View.OnCli
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.rl_personal_info:
-                Intent PersonalInfoIntent = new Intent(getActivity(), PersonalInfoActivity.class);
-                startActivity(PersonalInfoIntent);
-                break;
-            case R.id.rl_vip_center:
-
-                break;
-            case R.id.rl_women_photo:
-                Intent WomenIntent = new Intent(getActivity(), WomenPhotoActivity.class);
-                WomenIntent.putExtra("id",user.getId());
-                startActivity(WomenIntent);
-                break;
-        }
-    }
-
-    @Override
     public void setResourceAndItemClick() {
 
     }
 
     @Override
-    public void onDestroy() {
-        Log.e("tag","fragment destrpy");
-        super.onDestroy();
+    public void onLayoutClick(View view) {
+        switch (view.getId()){
+            case R.id.rl_personal_info:
+                Intent intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.rl_vip_center:
+                intent = new Intent(getActivity(), RestMoneyActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.rl_women_photo:
+                intent = new Intent(getActivity(), WomenPhotoActivity.class);
+                intent.putExtra("id",user.getId());
+                startActivity(intent);
+                break;
+        }
     }
 }

@@ -9,14 +9,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <include
+            layout="@layout/activity_header"/>
+
         <com.flyco.tablayout.SegmentTabLayout
             android:id="@+id/go_meeting_tab"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_margin="@dimen/ui_10_dip"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:layout_marginEnd="@dimen/ui_10_dip"
+            android:layout_marginTop="@dimen/ui_10_dip"
             tl:tl_indicator_anim_enable="true"
             tl:tl_indicator_bounce_enable="false"
-            tl:tl_indicator_color="@color/themeColor"/>
+            tl:tl_indicator_color="@color/themeColor"
+            tl:tl_indicator_corner_radius="5dp"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/go_meeting_viewpager"
@@ -26,7 +32,7 @@
         </android.support.v4.view.ViewPager>
 
     </LinearLayout>
-    <ProgressBar
+    <com.test.jwj.underMoon.CustomView.DYLoadingView
         android:id="@+id/meetings_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

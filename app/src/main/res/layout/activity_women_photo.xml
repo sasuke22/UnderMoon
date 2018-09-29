@@ -3,10 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
+    <include
+        layout="@layout/activity_header"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_women_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        />
+        android:padding="5dp"/>
 </LinearLayout>

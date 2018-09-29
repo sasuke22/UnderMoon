@@ -2,10 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <include
+        layout="@layout/activity_header"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cacaca">
+        android:background="@color/dividerColor">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -13,7 +17,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:text="发布邀约"
-            android:textColor="#05fc32"/>
+            android:textColor="@color/themeColor"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -28,7 +32,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="邀约时间"
-            />
+            android:textColor="@color/black"/>
         <TextView
             android:id="@+id/date_create_meeting"
             android:layout_width="match_parent"
@@ -36,12 +40,12 @@
             android:layout_marginLeft="20dp"
             android:hint="点击选择日期"
             android:textSize="18dp"
-            />
+            android:textColorHint="@color/gray"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/dividerColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,19 +56,23 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="邀约坐标"
-            />
+            android:textColor="@color/black"/>
         <EditText
             android:id="@+id/city_create_meeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:hint="省市"
-            />
+            android:textColorHint="@color/gray"
+            android:textColor="@color/black"
+            android:paddingTop="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:background="@null"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/dividerColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,18 +83,21 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="邀约描述"
-            />
+            android:textColor="@color/black"/>
         <EditText
             android:id="@+id/et_create_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            />
+            android:paddingTop="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:textColor="@color/black"
+            android:background="@null"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/dividerColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,19 +108,23 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="对方要求"
-            />
+            android:textColor="@color/black"/>
         <EditText
             android:id="@+id/et_create_lovetype"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:paddingTop="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
             android:hint="要求内容"
-            />
+            android:textColorHint="@color/gray"
+            android:textColor="@color/black"
+            android:background="@null"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/dividerColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,14 +137,18 @@
             android:layout_marginTop="10dp"
             android:src="@mipmap/icon_addpic_unfocused"/>
     </LinearLayout>
-    <Button
+    <TextView
         android:id="@+id/upload_meeting"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#379949"
+        android:background="@drawable/theme_color_3dp_bg"
+        android:gravity="center"
+        android:paddingTop="@dimen/ui_10_dip"
+        android:paddingBottom="@dimen/ui_10_dip"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:textColor="#fff"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:text="发布邀约"/>
 </LinearLayout>

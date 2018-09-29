@@ -3,193 +3,284 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp">
-    <LinearLayout
+    >
+
+    <include
+        layout="@layout/activity_header"/>
+
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="微信号:"/>
-        <EditText
-            android:id="@+id/personal_info_wechat"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="微信号:"/>
+            <EditText
+                android:id="@+id/personal_info_wechat"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（联系方式）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="（联系方式）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="城市:"/>
+
+            <EditText
+                android:id="@+id/personal_info_city"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（所在城市）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="城市:"/>
-        <EditText
-            android:id="@+id/personal_info_city"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="类型定位:"/>
+
+            <EditText
+                android:id="@+id/personal_info_leixing"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（可叠加选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="（所在城市）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="年龄:"/>
+
+            <EditText
+                android:id="@+id/personal_info_age"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（预设选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="类型定位:"/>
-        <EditText
-            android:id="@+id/personal_info_leixing"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="身高:"/>
+
+            <EditText
+                android:id="@+id/personal_info_height"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（预设选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="（可叠加选择）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="体型:"/>
+
+            <EditText
+                android:id="@+id/personal_info_tixing"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（预设选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="年龄:"/>
-        <EditText
-            android:id="@+id/personal_info_age"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="喜欢类型:"/>
+
+            <EditText
+                android:id="@+id/personal_info_lovetype"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（可叠加选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="（预设选择）"
-            android:inputType="number"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="恋爱状况:"/>
+
+            <Spinner
+                android:id="@+id/personal_info_marry"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:entries="@array/Marryspinarr"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="身高:"/>
-        <EditText
-            android:id="@+id/personal_info_height"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="行业:"/>
+
+            <EditText
+                android:id="@+id/personal_info_job"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（预设选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="（预设选择）"
-            android:inputType="number"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="体型:"/>
-        <EditText
-            android:id="@+id/personal_info_tixing"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="（预设选择）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="喜欢类型:"/>
-        <EditText
-            android:id="@+id/personal_info_lovetype"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="（可叠加选择）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="恋爱状况:"/>
-        <Spinner
-            android:id="@+id/personal_info_marry"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:entries="@array/Marryspinarr"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="行业:"/>
-        <EditText
-            android:id="@+id/personal_info_job"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="（预设选择）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="星座:"/>
-        <EditText
-            android:id="@+id/personal_info_xingzuo"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="（预设选择）"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <Button
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/ui_10_dip"
+            android:paddingBottom="@dimen/ui_10_dip"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/ui_10_dip">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="星座:"/>
+
+            <EditText
+                android:id="@+id/personal_info_xingzuo"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:hint="（预设选择）"
+                android:background="@null"
+                android:textSize="15sp"/>
+        </TableRow>
+    </TableLayout>
+
+    <TextView
         android:id="@+id/personal_info_btnSave"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="保存"
-        android:layout_gravity="center_horizontal"/>
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/theme_color_3dp_bg"
+        android:paddingTop="@dimen/ui_10_dip"
+        android:paddingBottom="@dimen/ui_10_dip"
+        android:layout_margin="@dimen/ui_10_dip"
+        android:gravity="center"/>
 </LinearLayout>

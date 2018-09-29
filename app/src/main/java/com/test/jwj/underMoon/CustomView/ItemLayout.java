@@ -90,6 +90,10 @@ public class ItemLayout extends RelativeLayout{
         backImg.setImageDrawable(ContextCompat.getDrawable(mContext,res));
     }
 
+    public ImageView getBackImg(){
+        return backImg;
+    }
+
     public interface LayoutClickListener {
         void onLayoutClick(View view);
     }

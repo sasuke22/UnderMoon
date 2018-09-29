@@ -37,7 +37,6 @@ public class Fragment_today_contributes extends BaseFragment {
         if (isVleToUser) {
             setCurrentFragment(this);
             showDialogGetTodayContributes();
-            //            setResourceAndItemClick();
         }
         super.setUserVisibleHint(isVleToUser);
 
@@ -49,7 +48,7 @@ public class Fragment_today_contributes extends BaseFragment {
             public void run() {
             Date curDate    =   new    Date(System.currentTimeMillis());//获取当前日期
             UserAction.getTodayContributes(user.getId(),curDate);
-            synchronized (key){
+                synchronized (key){
                 try {
                     key.wait();
                 } catch (InterruptedException e) {
@@ -57,7 +56,6 @@ public class Fragment_today_contributes extends BaseFragment {
                 }
             }
             mHandler.sendEmptyMessage(0);
-//            setResourceAndItemClick();
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

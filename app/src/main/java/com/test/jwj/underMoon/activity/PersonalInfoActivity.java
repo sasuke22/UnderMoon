@@ -53,24 +53,34 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         mSp_marry = (Spinner) findViewById(R.id.personal_info_marry);
         mEt_xingzuo = (EditText) findViewById(R.id.personal_info_xingzuo);
         findViewById(R.id.personal_info_btnSave).setOnClickListener(this);
-
+        ((TextView) findViewById(R.id.header_title)).setText("修改资料");
+        findViewById(R.id.header_back).setOnClickListener(this);
+        findViewById(R.id.header_option).setVisibility(View.GONE);
     }
 
     @Override
     public void onClick(View v) {
-        user.setAge(Integer.parseInt(mEt_age.getText().toString().trim()));
-        user.setHeight(Integer.parseInt(mEt_height.getText().toString().trim()));
-        user.setLocation(mEt_city.getText().toString().trim());
-        user.setFigure(mEt_leixing.getText().toString().trim());
-        user.setJob(mEt_job.getText().toString().trim());
-        user.setLoveType(mEt_lovetype.getText().toString().trim());
-        user.setMarry(mSp_marry.getSelectedItemPosition());
-        user.setXingzuo(mEt_xingzuo.getText().toString().trim());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserAction.saveUserInfo(user);
-            }
-        }).start();
+        switch (v.getId()){
+            case R.id.header_back:
+                onBackPressed();
+                break;
+            case R.id.personal_info_btnSave:
+                user.setAge(Integer.parseInt(mEt_age.getText().toString().trim()));
+                user.setHeight(Integer.parseInt(mEt_height.getText().toString().trim()));
+                user.setLocation(mEt_city.getText().toString().trim());
+                user.setFigure(mEt_leixing.getText().toString().trim());
+                user.setJob(mEt_job.getText().toString().trim());
+                user.setLoveType(mEt_lovetype.getText().toString().trim());
+                user.setMarry(mSp_marry.getSelectedItemPosition());
+                user.setXingzuo(mEt_xingzuo.getText().toString().trim());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserAction.saveUserInfo(user);
+                    }
+                }).start();
+                break;
+        }
+
     }
 }

@@ -3,22 +3,31 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_marginTop="10dp"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              >
 
-    <ImageView
-        android:id="@+id/head_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="10dp"
-        android:src="@mipmap/ic_launcher"
-        android:paddingStart="@dimen/ui_10_dip"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/head_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/ui_10_dip"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginStart="@dimen/ui_10_dip"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:paddingTop="5dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +90,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/ui_10_dip">
+            android:paddingStart="@dimen/ui_10_dip"
+            android:paddingEnd="@dimen/ui_10_dip"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +128,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="5dp"
         android:background="@color/dividerColor" />
 
     <LinearLayout
@@ -129,7 +139,6 @@
             android:id="@+id/rl_vip_center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             app:itemName="会员中心"
             app:itemBackImg="@mipmap/arrow"/>
 
@@ -154,7 +163,6 @@
             android:id="@+id/rl_personal_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             app:itemName="个人资料"
             app:itemBackImg="@mipmap/arrow"/>
 
@@ -185,9 +193,5 @@
                 <!--android:src="@mipmap/arrow" />-->
         <!--</RelativeLayout>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dividerColor" />
     </LinearLayout>
 </LinearLayout>

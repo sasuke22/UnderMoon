@@ -47,16 +47,16 @@ public class FriendMessageAdapter extends BaseAdapter {
 		avatarView = (ImageView) convertView.findViewById(R.id.user_photo);
 		nameView = (TextView) convertView.findViewById(R.id.user_name);
 		contentView = (TextView) convertView.findViewById(R.id.user_message);
-		unReadCountView = (TextView) convertView
-				.findViewById(R.id.unread_message_count);
+		unReadCountView = (TextView) convertView.findViewById(R.id.unread_message_count);
+		ImageView unReadBack = (ImageView) convertView.findViewById(R.id.unread_message_back);
 		sendTimeView = (TextView) convertView.findViewById(R.id.send_time);
 		if (unReadCount == 0) {
 			unReadCountView.setVisibility(View.GONE);
+			unReadBack.setVisibility(View.GONE);
 		} else if (unReadCount > 9) {
 			unReadCountView.setText("9+");
 		} else {
-
-			unReadCountView.setText(message.getUnReadCount() + "");
+			unReadCountView.setText(String.valueOf(message.getUnReadCount()));
 		}
 		if (photo != null) {
 			avatarView.setImageBitmap(photo);
