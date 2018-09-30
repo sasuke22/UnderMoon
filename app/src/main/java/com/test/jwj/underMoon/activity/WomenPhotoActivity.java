@@ -111,12 +111,10 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                 synchronized (key){
                     try {
                         key.wait();
-                        Log.e("tag","photos wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                Log.e("tag","notify");
                 mHandler.sendEmptyMessage(0);
 
                 runOnUiThread(new Runnable() {
@@ -166,6 +164,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
             public void onItemLongClick(View view, final int position) {
                 if (position != 0){
                     new AlertDialog.Builder(WomenPhotoActivity.this).setTitle("系统提示")
+                            .setMessage("删除该照片？")
                             .setPositiveButton("sure", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

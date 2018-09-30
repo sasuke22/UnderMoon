@@ -37,16 +37,16 @@
             android:layout_width="fill_parent"
             android:layout_height="1dip"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="55dip"
-            android:layout_toLeftOf="@id/message_timestamp_layout"
+            android:layout_marginStart="55dip"
+            android:layout_toStartOf="@id/message_timestamp_layout"
             android:background="@color/timestampline" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="1dip"
             android:layout_centerVertical="true"
-            android:layout_marginRight="55dip"
-            android:layout_toRightOf="@id/message_timestamp_layout"
+            android:layout_marginEnd="55dip"
+            android:layout_toEndOf="@id/message_timestamp_layout"
             android:background="@color/timestampline" />
     </RelativeLayout>
 
@@ -54,14 +54,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:minHeight="40dip"
-        android:paddingBottom="4dip"
         android:paddingTop="10dip" >
 
         <LinearLayout
             android:id="@+id/chat_friend_left_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" >
+            android:layout_alignParentStart="true" >
 
             <ImageView
                 android:id="@+id/message_friend_userphoto"
