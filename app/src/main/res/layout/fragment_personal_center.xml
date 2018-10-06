@@ -140,7 +140,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemName="会员中心"
-            app:itemBackImg="@mipmap/arrow"/>
+            app:itemBackImg="@mipmap/arrow"
+            app:itemImage="@mipmap/vip"/>
 
         <View
             android:layout_width="match_parent"
@@ -152,7 +153,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemName="个人展示"
-            app:itemBackImg="@mipmap/arrow"/>
+            app:itemBackImg="@mipmap/arrow"
+            app:itemImage="@mipmap/personal_pic"/>
 
         <View
             android:layout_width="match_parent"
@@ -164,7 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemName="个人资料"
-            app:itemBackImg="@mipmap/arrow"/>
+            app:itemBackImg="@mipmap/arrow"
+            app:itemImage="@mipmap/personal_info"/>
 
         <View
             android:layout_width="match_parent"

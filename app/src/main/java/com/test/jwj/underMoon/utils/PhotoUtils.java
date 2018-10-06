@@ -1,17 +1,10 @@
 package com.test.jwj.underMoon.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -25,23 +18,39 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.Material;
 import com.test.jwj.underMoon.imageFactory.ImageFactoryActivity;
 import com.test.jwj.underMoon.imageFactory.ImageFactoryFliter;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.UUID;
 
 
 public class PhotoUtils {
 	// 图片在SD卡中的缓存路径
-	private static final String IMAGE_PATH = Environment
-			.getExternalStorageDirectory().toString()
-			+ File.separator
-			+ "immomo" + File.separator + "Images" + File.separator;
+	private static final String IMAGE_PATH = ApplicationData.mApplication.getFilesDir() + File.separator + "Images/";
+	// video的缓存路径
+	public static final String VIDEO_PATH = ApplicationData.mApplication.getFilesDir() + File.separator + "Videos/";
 	// 相册的RequestCode
 	public static final int INTENT_REQUEST_CODE_ALBUM = 0;
 	// 照相的RequestCode
@@ -50,10 +59,16 @@ public class PhotoUtils {
 	public static final int INTENT_REQUEST_CODE_CROP = 2;
 	// 滤镜图片的RequestCode
 	public static final int INTENT_REQUEST_CODE_FLITER = 3;
+	// 录像的RequestCode
+	public static final int INTENT_REQUEST_CODE_VIDEO = 4;
+
+	public static final String tempCrop = IMAGE_PATH + "cutcamera.png";
+
+	public static final String tempVideo = IMAGE_PATH + "tempVideo.mp4";
 
 	/**
 	 * 通过手机相册获取图片
-	 * 
+	 *
 	 * @param activity
 	 */
 	public static void selectPhoto(Activity activity) {
@@ -61,6 +76,142 @@ public class PhotoUtils {
 		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 				"image/*");
 		activity.startActivityForResult(intent, INTENT_REQUEST_CODE_ALBUM);
+	}
+
+	/**
+	 * 获取本地所有的图片
+	 *
+	 * @return list
+	 */
+	public static List<Material> getAllLocalPhotos(Context context) {
+		List<Material> list = new ArrayList<>();
+		String[] projection = {
+				MediaStore.Images.Media.DATA,
+				MediaStore.Images.Media.DISPLAY_NAME,
+				MediaStore.Images.Media.SIZE
+		};
+		//全部图片
+		String where = MediaStore.Images.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Images.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Images.Media.MIME_TYPE + "=?";
+		//指定格式
+		String[] whereArgs = {"image/jpeg","image/png", "image/jpg"};
+		//查询
+		Cursor cursor = context.getContentResolver().query(
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, where, whereArgs,
+				MediaStore.Images.Media.DATE_MODIFIED + " desc ");
+		if (cursor == null) {
+			return list;
+		}
+		//遍历
+		while (cursor.moveToNext()) {
+			Material materialBean = new Material();
+			//获取图片的名称
+			materialBean.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)));
+			long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)); // 大小
+
+			//获取图片的生成日期
+			byte[] data = cursor.getBlob(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+			String path = new String(data, 0, data.length - 1);
+			File file = new File(path);
+
+			if (size < 5 * 1024 * 1024 && size > 0) {//<5M
+				long time = file.lastModified();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				String t = format.format(time);
+				materialBean.setTime(t);
+				materialBean.setLogo(path);
+				materialBean.setFilePath(path);
+				materialBean.setFileSize(size);
+				materialBean.setChecked(false);
+				materialBean.setFileType(6);
+				materialBean.setFileId(0);
+				materialBean.setUploadedSize(0);
+				materialBean.setTimeStamps(System.currentTimeMillis() + "");
+				list.add(materialBean);
+			}
+		}
+		cursor.close();
+		return list;
+	}
+
+	/**
+	 * 获取本地所有的视频
+	 *
+	 * @return list
+	 */
+	public static List<Material> getAllLocalVideos(Context context) {
+		String[] projection = {
+				MediaStore.Video.Media._ID,
+				MediaStore.Video.Media.DATA,
+				MediaStore.Video.Media.DISPLAY_NAME,
+				MediaStore.Video.Media.DURATION,
+				MediaStore.Video.Media.SIZE
+		};
+		String[] thumbColumns = {MediaStore.Video.Thumbnails.DATA,
+				MediaStore.Video.Thumbnails.VIDEO_ID};
+		//全部图片
+		String where = MediaStore.Images.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=? or "
+				+ MediaStore.Video.Media.MIME_TYPE + "=?";
+		String[] whereArgs = {"video/mp4", "video/3gp", "video/avi", "video/rmvb", "video/vob", "video/flv",
+				"video/mkv", "video/mov", "video/mpg"};
+		List<Material> list = new ArrayList<>();
+		Cursor cursor = context.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+				projection, where, whereArgs, MediaStore.Video.Media.DATE_ADDED + " DESC ");
+		if (cursor == null) {
+			return list;
+		}
+		try {
+			while (cursor.moveToNext()) {
+				long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)); // 大小
+				if (size < 600 * 1024 * 1024) {//<600M
+					Material materialBean = new Material();
+					String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)); // 路径
+					long duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)); // 时长
+
+					int id = cursor.getInt(cursor
+							.getColumnIndex(MediaStore.Video.Media._ID));
+					Cursor thumbCursor = context.getContentResolver().query(
+							MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI,
+							thumbColumns, MediaStore.Video.Thumbnails.VIDEO_ID
+									+ "=" + id, null, null);
+					if (thumbCursor.moveToNext()) {
+						materialBean.setThumb(thumbCursor.getString(thumbCursor
+								.getColumnIndex(MediaStore.Video.Thumbnails.DATA)));
+					}
+
+					materialBean.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME)));
+					materialBean.setLogo(path);
+					materialBean.setFilePath(path);
+					materialBean.setChecked(false);
+					materialBean.setFileType(2);
+					materialBean.setFileId(1);
+					materialBean.setUploadedSize(0);
+					materialBean.setTimeStamps(System.currentTimeMillis() + "");
+					SimpleDateFormat format = new SimpleDateFormat("mm:ss");
+					format.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+					String t = format.format(duration);
+					materialBean.setDuration(duration);
+					materialBean.setTime(t);
+					materialBean.setFileSize(size);
+					list.add(materialBean);
+				}
+			}
+		} catch (Exception e) {
+			Log.e("tag","exception " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return list;
 	}
 
 	/**
@@ -72,10 +223,14 @@ public class PhotoUtils {
 	public static String takePicture(Activity activity) {
 		FileUtils.createDirFile(IMAGE_PATH);
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		String path = IMAGE_PATH + UUID.randomUUID().toString() + "jpg";
+		String path = IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
 		File file = FileUtils.createNewFile(path);
 		if (file != null) {
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity,activity.getApplicationContext().getPackageName() +
+				".provider",file));
+			}else
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 		}
 		activity.startActivityForResult(intent, INTENT_REQUEST_CODE_CAMERA);
 		return path;
@@ -97,6 +252,85 @@ public class PhotoUtils {
 					ImageFactoryActivity.CROP);
 		}
 		activity.startActivityForResult(intent, INTENT_REQUEST_CODE_CROP);
+	}
+
+	public static void CropCamera(Activity context,Uri imgUri){
+		context.startActivityForResult(CutForPhoto(context,imgUri), ApplicationData.CROP);
+	}
+
+	/**
+	 * 图片裁剪
+	 * @param uri
+	 * @return
+	 */
+	@NonNull
+	private static Intent CutForPhoto(Context context,Uri uri) {
+		try {
+			//直接裁剪
+			Intent intent = new Intent("com.android.camera.action.CROP");
+			//设置裁剪之后的图片路径文件
+			File cutfile = new File(tempCrop); //随便命名一个
+			if (cutfile.exists()){ //如果已经存在，则先删除,这里应该是上传到服务器，然后再删除本地的，没服务器，只能这样了
+				cutfile.delete();
+			}
+			File imgDir = new File(IMAGE_PATH);
+			if (!imgDir.exists())
+				FileUtils.createDirFile(IMAGE_PATH);
+			cutfile.createNewFile();
+			//初始化 uri
+			Uri imageUri = uri; //返回来的 uri
+			Uri outputUri = null; //真实的 uri
+			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+				outputUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
+						".provider", cutfile);
+
+			}
+			else
+				outputUri = Uri.fromFile(cutfile);
+//			mCutUri = outputUri;
+			// crop为true是设置在开启的intent中设置显示的view可以剪裁
+			intent.putExtra("crop",true);
+			// aspectX,aspectY 是宽高的比例，这里设置正方形
+			intent.putExtra("aspectX",0.99);//TODO 为什么改成1就是裁圆形
+			intent.putExtra("aspectY",1);
+			//设置要裁剪的宽高
+			intent.putExtra("outputX", SystemMethod.dip2px(context,400)); //200dp
+			intent.putExtra("outputY", SystemMethod.dip2px(context,400));
+			intent.putExtra("scale",true);
+			//如果图片过大，会导致oom，通过onactivityresult返回，在intent中，但是返回的是缩略图，需要在outputUri中获取
+			intent.putExtra("return-data",false);
+			if (imageUri != null) {
+				intent.setDataAndType(imageUri, "image/*");
+			}
+			if (outputUri != null) {
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+			}
+			intent.putExtra("noFaceDetection", true);
+			//压缩图片
+			intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+			return intent;
+		} catch (IOException e) {
+			Log.e("tag","exception " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void takeVideo(Activity activity){
+		Intent intent = new Intent();
+		intent.setAction("android.media.action.VIDEO_CAPTURE");
+		intent.addCategory("android.intent.category.DEFAULT");
+		File file = new File(tempVideo);
+		if(file.exists()){
+			file.delete();
+		}
+		Uri uri = Uri.fromFile(file);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+		activity.startActivityForResult(intent, 0);
 	}
 
 	/**

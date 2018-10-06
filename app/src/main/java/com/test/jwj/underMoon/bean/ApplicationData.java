@@ -1,18 +1,23 @@
 package com.test.jwj.underMoon.bean;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.test.jwj.underMoon.activity.BaseActivity;
+import com.test.jwj.underMoon.activity.LoginActivity;
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 import com.test.jwj.underMoon.utils.SpUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,22 +26,34 @@ public class ApplicationData {
 
 	private static ApplicationData mInitData;
 
-	private User mUser;
-	private boolean mIsReceived;
-	private List<User> mFriendList;
-	private TranObject mReceivedMessage;
-	private Map<Integer, Bitmap> mFriendPhotoMap;
-	private Handler messageHandler;
-	private Handler chatMessageHandler;
-	private Handler friendListHandler;
-	private Context mContext;
-	private List<User> mFriendSearched;
-	private Bitmap mUserPhoto;
-	private List<MessageTabEntity> mMessageEntities;// messageFragment显示的列表
-	private Map<Integer, List<ChatEntity>> mChatMessagesMap;
-	private SharedPreferences sp;
-	private int score;
+	private       User                           mUser;
+	private       boolean                        mIsReceived;
+	private       List<User>                     mFriendList;
+	private       TranObject                     mReceivedMessage;
+	private       Map<Integer, Bitmap>           mFriendPhotoMap;
+	private       Handler                        messageHandler;
+	private       Handler                        chatMessageHandler;
+	private       Handler                        friendListHandler;
+	private       Context                        mContext;
+	private       List<User>                     mFriendSearched;
+	private       Bitmap                         mUserPhoto;
+	private       List<MessageTabEntity>         mMessageEntities;// messageFragment显示的列表
+	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
+	private       SharedPreferences              sp;
+	private       int                            score;
+	public static UnderMoonApplication           mApplication;
+	private static ArrayList<Activity> mActivityList = new ArrayList<>();
+	public static final int CAMERA = 1;
+	public static final int GALLERY = 2;
+	public static final int CROP = 3;
 	public static final String SERVER_IP = "http://192.168.107.41:8089/";
+
+	//TODO 这里的所有数据需要在init方法中进行网络更新，以便后台添加游戏
+	public String[] online_game = {"LOL","王者荣耀","绝地求生"};
+	public String[] online_happy = {"音乐","占星","乐器指导"};
+	public String[] online_voice = {"虚拟恋人","叫醒","声音鉴定","连麦哄睡","情感咨询"};
+	public String[] offline_game = {"线下LOL指导","线下王者荣耀指导","线下绝地求生指导"};
+	public String[] offline_happy = {"线下娱乐"};
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
 		return mChatMessagesMap;
@@ -85,6 +102,7 @@ public class ApplicationData {
 			score = mUser.getScore();
 			SpUtil.setIntSharedPreference(sp,"score",score);
 		} else {
+			Log.e("tag","login message arrived");
 			mUser = null;
 			mFriendList = null;
 		}
@@ -109,6 +127,7 @@ public class ApplicationData {
 	}
 
 	public void initData(Context comtext) {
+		mApplication = (UnderMoonApplication) comtext.getApplicationContext();
 		mContext = comtext;
 		mIsReceived = false;
 		mFriendList = null;
@@ -216,7 +235,6 @@ public class ApplicationData {
 		if (chatMessageHandler != null) {
 			Message message = new Message();
 			message.what = 1;
-			Log.e("tag","message arrived");
 			chatMessageHandler.sendMessage(message);
 		}
 	}
@@ -247,5 +265,23 @@ public class ApplicationData {
 
 	public void setfriendListHandler(Handler handler) {
 		this.friendListHandler = handler;
+	}
+
+	public static<T extends BaseActivity> void addActivity(T t){
+		mActivityList.add(t);
+	}
+
+	public static <T extends BaseActivity> void removeActivity(T t){
+		mActivityList.remove(t);
+	}
+
+	public static void finishAll(){
+		for (Activity activity : mActivityList){
+			if (!activity.isFinishing() && !(activity instanceof LoginActivity))
+				activity.finish();
+		}
+		Intent intent = new Intent(mApplication,LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		mApplication.startActivity(intent);
 	}
 }

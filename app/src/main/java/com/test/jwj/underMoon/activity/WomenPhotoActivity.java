@@ -225,10 +225,14 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                     if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, OPEN_ALBUM);
                         return;
-                    }else
-                        PhotoUtils.selectPhoto(WomenPhotoActivity.this);
-                }else
-                    PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+                    }else {
+                        Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
+                        startActivity(intent);
+                    }
+                }else {
+                    Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
+                    startActivity(intent);
+                }
 //                PhotoUtils.selectPhoto(WomenPhotoActivity.this);
                 overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
