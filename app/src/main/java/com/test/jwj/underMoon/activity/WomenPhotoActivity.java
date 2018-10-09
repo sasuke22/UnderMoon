@@ -37,6 +37,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
@@ -147,7 +149,8 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
                     int width =display.getWidth();
                     int height=display.getHeight();
                     Glide.with(WomenPhotoActivity.this).load(ApplicationData.SERVER_IP + userId + "/" + mPhotoList.get(position-1) + ".jpg")
-                            .placeholder(R.mipmap.ic_launcher).crossFade().override(width,height).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
+                            .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height))
+                            .transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
                     dialog.setView(bigPhoto);
                     dialog.show();
                     bigPhoto.setOnClickListener(new View.OnClickListener() {

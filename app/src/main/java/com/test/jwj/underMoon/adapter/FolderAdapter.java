@@ -35,8 +35,8 @@ public class FolderAdapter extends BaseAdapter {
 	private Context mContext;
 	private Intent mIntent;
 	private DisplayMetrics dm;
-	BitmapCache cache;
-	final String TAG = getClass().getSimpleName();
+	private BitmapCache cache;
+	private final String TAG = getClass().getSimpleName();
 	public FolderAdapter(Context c) {
 		cache = new BitmapCache();
 		init(c);
@@ -50,8 +50,6 @@ public class FolderAdapter extends BaseAdapter {
 		((Activity) mContext).getWindowManager().getDefaultDisplay()
 				.getMetrics(dm);
 	}
-
-	
 
 	@Override
 	public int getCount() {
@@ -68,7 +66,7 @@ public class FolderAdapter extends BaseAdapter {
 		return position;
 	}
 	
-	BitmapCache.ImageCallback callback = new BitmapCache.ImageCallback() {
+	private BitmapCache.ImageCallback callback = new BitmapCache.ImageCallback() {
 		@Override
 		public void imageLoad(ImageView imageView, Bitmap bitmap,
 				Object... params) {
@@ -87,18 +85,19 @@ public class FolderAdapter extends BaseAdapter {
 
 	private class ViewHolder {
 		//
-		public ImageView backImage;
+		private ImageView backImage;
 		// 封面
-		public ImageView imageView;
-		public ImageView choose_back;
+		private ImageView imageView;
+		private ImageView choose_back;
 		// 文件夹名称
-		public TextView folderName;
+		private TextView folderName;
 		// 文件夹里面的图片数量
-		public TextView fileNum;
+		private TextView fileNum;
 	}
-	ViewHolder holder = null;
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder = null;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.plugin_camera_select_folder, null);
@@ -131,7 +130,7 @@ public class FolderAdapter extends BaseAdapter {
 			
 			// 给fileNum设置文件夹内图片数量
 			//holder.fileNum.setText("" + fileNum.get(position));
-			holder.fileNum.setText("" + AlbumActivity.contentList.get(position).count);
+			holder.fileNum.setText(String.valueOf(AlbumActivity.contentList.get(position).count));
 			
 		} else
 			path = "android_hybrid_camera_default";
@@ -156,7 +155,7 @@ public class FolderAdapter extends BaseAdapter {
 		private int position;
 		private Intent intent;
 		private ImageView choose_back;
-		public ImageViewClickListener(int position, Intent intent,ImageView choose_back) {
+		private ImageViewClickListener(int position, Intent intent,ImageView choose_back) {
 			this.position = position;
 			this.intent = intent;
 			this.choose_back = choose_back;
@@ -164,12 +163,12 @@ public class FolderAdapter extends BaseAdapter {
 		
 		public void onClick(View v) {
 			ShowAllPhoto.dataList = (ArrayList<ImageItem>) AlbumActivity.contentList.get(position).imageList;
-			Intent intent = new Intent();
+			intent = new Intent();
 			String folderName = AlbumActivity.contentList.get(position).bucketName;
 			intent.putExtra("folderName", folderName);
 			intent.setClass(mContext, ShowAllPhoto.class);
 			mContext.startActivity(intent);
-			choose_back.setVisibility(v.VISIBLE);
+			choose_back.setVisibility(View.VISIBLE);
 		}
 	}
 

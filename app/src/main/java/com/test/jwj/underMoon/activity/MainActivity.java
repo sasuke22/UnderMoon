@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.fragments.Fragment_bapa;
+import com.test.jwj.underMoon.fragments.Fragment_create_meeting;
 import com.test.jwj.underMoon.fragments.Fragment_personal_center;
 import com.test.jwj.underMoon.fragments.FriendListFragment;
 import com.test.jwj.underMoon.fragments.MessageFragment;
@@ -177,4 +179,10 @@ public class MainActivity extends FragmentActivity {
 		
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Fragment fragment = getSupportFragmentManager().findFragmentByTag(Fragment_create_meeting.class.getName());
+		fragment.onActivityResult(requestCode,resultCode,data);
+	}
 }

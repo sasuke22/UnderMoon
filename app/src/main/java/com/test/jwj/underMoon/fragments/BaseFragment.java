@@ -43,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected void addToBackStack(Fragment fragment){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_content,fragment);
+        transaction.replace(R.id.fl_content,fragment,fragment.getClass().getName());
         transaction.addToBackStack(null);
         transaction.commit();
     }

@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.CustomView.SquareImageview;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.utils.Bimp;
 import com.test.jwj.underMoon.utils.SystemMethod;
 
@@ -28,9 +31,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Bitmap> mPhotoList;
     private Context      mContext;
     private int          mUserId;
-    MyItemClickListener itemClickListener;
-    MyItemLongClickListener itemLongClickListener;
-    private final String SERVER_IP = "http://192.168.107.41:8089/";
+    private MyItemClickListener itemClickListener;
+    private MyItemLongClickListener itemLongClickListener;
     public RecyclerViewAdapter(Context context, List list, int userId){
         this.mUserId = userId;
         this.mContext = context;
@@ -56,19 +58,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
+        RequestOptions requestOptions = new RequestOptions().centerCrop().placeholder(R.mipmap.ic_launcher);
+        DrawableTransitionOptions transitionOptions = new DrawableTransitionOptions().crossFade();
         if (mContext instanceof WomenPhotoActivity) {
             if (position == 0) {
                 Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
                 holder.iv_photo.setImageBitmap(addBitmap);
                 holder.itemView.setTag(0);
             } else {
-                Glide.with(mContext).load( SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
-                        centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
+                Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
+                        apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
                 holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
             }
         }else{
-            Glide.with(mContext).load(SERVER_IP + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
-                    centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(holder.iv_photo);
+            Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
+                    apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
             holder.itemView.setTag(position);
         }
     }
@@ -84,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         SquareImageview iv_photo;
 
-        public MyHolder(View itemView) {
+        private MyHolder(View itemView) {
             super(itemView);
             iv_photo = (SquareImageview) itemView.findViewById(R.id.iv_personal_photo);
             ViewGroup.LayoutParams layoutParams = iv_photo.getLayoutParams();
