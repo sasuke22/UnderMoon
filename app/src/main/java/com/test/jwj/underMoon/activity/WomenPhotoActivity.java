@@ -301,7 +301,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserAction.uploadNewPic(ApplicationData.getInstance().getUserInfo().getId(),path);
+                UserAction.uploadNewPic(1,ApplicationData.getInstance().getUserInfo().getId(),path);
             }
         }).start();
     }

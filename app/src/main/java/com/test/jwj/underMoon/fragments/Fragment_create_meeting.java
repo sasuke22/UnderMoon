@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,7 +189,7 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
                     getActivity().onBackPressed();
                 }
                 for (String url : mPicList){
-                    UserAction.uploadNewPic();
+                    UserAction.uploadNewPic(2,user.getId(),url);
                 }
                 break;
         }

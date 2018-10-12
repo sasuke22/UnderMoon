@@ -34,12 +34,13 @@ public class ClientSendThread {
 		Log.e("tag","send msg " + t.getSendName());
 	}
 
-	public void uploadFile(int userid,String path){
+	public void uploadFile(int type,int userid,String path){
 		RandomAccessFile fileOutStream = null;
 		try {
 			fileOOS = getFileSocket();
 			if (fileOOS == null)
 				return;
+			fileOOS.write(type);
 			fileOOS.write(userid);
 			File file = new File(path);
 			fileOutStream = new RandomAccessFile(file,"r");

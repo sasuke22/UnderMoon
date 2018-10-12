@@ -212,8 +212,8 @@ public class UserAction {
 		}
 	}
 
-	public static void uploadNewPic(int userid, String path) {
-		mNetService.uploadFile(userid,path);
+	public static void uploadNewPic(int type,int userid, String path) {
+		mNetService.uploadFile(type,userid,path);
 	}
 
 	public static void updateScore(int id, int spScore) {

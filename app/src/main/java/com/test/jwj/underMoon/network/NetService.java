@@ -73,7 +73,7 @@ public class NetService {
 		mClientSocket = null;
 	}
 
-	public void uploadFile(int userid,String path){
-		mClientSendThread.uploadFile(userid,path);
+	public void uploadFile(int type,int userid,String path){
+		mClientSendThread.uploadFile(type,userid,path);
 	}
 }
