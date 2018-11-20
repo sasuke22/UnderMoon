@@ -327,7 +327,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     public void OnDataArrived(String urlStr) {
         String[] urlArray = urlStr.split("\\|");
         mPhotoList = new ArrayList<>(Arrays.asList(urlArray));
-        if (mPhotoList.get(0) == "")
+        if (mPhotoList.get(0).equals(""))
             mPhotoList.remove(0);
         Log.e("tag","data arrived " + mPhotoList);
         synchronized (key){
