@@ -2,6 +2,7 @@ package com.test.jwj.underMoon.global;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -10,10 +11,21 @@ import com.test.jwj.underMoon.bean.TranObjectType;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.network.NetService;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class UserAction {
@@ -127,16 +139,48 @@ public class UserAction {
 		}
 	}
 
-	public static void addContribute(MeetingDetail meetingDetail){
-		TranObject t = new TranObject();
-		t.setTranType(TranObjectType.ADD_CONTRIBUTE);
-		t.setObject(meetingDetail);
-		try {
-			mNetService.send(t);
-			Log.e("tag","send add contributes success");
-		} catch (IOException e) {
-			e.printStackTrace();
+	public static void addContribute(MeetingDetail meetingDetail, java.sql.Date date, ArrayList<String> picList){
+//		TranObject t = new TranObject();
+//		t.setTranType(TranObjectType.ADD_CONTRIBUTE);
+//		t.setObject(meetingDetail);
+//		try {
+//			mNetService.send(t);
+//			Log.e("tag","send add contributes success");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		String meetingDetailJson = new Gson().toJson(meetingDetail);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		MultipartBody.Builder addmeeting = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("meetingDetail", meetingDetailJson)
+				.addFormDataPart("meetingDate",sdf.format(date));
+		Log.e("tag","picList " + picList.size());
+		for (String url : picList){
+			File file = new File(url);
+			addmeeting.addFormDataPart("file",file.getName(), RequestBody.create(MediaType.parse("image/png"),file));
 		}
+		Request request = new Request.Builder()
+				.url(ApplicationData.SERVER_IP_ADDRESS + "createmeeting")
+				.post(addmeeting.build())
+				.build();
+		new OkHttpClient().newCall(request).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				ApplicationData.mApplication.mBinder.AlertToast("服务器未知错误，请重试，请联系大佐");
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (response.isSuccessful()) {
+					String string = response.body().string();
+					if (string.equals("-1"))
+						ApplicationData.mApplication.mBinder.AlertToast("上传邀约失败，请重试");
+					else
+						ApplicationData.mApplication.mBinder.AlertToast("上传邀约成功");
+				}
+			}
+		});
 	}
 
 	public static void enlist(int meetingId,int userId,String enlisterName){

@@ -174,7 +174,7 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
                     MeetingDetail meetingDetail = new MeetingDetail();
                     meetingDetail.id = user.getId();
                     meetingDetail.city = String.valueOf(Et_city_create_meeting.getText());
-                    meetingDetail.date = meetingDate;
+//                    meetingDetail.date = meetingDate;
                     meetingDetail.content = String.valueOf(Et_content_create_meeting.getText());
                     meetingDetail.type = ApplicationData.getInstance().getUserInfo().getFigure();
                     meetingDetail.loveType = String.valueOf(Et_lovetype_create_meeting.getText());
@@ -185,11 +185,8 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
                     meetingDetail.figure = user.getFigure();
                     meetingDetail.xingzuo = user.getXingzuo();
                     meetingDetail.score = user.getScore();
-                    UserAction.addContribute(meetingDetail);
+                    UserAction.addContribute(meetingDetail,meetingDate,mPicList);
                     getActivity().onBackPressed();
-                }
-                for (String url : mPicList){
-                    UserAction.uploadNewPic(2,user.getId(),url);
                 }
                 break;
         }
