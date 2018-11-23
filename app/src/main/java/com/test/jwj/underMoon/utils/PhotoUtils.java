@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -122,7 +123,7 @@ public class PhotoUtils {
 
 			if (size < 5 * 1024 * 1024 && size > 0) {//<5M
 				long time = file.lastModified();
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
 				String t = format.format(time);
 				materialBean.setTime(t);
 				materialBean.setLogo(path);
@@ -200,7 +201,7 @@ public class PhotoUtils {
 					materialBean.setFileId(1);
 					materialBean.setUploadedSize(0);
 					materialBean.setTimeStamps(System.currentTimeMillis() + "");
-					SimpleDateFormat format = new SimpleDateFormat("mm:ss");
+					SimpleDateFormat format = new SimpleDateFormat("mm:ss",Locale.CHINA);
 					format.setTimeZone(TimeZone.getTimeZone("GMT+0"));
 					String t = format.format(duration);
 					materialBean.setDuration(duration);

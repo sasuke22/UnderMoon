@@ -1,22 +1,35 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.CustomView.EnlisterView;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.network.ClientListenThread;
 import com.test.jwj.underMoon.network.IMessageArrived;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InvitationDetailActivity extends Activity implements View.OnClickListener,IMessageArrived<MeetingDetail> {
@@ -33,7 +46,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_detail);
         loadingBar = (ProgressBar) findViewById(R.id.invitation_detail_bar);
-        ClientListenThread.setMiDataListener(this);
+        UserAction.setMiDataListener(this);
         getInvitationDetailActivity();
 
     }
@@ -42,33 +55,34 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         loadingBar.setVisibility(View.VISIBLE);
         mUser = ApplicationData.getInstance().getUserInfo();
 //        id = getIntent().getIntExtra("id",0);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                meetingId = getIntent().getIntExtra("meetingId",0);
-                UserAction.getInvitationDetail(meetingId);
-//                UserAction.getEnlistName(meetingId);
-                synchronized (key){// wait for the callback
-                    try {
-                        key.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (mInvitationDetail != null){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadingBar.setVisibility(View.GONE);
-                            initViews();
-                        }
-                    });
-                }else
-                    Toast.makeText(InvitationDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
-
-            }
-        }).start();
-
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                meetingId = getIntent().getIntExtra("meetingId",0);
+//                UserAction.getInvitationDetail(meetingId);
+////                UserAction.getEnlistName(meetingId);
+//                synchronized (key){// wait for the callback
+//                    try {
+//                        key.wait();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                if (mInvitationDetail != null){
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            loadingBar.setVisibility(View.GONE);
+//                            initViews();
+//                        }
+//                    });
+//                }else
+//                    Toast.makeText(InvitationDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).start();
+        meetingId = getIntent().getIntExtra("meetingId",0);
+        UserAction.getInvitationDetail(meetingId);
     }
 
     private void initViews() {
@@ -88,6 +102,45 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         TextView tv_address = (TextView) findViewById(R.id.tv_address);
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
         TextView tv_invitation_detail = (TextView) findViewById(R.id.tv_invitation_detail);
+
+        //加载图片
+        if (mInvitationDetail.pics > 0){
+            final ArrayList<String> picList = new ArrayList<>();
+            for (int i = 0;i < mInvitationDetail.pics;i++){
+                picList.add(ApplicationData.SERVER_IP + "meeting" + "/" + mInvitationDetail.meetingId + "/" + i + ".jpg");
+            }
+            RecyclerView rv_pics = (RecyclerView) findViewById(R.id.rv_invitation_detail_pics);
+            RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,picList);
+            rv_pics.setAdapter(adapter);
+            rv_pics.setLayoutManager(new GridLayoutManager(this,4));
+            rv_pics.addItemDecoration(new DividerGridItemDecoration(this));
+            adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    LayoutInflater inflater = LayoutInflater.from(InvitationDetailActivity.this);
+                    View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
+                    final AlertDialog dialog = new AlertDialog.Builder(InvitationDetailActivity.this).create();
+
+                    WindowManager wm = (WindowManager) InvitationDetailActivity.this
+                            .getSystemService(Context.WINDOW_SERVICE);
+                    Display display = wm.getDefaultDisplay();
+                    int width =display.getWidth();
+                    int height=display.getHeight();
+
+                    Glide.with(InvitationDetailActivity.this).load(picList.get(position))
+                            .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height)).transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
+                    dialog.setView(bigPhoto);
+                    dialog.show();
+                    bigPhoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                        }
+                    });
+                }
+            });
+        }
+
         if (mUser.getId() == mInvitationDetail.id){//自己点进自己的邀请
             // TODO 将其他按钮隐藏，显示报名列表信息
             tv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
@@ -147,11 +200,16 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         String[] idArray = mInvitationDetail.registId.split("\\|");
         String[] nameArray = mInvitationDetail.enlistersName.split("\\|");
         for (int i = 0;i < idArray.length;i++){
+            Log.e("tag","id " + idArray[i] + ",name " + nameArray[i]);
             map.put(idArray[i],nameArray[i]);
         }
-        synchronized (key){
-            key.notify();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingBar.setVisibility(View.GONE);
+                initViews();
+            }
+        });
     }
 
     private void initEnlist(){

@@ -291,6 +291,11 @@
             android:padding="@dimen/ui_10_dip"
             android:text="我要报名"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_invitation_detail_pics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

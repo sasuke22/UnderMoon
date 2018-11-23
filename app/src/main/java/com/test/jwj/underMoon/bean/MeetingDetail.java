@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Created by Administrator on 2017/7/20.
+ * Created by sasuke on 2017/7/20.
  */
 
 public class MeetingDetail implements Serializable{
@@ -28,6 +28,7 @@ public class MeetingDetail implements Serializable{
     public String            registId;//报名人的ID
     public String            enlistersName;
     public int               score;
+    public int               pics;
 
     public MeetingDetail(){}
 

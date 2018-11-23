@@ -47,7 +47,6 @@ public class ApplicationData {
 	public static final int GALLERY = 2;
 	public static final int CROP = 3;
 	public static final String SERVER_IP = "http://192.168.107.99:8089/";
-	public static final String SERVER_IP_ADDRESS = "http://192.168.107.99:8080/qiqiim-server/";
 
 	//TODO 这里的所有数据需要在init方法中进行网络更新，以便后台添加游戏
 	public String[] online_game = {"LOL","王者荣耀","绝地求生"};

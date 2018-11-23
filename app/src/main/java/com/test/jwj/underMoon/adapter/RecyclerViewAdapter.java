@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.CustomView.SquareImageview;
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.utils.Bimp;
@@ -35,6 +37,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private MyItemLongClickListener itemLongClickListener;
     public RecyclerViewAdapter(Context context, List list, int userId){
         this.mUserId = userId;
+        this.mContext = context;
+        this.mPhotoList = list;
+    }
+
+    public RecyclerViewAdapter(Context context, List list){
         this.mContext = context;
         this.mPhotoList = list;
     }
@@ -64,17 +71,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if (position == 0) {
                 Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
                 holder.iv_photo.setImageBitmap(addBitmap);
-                holder.itemView.setTag(0);
             } else {
                 Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                         apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
-                holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方自条目点击事件一样就不用这么麻烦
             }
+        }else if (mContext instanceof InvitationDetailActivity){
+            Log.e("tag","invi " + mPhotoList.get(position));
+            Glide.with(mContext).load(mPhotoList.get(position))
+                    .apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
         }else{
             Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                     apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
-            holder.itemView.setTag(position);
         }
+        holder.itemView.setTag(position);//将position赋值给子View，让在外面调用的能够知道点击的position,如果说每个recyclerView使用的地方子条目点击事件一样就不用这么麻烦
     }
 
     @Override

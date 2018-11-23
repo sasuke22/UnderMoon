@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by zejian
@@ -273,7 +274,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
                     chatMessage.setReceiverId(getArguments().getInt("friendID"));
                     chatMessage.setMessageType(ChatEntity.SEND);
                     Date date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss", Locale.CHINA);
                     String sendTime = sdf.format(date);
                     chatMessage.setSendTime(sendTime);
                     if (mCallback != null)

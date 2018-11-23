@@ -60,7 +60,7 @@ public class FriendListAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return mFriendList.size();
+		return mFriendList == null ? 0 : mFriendList.size();
 	}
 
 	public Object getItem(int position) {

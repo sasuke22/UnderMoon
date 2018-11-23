@@ -3,33 +3,36 @@ package com.test.jwj.underMoon.global;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.bean.TranObjectType;
 import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.network.IMessageArrived;
 import com.test.jwj.underMoon.network.NetService;
+import com.test.jwj.underMoon.utils.OkhttpUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
 public class UserAction {
 	private static NetService mNetService = NetService.getInstance();
+	private static Gson mGson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+	private static IMessageArrived miDataListener;
+	public static void setMiDataListener(IMessageArrived listener) {
+		miDataListener = listener;
+	}
 
 	public static void accountVerify(String account) throws IOException {
 
@@ -60,7 +63,7 @@ public class UserAction {
 		TranObject t = new TranObject();
 		t.setReceiveId(id);
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss",Locale.CHINA);
 		String sendTime = sdf.format(date);
 		t.setSendTime(sendTime);
 		User user = ApplicationData.getInstance().getUserInfo();
@@ -128,43 +131,32 @@ public class UserAction {
 	}
 
 	public static void getInvitationDetail(int meetingId) {
-		TranObject t = new TranObject();
-		t.setTranType(TranObjectType.INVITATION_DETAIL);
-		t.setObject(meetingId);
-		try {
-			mNetService.send(t);
-			Log.e("tag","send request contributes success" + meetingId);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		HashMap<String,String> params = new HashMap<>();
+		params.put("meetingid",String.valueOf(meetingId));
+		OkhttpUtil.get("invitationdetail",params).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				ApplicationData.mApplication.mBinder.AlertToast("服务器未知错误，请重试，请联系大佐");
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (response.isSuccessful()) {
+					MeetingDetail meetingDetail = mGson.fromJson(response.body().string(), MeetingDetail.class);
+					if (miDataListener != null)
+						miDataListener.OnDataArrived(meetingDetail);
+				}
+			}
+		});
 	}
 
 	public static void addContribute(MeetingDetail meetingDetail, java.sql.Date date, ArrayList<String> picList){
-//		TranObject t = new TranObject();
-//		t.setTranType(TranObjectType.ADD_CONTRIBUTE);
-//		t.setObject(meetingDetail);
-//		try {
-//			mNetService.send(t);
-//			Log.e("tag","send add contributes success");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		String meetingDetailJson = new Gson().toJson(meetingDetail);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		MultipartBody.Builder addmeeting = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("meetingDetail", meetingDetailJson)
-				.addFormDataPart("meetingDate",sdf.format(date));
-		Log.e("tag","picList " + picList.size());
-		for (String url : picList){
-			File file = new File(url);
-			addmeeting.addFormDataPart("file",file.getName(), RequestBody.create(MediaType.parse("image/png"),file));
-		}
-		Request request = new Request.Builder()
-				.url(ApplicationData.SERVER_IP_ADDRESS + "createmeeting")
-				.post(addmeeting.build())
-				.build();
-		new OkHttpClient().newCall(request).enqueue(new Callback() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+		HashMap<String,String> params = new HashMap<>();
+		params.put("meetingDetail",meetingDetailJson);
+		params.put("meetingDate",sdf.format(date));
+		OkhttpUtil.post("createmeeting",params,picList).enqueue(new Callback() {
 			@Override
 			public void onFailure(Call call, IOException e) {
 				ApplicationData.mApplication.mBinder.AlertToast("服务器未知错误，请重试，请联系大佐");
