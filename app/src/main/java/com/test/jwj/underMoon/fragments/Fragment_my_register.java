@@ -14,18 +14,20 @@ import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.global.UserAction;
+import com.test.jwj.underMoon.network.IMessageArrived;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/3/25.
  */
 
-public class Fragment_my_register extends BaseFragment {
-    private View rootView;
+public class Fragment_my_register extends BaseFragment implements IMessageArrived<ArrayList<MeetingDetail>> {
     ListView mLv_my_register;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_my_register,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_my_register, container, false);
         mLv_my_register = (ListView) rootView.findViewById(R.id.lv_my_register);
         return rootView;
     }
@@ -34,34 +36,14 @@ public class Fragment_my_register extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             setCurrentFragment(this);
+            UserAction.setMiDataListener(this);
             showDialogGetMyContributes();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void showDialogGetMyContributes() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserAction.getEnlist();
-                synchronized (key){
-                    try {
-                        key.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
-                    }
-                });
-
-            }
-        }).start();
-
+        UserAction.getEnlist(user.getId());
     }
 
     @Override
@@ -80,4 +62,14 @@ public class Fragment_my_register extends BaseFragment {
         });
     }
 
+    @Override
+    public void OnDataArrived(final ArrayList<MeetingDetail> list) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
+                setMeetingList(list);
+            }
+        });
+    }
 }

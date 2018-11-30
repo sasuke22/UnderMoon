@@ -13,8 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -44,7 +42,6 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.network.ClientListenThread;
 import com.test.jwj.underMoon.network.IMessageArrived;
 import com.test.jwj.underMoon.utils.Bimp;
 import com.test.jwj.underMoon.utils.FileUtils;
@@ -68,9 +65,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     private RecyclerViewAdapter adapter;
     private View parentView;
     public static Bitmap mBitmap;
-    private final Object key = new Object();
     private int     userId;
-    private Handler mHandler;
     RecyclerView gv_women_photo;
     private final int OPEN_CANMER = 111;
     private final int OPEN_ALBUM = 222;
@@ -79,17 +74,9 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = getIntent().getIntExtra("id",-1);
-        mHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 0)
-                    initPhotos();
-                super.handleMessage(msg);
-            }
-        };
         mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.icon_addpic_unfocused);//添加图片的按钮，需要将它放在第一个
         parentView = getLayoutInflater().inflate(R.layout.activity_women_photo,null);
-        ClientListenThread.setMiDataListener(this);
+        UserAction.setMiDataListener(this);
         setContentView(parentView);
 
     }
@@ -106,28 +93,7 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         ((TextView) findViewById(R.id.header_title)).setText("个人相册");
         findViewById(R.id.header_back).setOnClickListener(this);
         findViewById(R.id.header_option).setVisibility(View.GONE);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {//网络获取图片流转换成bitmap设置给mPhotoList
-                UserAction.getPhotos(userId);
-                synchronized (key){
-                    try {
-                        key.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //隐藏加载bar？
-                    }
-                });
-
-            }
-        }).start();
+        UserAction.getPhotos(userId);//网络获取图片流转换成bitmap设置给mPhotoList
     }
 
     private void initPhotos(){
@@ -330,9 +296,12 @@ public class WomenPhotoActivity extends Activity implements IMessageArrived<Stri
         if (mPhotoList.get(0).equals(""))
             mPhotoList.remove(0);
         Log.e("tag","data arrived " + mPhotoList);
-        synchronized (key){
-            key.notify();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initPhotos();
+            }
+        });
     }
 
     @Override

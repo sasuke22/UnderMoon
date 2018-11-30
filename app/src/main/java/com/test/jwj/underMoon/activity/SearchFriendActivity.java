@@ -12,16 +12,16 @@ import android.widget.Spinner;
 import com.test.jwj.underMoon.CustomView.TitleBarView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
-import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
+import com.test.jwj.underMoon.network.IMessageArrived;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class SearchFriendActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener, IMessageArrived<ArrayList<User>> {
 
 	private TitleBarView mTitleBarView;
 	private EditText mSearchEtName;
@@ -61,22 +61,14 @@ public class SearchFriendActivity extends BaseActivity implements
 
 	@Override
 	protected void initEvents() {
-		// TODO Auto-generated method stub
 		mIsReceived = false;
 		mBtnSearchByName.setOnClickListener(this);
 		mBtnSearchByElse.setOnClickListener(this);
-
-	}
-
-	public static void messageArrived(TranObject mReceived){
-		ArrayList<User> list = (ArrayList<User>)mReceived.getObject();
-		ApplicationData.getInstance().setFriendSearched(list);
-		mIsReceived = true;
+		UserAction.setMiDataListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.search_friend_by_name_btn_search:
 			flag = false;
@@ -92,7 +84,6 @@ public class SearchFriendActivity extends BaseActivity implements
 					flag = true;
 					UserAction.searchFriend("0" + " " + searchName);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -122,7 +113,6 @@ public class SearchFriendActivity extends BaseActivity implements
 					UserAction.searchFriend("1" + " " + lage + " " + uage + " "
 							+ sex);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -145,4 +135,9 @@ public class SearchFriendActivity extends BaseActivity implements
 
 	}
 
+	@Override
+	public void OnDataArrived(ArrayList<User> list) {
+		ApplicationData.getInstance().setFriendSearched(list);
+		mIsReceived = true;
+	}
 }

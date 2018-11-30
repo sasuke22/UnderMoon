@@ -72,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
                 holder.iv_photo.setImageBitmap(addBitmap);
             } else {
+                Log.e("tag","position " + mPhotoList.get(position - 1));
                 Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                         apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
             }

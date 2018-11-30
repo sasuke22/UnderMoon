@@ -123,13 +123,12 @@ public class User implements Serializable {
 	}
 
 	public User(String account, String username, String password, String city, String figure, String job, int height, int marry,
-			Date birthday, int gender, byte[] photo) {
+			Date birthday, int gender) {
 		this.account = account;
 		this.userName = username;
 		this.password = password;
 		this.birthday = birthday;
 		this.gender = gender;
-		this.photo = photo;
 		this.location = city;
 		this.figure = figure;
 		this.job = job;

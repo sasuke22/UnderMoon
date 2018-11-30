@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,20 @@ import com.test.jwj.underMoon.activity.InvitationDetailActivity;
 import com.test.jwj.underMoon.adapter.ContributesAdapter;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.global.UserAction;
+import com.test.jwj.underMoon.network.IMessageArrived;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/3/25.
  */
 
-public class Fragment_all_contributes extends BaseFragment {
-    private View rootView;
+public class Fragment_all_contributes extends BaseFragment implements IMessageArrived<ArrayList<MeetingDetail>> {
     private ListView mLv_all_contributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_all_contributes,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_all_contributes, container, false);
         mLv_all_contributes = (ListView) rootView.findViewById(R.id.lv_all_contributes);
         return rootView;
     }
@@ -35,35 +36,14 @@ public class Fragment_all_contributes extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             setCurrentFragment(this);
+            UserAction.setMiDataListener(this);
             showDialogGetAllContributes();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     public void showDialogGetAllContributes(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserAction.getAllContributes(user.getId());
-                synchronized (key){
-                    try {
-                        key.wait();
-                        Log.e("tag","all wait");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
-                    }
-                });
-
-            }
-        }).start();
-
+        UserAction.getAllContributes(user.getId());
     }
 
     @Override
@@ -78,6 +58,17 @@ public class Fragment_all_contributes extends BaseFragment {
                 intent.putExtra("id",detailItem.id);
                 intent.putExtra("meetingId",detailItem.meetingId);
                 startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void OnDataArrived(final ArrayList<MeetingDetail> list) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((GoMeetingActivity)getActivity()).mBar.setVisibility(View.GONE);
+                setMeetingList(list);
             }
         });
     }

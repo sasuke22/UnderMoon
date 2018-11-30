@@ -3,7 +3,6 @@ package com.test.jwj.underMoon.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.test.jwj.underMoon.activity.SearchFriendActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.TranObject;
@@ -11,8 +10,6 @@ import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.fragments.BaseFragment;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
-import com.test.jwj.underMoon.regist.StepAccount;
-import com.test.jwj.underMoon.regist.StepPhoto;
 import com.test.jwj.underMoon.utils.SpUtil;
 
 import java.io.IOException;
@@ -61,16 +58,16 @@ public class ClientListenThread extends Thread {
 				Log.e("tag","接受成功 " + mReceived.getTranType());
 				switch (mReceived.getTranType()) {
 				case REGISTER_ACCOUNT:
-					StepAccount.setRegisterInfo(mReceived, true);
+//					StepAccount.setRegisterInfo(mReceived);
 					break;
 				case REGISTER:
-					StepPhoto.setRegisterInfo(mReceived, true);
+//					StepPhoto.setRegisterInfo(mReceived, true);
 					break;
 				case LOGIN:
 					ApplicationData.getInstance().loginMessageArrived(mReceived);
 					break;
 				case SEARCH_FRIEND:
-					SearchFriendActivity.messageArrived(mReceived);
+//					SearchFriendActivity.messageArrived(mReceived);
 					break;
 				case FRIEND_REQUEST:
 					ApplicationData.getInstance().friendRequestArrived(mReceived);

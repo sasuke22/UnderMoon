@@ -1,7 +1,5 @@
 package com.test.jwj.underMoon.utils;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +36,17 @@ public class OkhttpUtil {
     }
 
     public static Call get(String url,HashMap<String,String> params){
-        StringBuilder actualUrl = new StringBuilder(url + "?");
+        StringBuilder actualUrl = new StringBuilder(url);
         Set<Map.Entry<String, String>> entries = params.entrySet();
+        int i = 0;
         for (Map.Entry<String,String> set : entries){
+            if (i == 0)
+                actualUrl.append("?");
+            else
+                actualUrl.append("&");
             actualUrl.append(set.getKey()).append("=").append(set.getValue());
+            i++;
         }
-        Log.e("tag","url " + actualUrl);
         Request request = new Request.Builder().url(SERVER_IP_ADDRESS + actualUrl)
                 .get().build();
         return mClient.newCall(request);

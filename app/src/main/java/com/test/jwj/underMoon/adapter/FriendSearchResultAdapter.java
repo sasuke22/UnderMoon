@@ -1,10 +1,6 @@
 package com.test.jwj.underMoon.adapter;
 
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.jwj.underMoon.R;
+import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.User;
-import com.test.jwj.underMoon.utils.PhotoUtils;
+import com.test.jwj.underMoon.utils.ImageUtils;
+
+import java.util.Date;
+import java.util.List;
 
 public class FriendSearchResultAdapter extends BaseAdapter {
 	private List<User> mVector;
@@ -34,7 +34,6 @@ public class FriendSearchResultAdapter extends BaseAdapter {
 		TextView sexView;
 
 		User user = mVector.get(position);
-		Bitmap photo = PhotoUtils.getBitmap(user.getPhoto());
 		String name = user.getUserName();
 		int age = new Date().getYear() - user.getBirthday().getYear();
 		int gender = user.getGender();
@@ -52,9 +51,7 @@ public class FriendSearchResultAdapter extends BaseAdapter {
 
 		nameView.setText(name);
 
-		if (photo != null) {
-			avatarView.setImageBitmap(photo);
-		}
+		ImageUtils.load(mContext0, ApplicationData.SERVER_IP + user.getId() + "/0.jpg",avatarView);
 		ageView.setText(age + "岁");
 		if (gender == 0) {
 			sexView.setText("女");

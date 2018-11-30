@@ -1,32 +1,26 @@
 package com.test.jwj.underMoon.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.GoMeetingActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
+import com.test.jwj.underMoon.network.IMessageArrived;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2017/3/18.
- */
-
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IMessageArrived<ArrayList<MeetingDetail>> {
     public GoMeetingActivity act;
     public static final Object key  = new Object();
     protected User   user = ApplicationData.getInstance().getUserInfo();
     protected static ArrayList<MeetingDetail> mAllContributesList;
-    public static Dialog loadingDialog;
     public static Handler mHandler;
     private static BaseFragment mCurrentFragment;
 
@@ -48,30 +42,29 @@ public abstract class BaseFragment extends Fragment {
         transaction.commit();
     }
 
-    public static void setMeetingList(ArrayList meetingList){
+    public static void setMeetingList(ArrayList<MeetingDetail> meetingList){
         mAllContributesList = meetingList;
-//        loadingDialog.dismiss();
-        Log.e("tag","notify " + mAllContributesList);
-        synchronized (key){
-            key.notify();
-        }
+        mCurrentFragment.setResourceAndItemClick();
     }
 
     public abstract void setResourceAndItemClick();
 
-    public class MyHandler extends Handler
+    public static class MyHandler extends Handler
     {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
                 mCurrentFragment.setResourceAndItemClick();
-//                loadingDialog.dismiss();
             }
         }
     }
 
     public void setCurrentFragment(BaseFragment fragment){
-        this.mCurrentFragment = fragment;
+        mCurrentFragment = fragment;
     }
 
+    @Override
+    public void OnDataArrived(ArrayList<MeetingDetail> list) {
+
+    }
 }

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,12 +24,12 @@ import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
-import com.test.jwj.underMoon.network.ClientListenThread;
 import com.test.jwj.underMoon.network.IMessageArrived;
-import com.test.jwj.underMoon.utils.PhotoUtils;
+import com.test.jwj.underMoon.utils.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2018/5/12.
@@ -41,11 +39,9 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
     private int userId;
     private ProgressBar pb;
     private User enlister;
-    private final Object key = new Object();
     private RecyclerView rv_photos;
     private RecyclerViewAdapter adapter;
     private ArrayList mPhotoList;
-    private Handler mHandler;
     private TextView enlit_info_id;
     private TextView enlit_info_age;
     private TextView enlit_info_city;
@@ -67,17 +63,9 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         enlit_info_job = ((TextView) findViewById(R.id.enlist_info_job));
         enlit_info_name = ((TextView) findViewById(R.id.enlist_info_name));
         enlist_info_photo = (ImageView) findViewById(R.id.enlist_info_photo);
-        ClientListenThread.setMiDataListener(this);
+        UserAction.setMiDataListener(this);
         findViewById(R.id.header_back).setOnClickListener(this);
         findViewById(R.id.header_option).setVisibility(View.GONE);
-        mHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 0)
-                    initPhotos();
-                super.handleMessage(msg);
-            }
-        };
     }
 
     @Override
@@ -85,20 +73,7 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         super.onStart();
         Intent intent = getIntent();
         userId = Integer.parseInt(intent.getStringExtra("enlistId"));
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserAction.getUserInfo(userId);
-                synchronized (key){
-                    try {
-                        key.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-            }
-        }).start();
+        UserAction.getUserInfo(userId);
     }
 
     @Override
@@ -108,12 +83,14 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
             mPhotoList = new ArrayList();
         }else{
             String[] urlArray = user.getPhotos().split("\\|");
-            mPhotoList = new ArrayList(Arrays.asList(urlArray));
+            mPhotoList = new ArrayList<String>(Arrays.asList(urlArray));
         }
-        synchronized (key){
-            key.notify();
-        }
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initPhotos();
+            }
+        });
     }
 
     @Override
@@ -133,11 +110,12 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
 
     private void initPhotos(){
         enlit_info_id.setText(String.valueOf(enlister.getId()));
-        enlit_info_age.setText(String.valueOf(enlister.getAge()) + "岁");
+        enlit_info_age.setText(String.format(Locale.CHINA,"%d岁", enlister.getAge()));
         enlit_info_city.setText(enlister.getLocation());
         enlit_info_job.setText(enlister.getJob());
         enlit_info_name.setText(enlister.getUserName());
-        enlist_info_photo.setImageBitmap(PhotoUtils.getBitmap(enlister.getPhoto()));
+        ImageUtils.load(this, ApplicationData.SERVER_IP + userId + "/" + "0.jpg",enlist_info_photo);
+//        enlist_info_photo.setImageBitmap(PhotoUtils.getBitmap(enlister.getPhoto()));
         pb.setVisibility(View.GONE);
         adapter = new RecyclerViewAdapter(this,mPhotoList,userId);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {

@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 import com.test.jwj.underMoon.CustomView.HandyTextView;
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.bean.TranObject;
-import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.VerifyUtils;
 
@@ -26,7 +24,7 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 	private static String mAccount;
 	private static boolean mIsChange = true;
 
-	private static TranObject mReceivedInfo = null;
+	private static String  userExist   = null;
 	private static boolean mIsReceived = false;
 	private Context mContext;
 
@@ -52,57 +50,7 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 
 	@Override
 	public void doNext() {
-		new AsyncTask<Void, Void, Integer>() {
-
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				showLoadingDialog("正在验证账号,请稍后...");
-			}
-
-			@Override
-			protected Integer doInBackground(Void... params) {
-				try {
-					mNetService.closeConnection();
-					mNetService.onInit(mContext);
-					mNetService.setupConnection();
-					if (!mNetService.isConnected()) {
-						return 0;
-					}
-					UserAction.accountVerify(mAccount);
-					while (!mIsReceived) {
-					}// 如果没收到的话就会一直阻塞;
-					mNetService.closeConnection();
-					if (mReceivedInfo.getResult() == Result.ACCOUNT_EXISTED)
-						return 1;// 代表用户名已存在
-					else if(mReceivedInfo.getResult() == Result.ACCOUNT_CAN_USE)
-						return 2;// 代表用户名可用
-				} catch (IOException e) {
-					Log.d("register", "注册账号异常");
-				}
-				return 0;
-				
-			}
-
-			@Override
-			protected void onPostExecute(Integer result) {
-				super.onPostExecute(result);
-				dismissLoadingDialog();
-				if (result == 0) {
-					showCustomToast("服务器异常");
-				} else {
-					if (result == 1) {
-						showCustomToast("该账号已被注册");
-					} else if (result == 2) {
-						mIsChange = false;
-						showCustomToast("该账号可用");
-						mOnNextActionListener.next();
-					}
-				}
-				mReceivedInfo = null;
-				mIsReceived = false;
-			}
-		}.execute();
+		new AccountTask().execute();
 	}
 
 	@Override
@@ -145,20 +93,62 @@ public class StepAccount extends RegisterStep implements TextWatcher {
 		if (s.toString().length() > 0) {
 			mHtvNotice.setVisibility(View.VISIBLE);
 			char[] chars = s.toString().toCharArray();
-			StringBuffer buffer = new StringBuffer();
-			for (int i = 0; i < chars.length; i++) {
-				buffer.append(chars[i] + "");
+			StringBuilder buffer = new StringBuilder();
+			for (char aChar : chars) {
+				buffer.append(aChar);
 			}
 			mHtvNotice.setText(buffer.toString());
 		} else {
 			mHtvNotice.setVisibility(View.GONE);
 		}
 	}
-	public static void setRegisterInfo(TranObject object, boolean isReceived) {
-
-		mReceivedInfo = object;
-		mIsReceived = isReceived;
+	public static void setRegisterInfo(String result) {
+		userExist = result;
+		mIsReceived = true;
 	}
 
+	private class AccountTask extends AsyncTask<Void, Void, Integer> {
 
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			showLoadingDialog("正在验证账号,请稍后...");
+		}
+
+		@Override
+		protected Integer doInBackground(Void... params) {
+			try {
+				UserAction.accountVerify(mAccount);
+				while (!mIsReceived) {
+				}// 如果没收到的话就会一直阻塞;
+				if (userExist.equals("true"))
+					return 1;// 代表用户名已存在
+				else if(userExist.equals("false"))
+					return 2;// 代表用户名可用
+			} catch (IOException e) {
+				Log.d("register", "注册账号异常");
+			}
+			return 0;
+
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			dismissLoadingDialog();
+			if (result == 0) {
+				showCustomToast("服务器异常");
+			} else {
+				if (result == 1) {
+					showCustomToast("该账号已被注册");
+				} else if (result == 2) {
+					mIsChange = false;
+					showCustomToast("该账号可用");
+					mOnNextActionListener.next();
+				}
+			}
+			userExist = null;
+			mIsReceived = false;
+		}
+	}
 }

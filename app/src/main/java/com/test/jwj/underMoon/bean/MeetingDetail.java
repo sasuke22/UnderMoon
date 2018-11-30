@@ -52,4 +52,29 @@ public class MeetingDetail implements Serializable{
         this.content = content;
     }
 
+    @Override
+    public String toString() {
+        return "MeetingDetail{" +
+                "meetingId=" + meetingId +
+                ", id=" + id +
+                ", city='" + city + '\'' +
+                ", summary='" + summary + '\'' +
+                ", date=" + date +
+                ", read=" + read +
+                ", approve=" + approve +
+                ", type='" + type + '\'' +
+                ", loveType='" + loveType + '\'' +
+                ", age=" + age +
+                ", marry=" + marry +
+                ", height=" + height +
+                ", job='" + job + '\'' +
+                ", figure='" + figure + '\'' +
+                ", xingzuo='" + xingzuo + '\'' +
+                ", content='" + content + '\'' +
+                ", registId='" + registId + '\'' +
+                ", enlistersName='" + enlistersName + '\'' +
+                ", score=" + score +
+                ", pics=" + pics +
+                '}';
+    }
 }

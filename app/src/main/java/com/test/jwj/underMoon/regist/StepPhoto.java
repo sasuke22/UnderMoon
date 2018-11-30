@@ -14,9 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.bean.TranObject;
 import com.test.jwj.underMoon.bean.User;
-import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
@@ -28,11 +26,9 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 	private ImageView mIvUserPhoto;
 	private LinearLayout mLayoutSelectPhoto;
 	private LinearLayout mLayoutTakePicture;
-	private LinearLayout mLayoutAvatars;
 
-	private View[] mMemberBlocks;
 	private String mTakePicturePath;
-	private Bitmap mUserPhoto;
+	private String mUserPhoto;
 	private String mAccount;
 	private String mPassword;
 	private Date mBirthday;
@@ -43,7 +39,7 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 	private String mJob;
 	private int mHeight;
 	private int mMarry;
-	private static TranObject mReceivedInfo = null;
+	private static String mReceivedInfo;
 	private static boolean mIsReceived = false;
 	private final int OPEN_CAMERA = 111;
 	private final int OPEN_ALBUM = 222;
@@ -56,8 +52,8 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 
 	public void setUserPhoto(Bitmap bitmap) {
 		if (bitmap != null) {
-			mUserPhoto = bitmap;
-			mIvUserPhoto.setImageBitmap(mUserPhoto);
+			mUserPhoto = PhotoUtils.savePhotoToSDCard(bitmap);
+			mIvUserPhoto.setImageBitmap(bitmap);
 			return;
 		}
 		showCustomToast("未获取到图片");
@@ -93,63 +89,7 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 
 	@Override
 	public void doNext() {
-		putAsyncTask(new AsyncTask<Void, Void, Integer>() {
-
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				showLoadingDialog("请稍后,正在提交...");
-			}
-
-			@Override
-			protected Integer doInBackground(Void... params) {
-				try {
-					mIsReceived = false;
-					mNetService.setupConnection();
-					if (!mNetService.isConnected()) {
-						return 0;
-					} else {
-						byte[] photoByte = PhotoUtils.getBytes(mUserPhoto);
-						int age = mActivity.getAge();
-						User user = new User(mAccount, mName, mPassword,mCity,mFigure,mJob,mHeight,mMarry,
-								mBirthday, mGender, photoByte);
-						user.setAge(age);
-						user.setXingzuo(mActivity.getXingzuo());
-						UserAction.register(user);
-						while (!mIsReceived) {
-						}// 如果没收到的话就会一直阻塞;
-						mNetService.closeConnection();
-						if (mReceivedInfo.getResult() == Result.REGISTER_SUCCESS) {
-							return 1;
-						}else
-							return 2;
-					}
-				} catch (Exception e) {
-					Log.d("regester", "注册异常");
-
-				}
-				return 0;
-				
-			}
-
-			@Override
-			protected void onPostExecute(Integer result) {
-				super.onPostExecute(result);
-				dismissLoadingDialog();
-				if (result == 0) {
-					showCustomToast("服务器异常");
-
-				} else {
-					if (result == 1) {
-						showCustomToast("注册成功");
-						mActivity.finish();
-					} else if (result == 2) {
-						showCustomToast("注册失败");
-					}
-				}
-			}
-
-		});
+		putAsyncTask(new MyTask());
 	}
 
 	@Override
@@ -188,7 +128,7 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 		}
 	}
 
-	public Bitmap getPhoto() {
+	public String getPhoto() {
 		return mUserPhoto;
 	}
 
@@ -232,11 +172,58 @@ public class StepPhoto extends RegisterStep implements OnClickListener {
 		mMarry = Marry;
 	}
 
-	public static void setRegisterInfo(TranObject object, boolean isReceived) {
-
-		mReceivedInfo = object;
+	public static void setRegisterInfo(String result, boolean isReceived) {
+		mReceivedInfo = result;
 		mIsReceived = true;
 	}
 
+	private class MyTask extends AsyncTask<Void, Void, Integer>{
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			showLoadingDialog("请稍后,正在提交...");
+		}
 
+		@Override
+		protected Integer doInBackground(Void... params) {
+			try {
+				mIsReceived = false;
+				int age = mActivity.getAge();
+				User user = new User(mAccount, mName, mPassword,mCity,mFigure,mJob,mHeight,mMarry,
+						mBirthday, mGender);
+				user.setAge(age);
+				user.setXingzuo(mActivity.getXingzuo());
+				UserAction.register(user,mUserPhoto);
+				while (!mIsReceived) {
+				}// 如果没收到的话就会一直阻塞;
+				mNetService.closeConnection();
+				if (mReceivedInfo.equals("-1")) {
+					return 2;
+				}else
+					return 1;
+			} catch (Exception e) {
+				Log.d("regester", "注册异常");
+
+			}
+			return 0;
+
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			dismissLoadingDialog();
+			if (result == 0) {
+				showCustomToast("服务器异常");
+
+			} else {
+				if (result == 1) {
+					showCustomToast("注册成功");
+					mActivity.finish();
+				} else if (result == 2) {
+					showCustomToast("注册失败");
+				}
+			}
+		}
+	}
 }
