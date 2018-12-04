@@ -36,7 +36,7 @@ public class ApplicationData {
 	private       Handler                        friendListHandler;
 	private       Context                        mContext;
 	private       List<User>                     mFriendSearched;
-	private       Bitmap                         mUserPhoto;
+//	private       Bitmap                         mUserPhoto;
 	private       List<MessageTabEntity>         mMessageEntities;// messageFragment显示的列表
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	private       SharedPreferences              sp;
@@ -47,13 +47,7 @@ public class ApplicationData {
 	public static final int GALLERY = 2;
 	public static final int CROP = 3;
 	public static final String SERVER_IP = "http://192.168.107.99:8089/";
-
-	//TODO 这里的所有数据需要在init方法中进行网络更新，以便后台添加游戏
-	public String[] online_game = {"LOL","王者荣耀","绝地求生"};
-	public String[] online_happy = {"音乐","占星","乐器指导"};
-	public String[] online_voice = {"虚拟恋人","叫醒","声音鉴定","连麦哄睡","情感咨询"};
-	public String[] offline_game = {"线下LOL指导","线下王者荣耀指导","线下绝地求生指导"};
-	public String[] offline_happy = {"线下娱乐"};
+	public String HEAD_ADDRESS = null;
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
 		return mChatMessagesMap;
@@ -88,7 +82,8 @@ public class ApplicationData {
 			mUser = (User) mReceivedMessage.getObject();
 			((UnderMoonApplication)mContext.getApplicationContext()).setUser(mUser);
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
-			mUserPhoto = PhotoUtils.getBitmap(mUser.getPhoto());
+			HEAD_ADDRESS = SERVER_IP + mUser.getId() + "/" + "0.jpg";
+//			mUserPhoto = PhotoUtils.getBitmap(mUser.getPhoto());
 			List<User> friendListLocal = ImDB.getInstance(mContext)
 					.getAllFriend();
 			mFriendPhotoMap = new HashMap<Integer, Bitmap>();
@@ -239,12 +234,12 @@ public class ApplicationData {
 		}
 	}
 
-	public Bitmap getUserPhoto() {
-		return mUserPhoto;
+	public String getUserPhoto() {
+		return HEAD_ADDRESS;
 	}
 
-	public void setUserPhoto(Bitmap mUserPhoto) {
-		this.mUserPhoto = mUserPhoto;
+	public void setUserPhoto(String mUserPhoto) {
+		this.HEAD_ADDRESS = mUserPhoto;
 	}
 
 	public List<MessageTabEntity> getMessageEntities() {

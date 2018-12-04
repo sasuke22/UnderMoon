@@ -5,14 +5,13 @@ import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class FileUtils {
 	
-	public static String SDPATH = Environment.getExternalStorageDirectory()
+	static String SDPATH = Environment.getExternalStorageDirectory()
 			+ "/Photo_LJ/";
 
 	public static void saveBitmap(Bitmap bm, String picName) {
@@ -28,8 +27,6 @@ public class FileUtils {
 			bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
 			out.flush();
 			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

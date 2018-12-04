@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public abstract class BaseFragment extends Fragment implements IMessageArrived<ArrayList<MeetingDetail>> {
     public GoMeetingActivity act;
-    public static final Object key  = new Object();
     protected User   user = ApplicationData.getInstance().getUserInfo();
     protected static ArrayList<MeetingDetail> mAllContributesList;
     public static Handler mHandler;

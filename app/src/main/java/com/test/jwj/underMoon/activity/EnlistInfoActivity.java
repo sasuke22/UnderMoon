@@ -1,16 +1,14 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -115,7 +113,6 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
         enlit_info_job.setText(enlister.getJob());
         enlit_info_name.setText(enlister.getUserName());
         ImageUtils.load(this, ApplicationData.SERVER_IP + userId + "/" + "0.jpg",enlist_info_photo);
-//        enlist_info_photo.setImageBitmap(PhotoUtils.getBitmap(enlister.getPhoto()));
         pb.setVisibility(View.GONE);
         adapter = new RecyclerViewAdapter(this,mPhotoList,userId);
         adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
@@ -125,11 +122,9 @@ public class EnlistInfoActivity extends Activity implements IMessageArrived<User
                 View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
                 final AlertDialog dialog = new AlertDialog.Builder(EnlistInfoActivity.this).create();
 
-                WindowManager wm = (WindowManager) EnlistInfoActivity.this
-                        .getSystemService(Context.WINDOW_SERVICE);
-                Display display = wm.getDefaultDisplay();
-                int width =display.getWidth();
-                int height=display.getHeight();
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
 
                 Glide.with(EnlistInfoActivity.this).load(ApplicationData.SERVER_IP + userId + "/" + mPhotoList.get(position) + ".jpg")
                         .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height)).transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));

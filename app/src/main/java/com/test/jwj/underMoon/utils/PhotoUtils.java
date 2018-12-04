@@ -20,8 +20,10 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,8 +36,11 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.Material;
+import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.imageFactory.ImageFactoryActivity;
 import com.test.jwj.underMoon.imageFactory.ImageFactoryFliter;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,8 +57,10 @@ import java.util.UUID;
 
 
 public class PhotoUtils {
-	// 图片在SD卡中的缓存路径
+	// 图片在files中的缓存路径
 	private static final String IMAGE_PATH = ApplicationData.mApplication.getFilesDir() + File.separator + "Images/";
+	// 图片在SD卡路径
+	private static final String SD_IMAGE_PATH = Environment.getExternalStorageDirectory().toString() + File.separator + "images/";
 	// video的缓存路径
 	public static final String VIDEO_PATH = ApplicationData.mApplication.getFilesDir() + File.separator + "Videos/";
 	// 相册的RequestCode
@@ -67,7 +74,7 @@ public class PhotoUtils {
 	// 录像的RequestCode
 	public static final int INTENT_REQUEST_CODE_VIDEO = 4;
 
-	public static final String tempCrop = IMAGE_PATH + "cutcamera.png";
+	public static final String tempCrop = IMAGE_PATH + "cutcamera.jpg";
 
 	public static final String tempVideo = IMAGE_PATH + "tempVideo.mp4";
 
@@ -226,9 +233,9 @@ public class PhotoUtils {
 	 * @return 照相后图片的路径
 	 */
 	public static String takePicture(Activity activity) {
-		FileUtils.createDirFile(IMAGE_PATH);
+		FileUtils.createDirFile(SD_IMAGE_PATH);
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		String path = IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
+		String path = SD_IMAGE_PATH + System.currentTimeMillis() + ".jpg";
 		File file = FileUtils.createNewFile(path);
 		if (file != null) {
 			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
@@ -284,14 +291,14 @@ public class PhotoUtils {
 			cutfile.createNewFile();
 			//初始化 uri
 			Uri imageUri = uri; //返回来的 uri
-			Uri outputUri = null; //真实的 uri
-			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
-				outputUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
-						".provider", cutfile);
-
-			}
-			else
-				outputUri = Uri.fromFile(cutfile);
+//			Uri outputUri; //真实的 uri
+			Log.e("tag","pakage " + context.getPackageName());
+//			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+//				outputUri = FileProvider.getUriForFile(context, context.getPackageName() +
+//						".provider", cutfile);
+//
+//			}else
+//				outputUri = Uri.fromFile(cutfile);
 //			mCutUri = outputUri;
 			// crop为true是设置在开启的intent中设置显示的view可以剪裁
 			intent.putExtra("crop",true);
@@ -304,25 +311,72 @@ public class PhotoUtils {
 			intent.putExtra("scale",true);
 			//如果图片过大，会导致oom，通过onactivityresult返回，在intent中，但是返回的是缩略图，需要在outputUri中获取
 			intent.putExtra("return-data",false);
-			if (imageUri != null) {
-				intent.setDataAndType(imageUri, "image/*");
-			}
-			if (outputUri != null) {
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-			}
+//			if (imageUri != null) {
+//				intent.setDataAndType(uri, "image/*");
+//			}
+//			if (outputUri != null) {
+//				intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+//			}
 			intent.putExtra("noFaceDetection", true);
 			//压缩图片
-			intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
 			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
+			context.grantUriPermission(context.getApplicationContext().getPackageName(), imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+			//最后用intent.getStringExtra("output")来拿返回的uri
+//			context.grantUriPermission(context.getApplicationContext().getPackageName(), outputUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 			return intent;
 		} catch (IOException e) {
 			Log.e("tag","exception " + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static Result startUCrop(Activity activity,File sourceFile,int requestCode) {
+		File cutfile = new File(tempCrop); //随便命名一个
+		if (cutfile.exists()){ //如果已经存在，则先删除,这里应该是上传到服务器，然后再删除本地的，没服务器，只能这样了
+			cutfile.delete();
+		}
+		File imgDir = new File(IMAGE_PATH);
+		if (!imgDir.exists())
+			FileUtils.createDirFile(IMAGE_PATH);
+		try {
+			cutfile.createNewFile();
+		} catch (IOException e) {
+			return Result.FAILED;
+		}
+		Uri sourceUri;
+		Uri outputUri;
+		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+			sourceUri = FileProvider.getUriForFile(activity,activity.getApplicationContext().getPackageName() +
+					".provider",sourceFile);
+			outputUri = FileProvider.getUriForFile(activity, activity.getPackageName() +
+					".provider", cutfile);
+		} else {
+			sourceUri = Uri.fromFile(sourceFile);
+			outputUri = Uri.fromFile(cutfile);
+		}
+		UCrop uCrop = UCrop.of(sourceUri,outputUri);
+		UCrop.Options options = new UCrop.Options();
+		//设置裁剪图片可操作的手势
+		options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+		//是否隐藏底部容器，默认显示
+		options.setHideBottomControls(true);
+		//设置toolbar颜色
+		options.setToolbarColor(ActivityCompat.getColor(activity, R.color.themeColor));
+		//设置状态栏颜色
+		options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.themeColor));
+		//是否能调整裁剪框
+		options.setFreeStyleCropEnabled(true);
+		//UCrop配置
+		uCrop.withOptions(options);
+		//设置裁剪图片的宽高比，比如16：9
+		uCrop.withAspectRatio(1, 1);
+		//跳转裁剪页面
+		uCrop.start(activity, requestCode);
+		return Result.SUCCESS;
 	}
 
 	public static void takeVideo(Activity activity){

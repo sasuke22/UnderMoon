@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.test.jwj.underMoon.Callback.UploadCallback;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.bean.MeetingDetail;
@@ -365,8 +366,27 @@ public class UserAction {
 		});
 	}
 
-	public static void uploadNewPic(int type,int userid, String path) {
-		mNetService.uploadFile(type,userid,path);
+	public static void uploadNewPic(int userid, String path, final UploadCallback callback) {
+		params.clear();
+		params.put("userId",String.valueOf(userid));
+		ArrayList<String> fileList = new ArrayList<>();
+		fileList.add(path);
+		OkhttpUtil.post("imgupload",params,fileList).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (response.isSuccessful()) {
+					String result = response.body().string();
+					ApplicationData.mApplication.mBinder.AlertToast(result.equals("1") ? "上传成功" : "上传失败，请重试");
+					if (callback != null)
+						callback.uploadResult();
+				}
+			}
+		});
 	}
 
 	public static void updateScore(int id, int spScore) {

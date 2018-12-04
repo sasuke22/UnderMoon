@@ -4,13 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -19,6 +17,8 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.AlbumAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.Material;
+import com.test.jwj.underMoon.global.Result;
+import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 import java.io.File;
@@ -29,10 +29,10 @@ import java.util.List;
  */
 
 public class SelectAlbumActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    GridView       gridView;
-    List<Material> albumList;
-    String         photoUri;
-    AlbumAdapter   mAlbumAdapter;
+    private GridView       gridView;
+    private List<Material> albumList;
+    private String         photoUri;
+    private AlbumAdapter   mAlbumAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +71,9 @@ public class SelectAlbumActivity extends BaseActivity implements AdapterView.OnI
         }else{
             //TODO 裁剪界面，上传,权限问题
             File file = new File(albumList.get(i - 1).getFilePath());
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N)
-                PhotoUtils.CropCamera(this, FileProvider.getUriForFile(this,getApplicationContext().getPackageName() +
-                        ".provider",file));
-            else
-                PhotoUtils.CropCamera(this, Uri.fromFile(file));
+            Result res = PhotoUtils.startUCrop(this,file,ApplicationData.CROP);
+            if (res == Result.FAILED)
+                showCustomToast("文件夹权限异常，请确认");
         }
     }
 
@@ -96,18 +94,12 @@ public class SelectAlbumActivity extends BaseActivity implements AdapterView.OnI
         switch (requestCode){
             case PhotoUtils.INTENT_REQUEST_CODE_CAMERA:
                 if (resultCode != Activity.RESULT_CANCELED) {
-                    File file = new File(photoUri);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        PhotoUtils.CropCamera(this, FileProvider.getUriForFile(this, getApplicationContext().getPackageName() +
-                                ".provider", file));
-                    else
-                        PhotoUtils.CropCamera(this, Uri.fromFile(file));
+                    UserAction.uploadNewPic(ApplicationData.getInstance().getUserInfo().getId(),photoUri,null);
                 }
                 break;
             case ApplicationData.CROP:
                 if (resultCode != Activity.RESULT_CANCELED) {
-                    //TODO 裁剪后的图片上传服务器
-                    File cropFile = new File(PhotoUtils.tempCrop);
+                    UserAction.uploadNewPic(ApplicationData.getInstance().getUserInfo().getId(),PhotoUtils.tempCrop,null);
                 }
                 break;
         }

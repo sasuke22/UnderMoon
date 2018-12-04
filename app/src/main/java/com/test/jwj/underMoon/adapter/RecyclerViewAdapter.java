@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +22,32 @@ import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.utils.Bimp;
 import com.test.jwj.underMoon.utils.SystemMethod;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/7/28.
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>{
-    private List<Bitmap> mPhotoList;
+    private ArrayList<String> mPhotoList;
     private Context      mContext;
     private int          mUserId;
     private MyItemClickListener itemClickListener;
     private MyItemLongClickListener itemLongClickListener;
-    public RecyclerViewAdapter(Context context, List list, int userId){
+    public RecyclerViewAdapter(Context context, ArrayList list, int userId){
         this.mUserId = userId;
         this.mContext = context;
         this.mPhotoList = list;
     }
 
-    public RecyclerViewAdapter(Context context, List list){
+    public RecyclerViewAdapter(Context context, ArrayList list){
         this.mContext = context;
         this.mPhotoList = list;
+    }
+
+    public void setPhotoList(ArrayList<String> list){
+        this.mPhotoList = list;
+        notifyDataSetChanged();
     }
 
     Handler handler = new Handler() {
@@ -72,12 +76,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
                 holder.iv_photo.setImageBitmap(addBitmap);
             } else {
-                Log.e("tag","position " + mPhotoList.get(position - 1));
                 Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
                         apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
             }
         }else if (mContext instanceof InvitationDetailActivity){
-            Log.e("tag","invi " + mPhotoList.get(position));
             Glide.with(mContext).load(mPhotoList.get(position))
                     .apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
         }else{

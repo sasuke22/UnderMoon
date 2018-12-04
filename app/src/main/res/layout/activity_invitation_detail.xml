@@ -5,9 +5,19 @@
     android:background="@color/white">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/ui_10_dip">
+
+        <include
+            layout="@layout/activity_header"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_invitation_detail_pics"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -281,21 +291,6 @@
                 />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/bt_register_meeting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/theme_color_3dp_bg"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:padding="@dimen/ui_10_dip"
-            android:text="我要报名"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_invitation_detail_pics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -305,15 +300,37 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"/>
-            <TextView
-                android:id="@+id/btn_send_msg"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/theme_color_3dp_bg"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:padding="@dimen/ui_10_dip"
-                android:text="发送信息"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/bt_register_meeting"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/theme_color_3dp_bg"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/ui_10_dip"
+                    android:layout_marginEnd="5dp"
+                    android:text="我要报名"/>
+
+                <TextView
+                    android:id="@+id/btn_send_msg"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/theme_color_3dp_bg"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/ui_10_dip"
+                    android:layout_marginStart="5dp"
+                    android:text="发送信息"/>
+            </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 

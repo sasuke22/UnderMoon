@@ -1,16 +1,13 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,7 +33,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private User        mUser;
     private int         meetingId;
     private ProgressBar loadingBar;
-    private final Object key = new Object();
     private MeetingDetail mInvitationDetail;
     private EnlisterView tv_enlist_people;
     private HashMap<String,String> map;
@@ -54,40 +50,15 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private void getInvitationDetailActivity() {
         loadingBar.setVisibility(View.VISIBLE);
         mUser = ApplicationData.getInstance().getUserInfo();
-//        id = getIntent().getIntExtra("id",0);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                meetingId = getIntent().getIntExtra("meetingId",0);
-//                UserAction.getInvitationDetail(meetingId);
-////                UserAction.getEnlistName(meetingId);
-//                synchronized (key){// wait for the callback
-//                    try {
-//                        key.wait();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                if (mInvitationDetail != null){
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            loadingBar.setVisibility(View.GONE);
-//                            initViews();
-//                        }
-//                    });
-//                }else
-//                    Toast.makeText(InvitationDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).start();
         meetingId = getIntent().getIntExtra("meetingId",0);
         UserAction.getInvitationDetail(meetingId);
     }
 
     private void initViews() {
-        LinearLayout ll_liuyan;
-        ll_liuyan = (LinearLayout) findViewById(R.id.ll_liuyan);
+        ((TextView) findViewById(R.id.header_title)).setText("邀约详情");
+        findViewById(R.id.header_option).setVisibility(View.GONE);
+        findViewById(R.id.header_back).setOnClickListener(this);
+        LinearLayout ll_liuyan = (LinearLayout) findViewById(R.id.ll_liuyan);
         TextView btn_register_meeting = (TextView) findViewById(R.id.bt_register_meeting);
         tv_enlist_people = (EnlisterView) findViewById(R.id.tv_enlist_people);
         TextView btn_send_msg = (TextView) findViewById(R.id.btn_send_msg);
@@ -121,11 +92,9 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
                     View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
                     final AlertDialog dialog = new AlertDialog.Builder(InvitationDetailActivity.this).create();
 
-                    WindowManager wm = (WindowManager) InvitationDetailActivity.this
-                            .getSystemService(Context.WINDOW_SERVICE);
-                    Display display = wm.getDefaultDisplay();
-                    int width =display.getWidth();
-                    int height=display.getHeight();
+                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                    int width = displayMetrics.widthPixels;
+                    int height = displayMetrics.heightPixels;
 
                     Glide.with(InvitationDetailActivity.this).load(picList.get(position))
                             .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height)).transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
@@ -184,13 +153,14 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        switch (v.getId()){
+            case R.id.bt_register_meeting:
                 UserAction.enlist(meetingId,mUser.getId(),mUser.getUserName());
-            }
-        }).start();
-
+                break;
+            case R.id.header_back:
+                onBackPressed();
+                break;
+        }
     }
 
     @Override
@@ -200,7 +170,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         String[] idArray = mInvitationDetail.registId.split("\\|");
         String[] nameArray = mInvitationDetail.enlistersName.split("\\|");
         for (int i = 0;i < idArray.length;i++){
-            Log.e("tag","id " + idArray[i] + ",name " + nameArray[i]);
             map.put(idArray[i],nameArray[i]);
         }
         runOnUiThread(new Runnable() {

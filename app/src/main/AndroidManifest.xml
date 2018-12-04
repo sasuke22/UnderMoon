@@ -117,18 +117,32 @@
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
-        <activity android:name=".activity.SelectAlbumActivity"/>
+        <activity android:name=".activity.SelectAlbumActivity"
+                  android:launchMode="singleTask"/>
         <activity android:name=".activity.PlusImageActivity"/>
+        <activity
+                  android:name="com.yalantis.ucrop.UCropActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!--解决7.0照相机崩溃问题-->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="${applicationId}.provider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/file_paths" />-->
+        <!--</provider>-->
         <provider
+            android:authorities="com.test.jwj.underMoon.provider"
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+            android:grantUriPermissions="true"
+            >
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                       android:resource="@xml/providerpath"/>
         </provider>
         <service android:name=".services.GlobalService">
 

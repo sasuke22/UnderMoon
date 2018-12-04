@@ -13,7 +13,8 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.activity.RestMoneyActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
-import com.test.jwj.underMoon.utils.PhotoUtils;
+import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.utils.ImageUtils;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -21,12 +22,11 @@ import com.test.jwj.underMoon.utils.PhotoUtils;
 
 public class Fragment_personal_center extends BaseFragment implements ItemLayout.LayoutClickListener {
     private boolean ismale;
-    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ismale = user.getGender() == 1;// 1为男
-        rootView = inflater.inflate(R.layout.fragment_personal_center,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_personal_center, container, false);
         initViews(rootView);
         return rootView;
     }
@@ -48,7 +48,7 @@ public class Fragment_personal_center extends BaseFragment implements ItemLayout
         ((TextView)view.findViewById(R.id.id)).setText(String.valueOf(user.getId()));
         ((TextView)view.findViewById(R.id.province)).setText(user.getLocation());
         ((TextView)view.findViewById(R.id.job)).setText(user.getJob());
-        ((ImageView)view.findViewById(R.id.head_photo)).setImageBitmap(PhotoUtils.getBitmap(user.getPhoto()));
+        ImageUtils.load(getActivity(), ApplicationData.getInstance().HEAD_ADDRESS,(ImageView)view.findViewById(R.id.head_photo));
     }
 
     @Override

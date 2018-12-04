@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!--        xml文件是唯一设置分享的目录 ，不能用代码设置
+
+         1.<files-path>        getFilesDir()  /data/data//files目录
+         2.<cache-path>        getCacheDir()  /data/data//cache目录
+
+         3.<external-path>     Environment.getExternalStorageDirectory()
+
+         SDCard/Android/data/你的应用的包名/files/ 目录
+         4.<external-files-path>     Context#getExternalFilesDir(String) Context.getExternalFilesDir(null).
+         5.<external-cache-path>      Context.getExternalCacheDir().
+        -->
+        <external-path path="Pictures/Screenshots/" name="external"/>
+        <external-path path="Images/" name="external"/>
+        <external-path path="." name="external"/>
+        <root-path path="/storage/" name="external"/>
+        <files-path path="Images/" name="data_files"/>
+        <external-files-path path="Images/" name="sd_external"/>
+    </paths>
+</resources>
