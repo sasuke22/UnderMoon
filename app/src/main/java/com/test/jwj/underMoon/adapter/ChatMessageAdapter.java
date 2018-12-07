@@ -60,8 +60,6 @@ public class ChatMessageAdapter extends BaseAdapter {
 			leftLayout.setVisibility(View.GONE);
 
 			ImageUtils.load(mContext,ApplicationData.getInstance().getUserPhoto(),rightPhotoView);
-//			rightPhotoView.setImageBitmap(ApplicationData.getInstance()
-//					.getUserPhoto());
 
 			rightMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
 							mContext, rightMessageView, chatEntity.getContent()));

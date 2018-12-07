@@ -80,38 +80,6 @@ public class ChatActivity extends BaseActivity {
 		chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this,chatList);
 		chatMeessageListView.setAdapter(chatMessageAdapter);
 		chatMeessageListView.setSelection(chatList.size());
-//		sendButton.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				SharedPreferences sp = SpUtil.getSharePreference(ChatActivity.this);
-//				int score = SpUtil.getSPScore(sp);
-//				if (score <= 0)
-//					showCustomToast("您剩余的积分不足，请及时充值");
-//				else {
-//					String content = inputEdit.getText().toString();
-//					inputEdit.setText("");
-//					ChatEntity chatMessage = new ChatEntity();
-//					chatMessage.setContent(content);
-//					chatMessage.setSenderId(ApplicationData.getInstance()
-//							.getUserInfo().getId());
-//					chatMessage.setReceiverId(friendId);
-//					chatMessage.setMessageType(ChatEntity.SEND);
-//					Date date = new Date();
-//					SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
-//					String sendTime = sdf.format(date);
-//					chatMessage.setSendTime(sendTime);
-//					chatList.add(chatMessage);
-//					chatMessageAdapter.notifyDataSetChanged();
-//					chatMeessageListView.setSelection(chatList.size());
-//					UserAction.sendMessage(chatMessage);
-//					ImDB.getInstance(ChatActivity.this)
-//							.saveChatMessage(chatMessage);
-//					if (mUser.getGender() == 1) {
-//						SpUtil.setIntSharedPreference(sp, "score", score - 1);
-//						mUser.setScore(score - 1);
-//					}
-//				}
-//			}
-//		});
 	}
 
 	@Override
@@ -135,6 +103,7 @@ public class ChatActivity extends BaseActivity {
 
 		bundle.putInt("userID",mUser.getId());
 		bundle.putInt("friendID",friendId);
+		bundle.putString("friendName",friendName);
 		//替换fragment
 		//创建修改实例
 		EmotionMainFragment emotionMainFragment = new EmotionMainFragment();

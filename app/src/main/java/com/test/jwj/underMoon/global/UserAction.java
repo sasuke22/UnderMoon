@@ -77,6 +77,19 @@ public class UserAction {
 		});
 	}
 
+	public static String getOrderString(String amount) {
+		params.clear();
+		params.put("amount",amount);
+		String orderString = null;
+		try {
+			Response response = OkhttpUtil.get("alipay", params).execute();
+			orderString = response.body().string();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return orderString;
+	}
+
 	public static void loginVerify(User user) throws IOException {
 		TranObject t = new TranObject(user, TranObjectType.LOGIN);
 		mNetService.send(t);
@@ -121,18 +134,22 @@ public class UserAction {
 		}
 	}
 
-	public static void sendMessage(ChatEntity message) {
-
-		TranObject t = new TranObject();
-		t.setTranType(TranObjectType.MESSAGE);
-		t.setReceiveId(message.getReceiverId());
-		t.setSendName(ApplicationData.getInstance().getUserInfo().getUserName());
-		t.setObject(message);
-		try {
-			mNetService.send(t);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void sendMessage(final ChatEntity message) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				TranObject t = new TranObject();
+				t.setTranType(TranObjectType.MESSAGE);
+				t.setReceiveId(message.getReceiverId());
+				t.setSendName(ApplicationData.getInstance().getUserInfo().getUserName());
+				t.setObject(message);
+				try {
+					mNetService.send(t);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	public static void getAllContributes(int userid) {

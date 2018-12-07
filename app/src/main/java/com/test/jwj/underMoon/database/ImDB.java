@@ -65,6 +65,10 @@ public class ImDB {
 		return friends;
 	}
 
+	/*
+	 * userid为主键，为自己现在登录的账号
+	 * senderid为聊天那个人
+	 */
 	public void saveMessage(MessageTabEntity message) {
 		ContentValues values = new ContentValues();
 		values.put("userid", user.getId());

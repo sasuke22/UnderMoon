@@ -267,7 +267,7 @@ public class PhotoUtils {
 	}
 
 	public static void CropCamera(Activity context,Uri imgUri){
-		context.startActivityForResult(CutForPhoto(context,imgUri), ApplicationData.CROP);
+		context.startActivityForResult(CutForPhoto(context,imgUri), INTENT_REQUEST_CODE_CROP);
 	}
 
 	/**

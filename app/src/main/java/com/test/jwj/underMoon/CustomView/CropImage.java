@@ -1,7 +1,5 @@
 package com.test.jwj.underMoon.CustomView;
 
-import java.util.concurrent.CountDownLatch;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +12,8 @@ import android.media.FaceDetector;
 import android.os.Handler;
 
 import com.test.jwj.underMoon.imageFactory.ImageFactoryCrop;
+
+import java.util.concurrent.CountDownLatch;
 
 
 /**
@@ -71,7 +71,6 @@ public class CropImage {
 								mCrop.setFocus(true);
 							}
 						} catch (Exception e) {
-							// TODO: handle exception
 						}
 						latch.countDown();
 					}
@@ -150,7 +149,6 @@ public class CropImage {
 	}
 
 	private Bitmap onSaveClicked(Bitmap bm) {
-		// CR: TODO!
 		// TODO this code needs to change to use the decode/crop/encode single
 		// step api so that we don't require that the whole (possibly large)
 		// bitmap doesn't have to be read into memory
@@ -371,7 +369,6 @@ public class CropImage {
 						// mProgress.show();
 						// }
 					} catch (Exception e) {
-						// TODO: handle exception
 					}
 
 					latch.countDown();

@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.adapter;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MessageTabEntity;
+import com.test.jwj.underMoon.utils.ImageUtils;
 
 import java.util.List;
 
@@ -37,8 +37,6 @@ public class FriendMessageAdapter extends BaseAdapter {
 		MessageTabEntity message = mMessageEntities.get(position);
 		Integer senderId = message.getSenderId();
 		String name = message.getName();
-		Bitmap photo = (ApplicationData.getInstance().getFriendPhotoMap())
-				.get(senderId);
 		int messageType = message.getMessageType();
 		String sendTime = message.getSendTime();
 		int unReadCount = message.getUnReadCount();
@@ -58,9 +56,7 @@ public class FriendMessageAdapter extends BaseAdapter {
 		} else {
 			unReadCountView.setText(String.valueOf(message.getUnReadCount()));
 		}
-		if (photo != null) {
-			avatarView.setImageBitmap(photo);
-		}
+		ImageUtils.load(mContext0,ApplicationData.SERVER_IP + senderId + "/0.jpg",avatarView);
 		nameView.setText(name);
 		sendTimeView.setText(sendTime);
 
@@ -79,6 +75,11 @@ public class FriendMessageAdapter extends BaseAdapter {
 
 	public long getItemId(int position) {
 		return position;
+	}
+
+	public void setMessageEntities(List<MessageTabEntity> messageEntities) {
+		mMessageEntities = messageEntities;
+		notifyDataSetChanged();
 	}
 
 }

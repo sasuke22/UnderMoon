@@ -49,8 +49,7 @@ public class GlobalOnItemClickManagerUtils {
 
                     if (position == emotionGvAdapter.getCount() - 1) {
                         // 如果点击了最后一个回退按钮,则调用删除键事件
-                        mEditText.dispatchKeyEvent(new KeyEvent(
-                                KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+                        mEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                     } else {
                         // 如果点击了表情,则添加到输入框中
                         String emotionName = emotionGvAdapter.getItem(position);
@@ -61,13 +60,11 @@ public class GlobalOnItemClickManagerUtils {
                         sb.insert(curPosition, emotionName);
 
                         // 特殊文字处理,将表情等转换一下 TODO：这里不转换直接给edittext设置文本，然后在聊天记录的listview里给解析出来
-                        mEditText.setText(SpanStringUtils.getEmotionContent(emotion_map_type,
-                                mContext, mEditText, sb.toString()));
+                        mEditText.setText(SpanStringUtils.getEmotionContent(emotion_map_type, mContext, mEditText, sb.toString()));
 
                         // 将光标设置到新增完表情的右侧
                         mEditText.setSelection(curPosition + emotionName.length());
                     }
-
                 }
             }
         };

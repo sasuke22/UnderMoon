@@ -35,9 +35,9 @@ public class MessageFragment extends Fragment implements SlideCutListView.Remove
 	private SlideCutListView       mMessageListView;
 	private FriendMessageAdapter   adapter;
 	private BaseDialog             mDialog;
-	private Handler                handler;
 	private int                    mPosition;
 	private MessageTabEntity       chooseMessageEntity;
+	private boolean				   firstEnter = true;//第一次初始化这个fragment。给后来每次从chatactivity回来的时候执行onresume做标志位
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,28 +46,36 @@ public class MessageFragment extends Fragment implements SlideCutListView.Remove
 		mBaseView = inflater.inflate(R.layout.fragment_message, null);
 		findView();
 		init();
+		firstEnter = false;
 		return mBaseView;
+	}
+
+	@Override
+	public void onResume() {
+		if (!firstEnter){//每次从chatactivity回来都需要重新刷新下数据
+			mMessageEntityList = ApplicationData.getInstance().getMessageEntities();
+			adapter.setMessageEntities(mMessageEntityList);
+		}
+		super.onResume();
 	}
 
 	private void findView() {
 		mTitleBarView = (TitleBarView) mBaseView.findViewById(R.id.title_bar);
-
-		mMessageListView = (SlideCutListView) mBaseView
-				.findViewById(R.id.message_list_listview);
+		mMessageListView = (SlideCutListView) mBaseView.findViewById(R.id.message_list_listview);
 	}
 
 	private void init() {
 		mMessageListView.setRemoveListener(this);
 		initDialog();
-		handler = new Handler() {
+		Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case 1:
-					adapter.notifyDataSetChanged();
-					mMessageListView.setSelection(mMessageEntityList.size());
-					break;
-				default:
-					break;
+					case 1:
+						adapter.notifyDataSetChanged();
+						mMessageListView.setSelection(mMessageEntityList.size());
+						break;
+					default:
+						break;
 				}
 			}
 		};

@@ -111,7 +111,6 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         }
 
         if (mUser.getId() == mInvitationDetail.id){//自己点进自己的邀请
-            // TODO 将其他按钮隐藏，显示报名列表信息
             tv_enlist_people.setVisibility(View.VISIBLE);//显示报名列表
             ll_liuyan.setVisibility(View.GONE);
             btn_register_meeting.setVisibility(View.GONE);

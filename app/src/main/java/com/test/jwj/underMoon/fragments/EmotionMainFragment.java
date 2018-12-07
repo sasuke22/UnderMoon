@@ -21,6 +21,7 @@ import com.test.jwj.underMoon.activity.ChatActivity;
 import com.test.jwj.underMoon.adapter.NoHorizontalScrollerVPAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
+import com.test.jwj.underMoon.bean.MessageTabEntity;
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.utils.EmotionUtils;
@@ -48,7 +49,6 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 
     //当前被选中底部tab
     private static final String CURRENT_POSITION_FLAG ="CURRENT_POSITION_FLAG";
-    private              int    CurrentPosition       =0;
     //底部水平tab
 //    private RecyclerView                  recyclerview_horizontal;
 //    private HorizontalRecyclerviewAdapter horizontalRecyclerviewAdapter;
@@ -56,9 +56,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
     private EmotionKeyboard mEmotionKeyboard;
 
     private EditText     bar_edit_text;
-    private ImageView    bar_image_add_btn;
     private Button       bar_btn_send;
-    private LinearLayout rl_editbar_bg;
 
     //需要绑定的内容view
     private View contentView;
@@ -78,6 +76,8 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
     Bundle args;
     View rootView;
     ChatActivity.MsgCallback mCallback;
+    private int friendId;
+    private String friendName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,15 +87,17 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 
     /**
      * 创建与Fragment对象关联的View视图时调用
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater view创造器
+     * @param container view填充的地方
+     * @param savedInstanceState fragment保存状态
      * @return
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_main_emotion, container, false);
-        isHidenBarEditTextAndBtn= args.getBoolean(EmotionMainFragment.HIDE_BAR_EDITTEXT_AND_BTN);
+        isHidenBarEditTextAndBtn = args.getBoolean(EmotionMainFragment.HIDE_BAR_EDITTEXT_AND_BTN);
+        friendId = args.getInt("friendID");
+        friendName = args.getString("friendName");
         //获取判断绑定对象的参数
         isBindToBarEditText=args.getBoolean(EmotionMainFragment.BIND_TO_EDITTEXT);
         mCallback = (ChatActivity.MsgCallback) args.getSerializable("callback");
@@ -127,7 +129,6 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
     /**
      * 绑定内容view
      * @param contentView 当软键盘弹出来时，需要上移的布局，其父布局须是LinearLayout
-     * @return
      */
     public void bindToContentView(View contentView){
         this.contentView=contentView;
@@ -140,10 +141,10 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
         viewPager= (NoHorizontalScrollerViewPager) rootView.findViewById(R.id.vp_emotionview_layout);
 //        recyclerview_horizontal= (RecyclerView) rootView.findViewById(R.id.recyclerview_horizontal);
         bar_edit_text= (EditText) rootView.findViewById(R.id.bar_edit_text);
-        bar_image_add_btn= (ImageView) rootView.findViewById(R.id.bar_image_add_btn);
+        ImageView bar_image_add_btn = (ImageView) rootView.findViewById(R.id.bar_image_add_btn);
         bar_btn_send= (Button) rootView.findViewById(R.id.bar_btn_send);
         bar_btn_send.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.themeColor));
-        rl_editbar_bg= (LinearLayout) rootView.findViewById(R.id.rl_editbar_bg);
+        LinearLayout rl_editbar_bg = (LinearLayout) rootView.findViewById(R.id.rl_editbar_bg);
         if(isHidenBarEditTextAndBtn){//隐藏
             bar_edit_text.setVisibility(View.GONE);
             bar_image_add_btn.setVisibility(View.GONE);
@@ -187,8 +188,8 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 //        }
 
         //记录底部默认选中第一个
-        CurrentPosition=0;
-        SpUtil.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
+        int currentPosition = 0;
+        SpUtil.setInteger(getActivity(), CURRENT_POSITION_FLAG, currentPosition);
 
         //底部tab
 //        horizontalRecyclerviewAdapter = new HorizontalRecyclerviewAdapter(getActivity(),list);
@@ -269,9 +270,8 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
                     bar_edit_text.setText("");
                     ChatEntity chatMessage = new ChatEntity();
                     chatMessage.setContent(content);
-                    chatMessage.setSenderId(ApplicationData.getInstance()
-                            .getUserInfo().getId());
-                    chatMessage.setReceiverId(getArguments().getInt("friendID"));
+                    chatMessage.setSenderId(ApplicationData.getInstance().getUserInfo().getId());
+                    chatMessage.setReceiverId(friendId);
                     chatMessage.setMessageType(ChatEntity.SEND);
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss", Locale.CHINA);
@@ -279,9 +279,37 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
                     chatMessage.setSendTime(sendTime);
                     if (mCallback != null)
                         mCallback.onMsgCallback(chatMessage);
+
                     UserAction.sendMessage(chatMessage);
-                    ImDB.getInstance(getActivity())
-                            .saveChatMessage(chatMessage);
+                    ImDB.getInstance(getActivity()).saveChatMessage(chatMessage);
+
+                    MessageTabEntity messageTab = new MessageTabEntity();
+                    messageTab.setContent(content);
+                    messageTab.setMessageType(MessageTabEntity.FRIEND_MESSAGE);
+                    messageTab.setName(friendName);
+                    messageTab.setSenderId(friendId);
+                    messageTab.setSendTime(sendTime);
+                    messageTab.setUnReadCount(0);
+
+                    //确认之前是否有和这个人聊过天，没有的话就添加一个
+                    List<MessageTabEntity> messageEntities = ApplicationData.getInstance().getMessageEntities();
+                    if (messageEntities.size() == 0) {
+                        ImDB.getInstance(getActivity()).saveMessage(messageTab);
+                        messageEntities.add(messageTab);
+                        ApplicationData.getInstance().setMessageEntities(messageEntities);
+                    } else {
+                        for (MessageTabEntity entity : messageEntities) {
+                            if (entity.getSenderId() != friendId) {
+                                ImDB.getInstance(getActivity()).saveMessage(messageTab);
+                                messageEntities.add(messageTab);
+                                ApplicationData.getInstance().setMessageEntities(messageEntities);
+                            }
+                        }
+                    }
+
+                    //聊过的话就直接添加到messageEntities并且更新聊过天的数据库
+                    ImDB.getInstance(getActivity()).updateMessages(messageTab);
+
                     if (ApplicationData.getInstance().getUserInfo().getGender() == 1) {
                         SpUtil.setIntSharedPreference(sp, "score", score - 1);
                         ApplicationData.getInstance().getUserInfo().setScore(score - 1);

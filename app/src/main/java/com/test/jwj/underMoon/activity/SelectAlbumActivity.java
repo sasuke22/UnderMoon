@@ -69,9 +69,8 @@ public class SelectAlbumActivity extends BaseActivity implements AdapterView.OnI
             }else
                 photoUri = PhotoUtils.takePicture(this);
         }else{
-            //TODO 裁剪界面，上传,权限问题
             File file = new File(albumList.get(i - 1).getFilePath());
-            Result res = PhotoUtils.startUCrop(this,file,ApplicationData.CROP);
+            Result res = PhotoUtils.startUCrop(this,file,PhotoUtils.INTENT_REQUEST_CODE_CROP);
             if (res == Result.FAILED)
                 showCustomToast("文件夹权限异常，请确认");
         }
@@ -97,7 +96,7 @@ public class SelectAlbumActivity extends BaseActivity implements AdapterView.OnI
                     UserAction.uploadNewPic(ApplicationData.getInstance().getUserInfo().getId(),photoUri,null);
                 }
                 break;
-            case ApplicationData.CROP:
+            case PhotoUtils.INTENT_REQUEST_CODE_CROP:
                 if (resultCode != Activity.RESULT_CANCELED) {
                     UserAction.uploadNewPic(ApplicationData.getInstance().getUserInfo().getId(),PhotoUtils.tempCrop,null);
                 }

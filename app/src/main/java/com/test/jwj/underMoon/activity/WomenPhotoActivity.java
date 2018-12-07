@@ -190,14 +190,14 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                     if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, OPEN_ALBUM);
                         return;
-                    }else {
-                        Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
-                        startActivity(intent);
+//                    }else {
+//                        Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
+//                        startActivity(intent);
                     }
-                }else {
-                    Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
-                    startActivity(intent);
-                }
+                }//else {
+                Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
+                startActivity(intent);
+                //}
 //                PhotoUtils.selectPhoto(WomenPhotoActivity.this);
                 overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
@@ -303,7 +303,8 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                 break;
             case OPEN_ALBUM:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    PhotoUtils.selectPhoto(WomenPhotoActivity.this);
+                    Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
+                    startActivity(intent);
                 } else {
                     showCustomToast("相册权限禁用了。请务必开启相机权");
                 }

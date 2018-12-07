@@ -36,16 +36,12 @@ public class ApplicationData {
 	private       Handler                        friendListHandler;
 	private       Context                        mContext;
 	private       List<User>                     mFriendSearched;
-//	private       Bitmap                         mUserPhoto;
 	private       List<MessageTabEntity>         mMessageEntities;// messageFragment显示的列表
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	private       SharedPreferences              sp;
 	private       int                            score;
 	public static UnderMoonApplication           mApplication;
 	private static ArrayList<Activity> mActivityList = new ArrayList<>();
-	public static final int CAMERA = 1;
-	public static final int GALLERY = 2;
-	public static final int CROP = 3;
 	public static final String SERVER_IP = "http://192.168.107.99:8089/";
 	public String HEAD_ADDRESS = null;
 
@@ -83,7 +79,6 @@ public class ApplicationData {
 			((UnderMoonApplication)mContext.getApplicationContext()).setUser(mUser);
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
 			HEAD_ADDRESS = SERVER_IP + mUser.getId() + "/" + "0.jpg";
-//			mUserPhoto = PhotoUtils.getBitmap(mUser.getPhoto());
 			List<User> friendListLocal = ImDB.getInstance(mContext)
 					.getAllFriend();
 			mFriendPhotoMap = new HashMap<Integer, Bitmap>();
@@ -191,7 +186,7 @@ public class ApplicationData {
 		ChatEntity chat = (ChatEntity) tran.getObject();
 		int senderId = chat.getSenderId();
 		boolean hasMessageTab = false;
-		for (int i = 0; i < mMessageEntities.size(); i++) {
+		for (int i = 0; i < mMessageEntities.size(); i++) {//先遍历看看消息列表中有没有已经有这个人的聊天
 			MessageTabEntity messageTab = mMessageEntities.get(i);
 			if (messageTab.getSenderId() == senderId
 					&& messageTab.getMessageType() == MessageTabEntity.FRIEND_MESSAGE) {
@@ -202,7 +197,7 @@ public class ApplicationData {
 				hasMessageTab = true;
 			}
 		}
-		if (!hasMessageTab) {
+		if (!hasMessageTab) {//如果没有的话就添加进IMDB供以后登录时查询消息列表使用
 			MessageTabEntity messageTab = new MessageTabEntity();
 			messageTab.setContent(chat.getContent());
 			messageTab.setMessageType(MessageTabEntity.FRIEND_MESSAGE);
@@ -221,13 +216,13 @@ public class ApplicationData {
 			getChatMessagesMap().put(chat.getSenderId(), chatList);
 		}
 		chatList.add(chat);
-		ImDB.getInstance(mContext).saveChatMessage(chat);
-		if (messageHandler != null) {
+		ImDB.getInstance(mContext).saveChatMessage(chat);//这里是将所有的聊天添加进ImDB的数据库中
+		if (messageHandler != null) {//通知消息列表指针到最下面
 			Message message = new Message();
 			message.what = 1;
 			messageHandler.sendMessage(message);
 		}
-		if (chatMessageHandler != null) {
+		if (chatMessageHandler != null) {//通知聊天列表指针到最下面
 			Message message = new Message();
 			message.what = 1;
 			chatMessageHandler.sendMessage(message);
@@ -243,6 +238,7 @@ public class ApplicationData {
 	}
 
 	public List<MessageTabEntity> getMessageEntities() {
+		mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
 		return mMessageEntities;
 	}
 
