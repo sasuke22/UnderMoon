@@ -38,8 +38,6 @@ public class ApplicationData {
 	private       List<User>                     mFriendSearched;
 	private       List<MessageTabEntity>         mMessageEntities;// messageFragment显示的列表
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
-	private       SharedPreferences              sp;
-	private       int                            score;
 	public static UnderMoonApplication           mApplication;
 	private static ArrayList<Activity> mActivityList = new ArrayList<>();
 	public static final String SERVER_IP = "http://192.168.107.99:8089/";
@@ -79,20 +77,13 @@ public class ApplicationData {
 			((UnderMoonApplication)mContext.getApplicationContext()).setUser(mUser);
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
 			HEAD_ADDRESS = SERVER_IP + mUser.getId() + "/" + "0.jpg";
-			List<User> friendListLocal = ImDB.getInstance(mContext)
-					.getAllFriend();
 			mFriendPhotoMap = new HashMap<Integer, Bitmap>();
-			for (int i = 0; i < friendListLocal.size(); i++) {
-				User friend = friendListLocal.get(i);
-				Bitmap photo = PhotoUtils.getBitmap(friend.getPhoto());
-				mFriendPhotoMap.put(friend.getId(), photo);
-			}
+			Log.e("tag","friend size " + mFriendList.size());
 			mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
-			sp = SpUtil.getSharePreference(mContext);
-			score = mUser.getScore();
-			SpUtil.setIntSharedPreference(sp,"score",score);
+			SharedPreferences sp = SpUtil.getSharePreference(mContext);
+			int score = mUser.getScore();
+			SpUtil.setIntSharedPreference(sp,"score", score);
 		} else {
-			Log.e("tag","login message arrived");
 			mUser = null;
 			mFriendList = null;
 		}
@@ -104,7 +95,7 @@ public class ApplicationData {
 		return mFriendPhotoMap;
 	}
 
-	public void setFriendPhotoList(Map<Integer, Bitmap> mFriendPhotoMap) {
+	public void setFriendPhotoMap(Map<Integer, Bitmap> mFriendPhotoMap) {
 		this.mFriendPhotoMap = mFriendPhotoMap;
 	}
 
