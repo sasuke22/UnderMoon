@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.MessageTabEntity;
-import com.test.jwj.underMoon.utils.ImageUtils;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class FriendMessageAdapter extends BaseAdapter {
 		} else {
 			unReadCountView.setText(String.valueOf(message.getUnReadCount()));
 		}
-		ImageUtils.load(mContext0,ApplicationData.SERVER_IP + senderId + "/0.jpg",avatarView);
+		avatarView.setImageBitmap(ApplicationData.getInstance().getFriendPhotoMap().get(senderId));
 		nameView.setText(name);
 		sendTimeView.setText(sendTime);
 

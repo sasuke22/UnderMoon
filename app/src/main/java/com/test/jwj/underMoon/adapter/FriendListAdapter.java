@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.signature.ObjectKey;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.User;
@@ -42,15 +43,19 @@ public class FriendListAdapter extends BaseAdapter {
 		user = mFriendList.get(position);
 		convertView = mInflater.inflate(R.layout.friend_list_item,null);
 		avatarView = (ImageView) convertView.findViewById(R.id.user_photo);
-		Glide.with(mContext).asBitmap().load(ApplicationData.SERVER_IP + user.getId() + "/0.jpg").into(new SimpleTarget<Bitmap>() {
-			@Override
-			public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-				avatarView.setImageBitmap(resource);
-				Log.e("tag","frimap " + friendPhotoMap.size() + ",userid " + user.getId());
-				friendPhotoMap.put(user.getId(),resource);
-				ApplicationData.getInstance().setFriendPhotoMap(friendPhotoMap);
-			}
-		});
+		if (friendPhotoMap != null && friendPhotoMap.get(user.getId()) != null){
+			avatarView.setImageBitmap(friendPhotoMap.get(user.getId()));
+		}else {
+			RequestOptions options = new RequestOptions().centerCrop().signature(new ObjectKey(System.currentTimeMillis()));
+			Glide.with(mContext).asBitmap().load(ApplicationData.SERVER_IP + user.getId() + "/0.jpg").apply(options).into(new SimpleTarget<Bitmap>() {
+				@Override
+				public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+					avatarView.setImageBitmap(resource);
+					friendPhotoMap.put(user.getId(), resource);
+					ApplicationData.getInstance().setFriendPhotoMap(friendPhotoMap);
+				}
+			});
+		}
 		String name = user.getUserName();
 		String briefIntro = user.getUserBriefIntro();
 

@@ -1,14 +1,21 @@
 package com.test.jwj.underMoon.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.signature.ObjectKey;
 import com.test.jwj.underMoon.CustomView.TitleBarView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.ChatMessageAdapter;
@@ -22,6 +29,7 @@ import com.test.jwj.underMoon.utils.SpUtil;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
 public class ChatActivity extends BaseActivity {
@@ -43,8 +51,21 @@ public class ChatActivity extends BaseActivity {
 		Intent intent = getIntent();
 		friendName = intent.getStringExtra("friendName");
 		friendId = intent.getIntExtra("friendId", 0);
+		updateFriendHead();
 		initViews();
 		initEvents();
+	}
+
+	private void updateFriendHead() {
+		RequestOptions options = new RequestOptions().centerCrop().signature(new ObjectKey(System.currentTimeMillis()));
+		Glide.with(this).asBitmap().load(ApplicationData.SERVER_IP + friendId + "/0.jpg").apply(options).into(new SimpleTarget<Bitmap>() {
+			@Override
+			public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+				Map<Integer, Bitmap> friendPhotoMap = ApplicationData.getInstance().getFriendPhotoMap();
+				friendPhotoMap.put(friendId, resource);
+				ApplicationData.getInstance().setFriendPhotoMap(friendPhotoMap);
+			}
+		});
 	}
 
 	@Override

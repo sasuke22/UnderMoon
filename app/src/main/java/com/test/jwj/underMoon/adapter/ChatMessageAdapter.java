@@ -2,7 +2,6 @@ package com.test.jwj.underMoon.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,6 @@ public class ChatMessageAdapter extends BaseAdapter {
 			rightLayout.setVisibility(View.GONE);
 			Bitmap photo = ApplicationData.getInstance().getFriendPhotoMap()
 					.get(chatEntity.getSenderId());
-			Log.e("tag","photo " + (photo == null) + ",send " + chatEntity.getSenderId());
 			if (photo != null)
 				leftPhotoView.setImageBitmap(photo);
 			leftMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,

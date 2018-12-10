@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 public class FileNetConnect {
     private Socket mClientSocket = null;
-    private static final String SERVER_IP = "192.168.107.99";
+    private static final String SERVER_IP = "192.168.107.60";
     private static final int FILE_SERVER_PORT = 8400;
     private boolean mIsConnected = false;
 

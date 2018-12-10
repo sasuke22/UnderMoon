@@ -6,13 +6,13 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
 
@@ -32,7 +32,8 @@ public class ImageUtils {
 //    }
     private static RequestOptions cacheOptions = new RequestOptions()
                                                         .error(R.mipmap.ic_launcher)
-                                                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+                                                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                                        .signature(new ObjectKey(System.currentTimeMillis()));
 
     public static void load(Activity activity, String url, ImageView iv) {    //使用Glide加载圆形ImageView(如头像)时，不要使用占位图
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -74,9 +75,6 @@ public class ImageUtils {
                 int width = mv.getMeasuredWidth();
                 int height = mv.getMeasuredHeight();
 
-                Log.e("tag", "width" + width);
-                Log.e("tag", "height" + height);
-
                 android.view.ViewGroup.LayoutParams lp = mv.getLayoutParams();
                 lp.height = mv.getMeasuredWidth();
                 mv.setLayoutParams(lp);
@@ -106,9 +104,6 @@ public class ImageUtils {
                 retriever.setDataSource(filePath);
             }
             bitmap = retriever.getFrameAtTime(-1);
-        } catch (IllegalArgumentException ex) {
-            // Assume this is a corrupt video file
-            ex.printStackTrace();
         } catch (RuntimeException ex) {
             // Assume this is a corrupt video file.
             ex.printStackTrace();

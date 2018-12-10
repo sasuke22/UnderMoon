@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.test.jwj.underMoon.activity.BaseActivity;
 import com.test.jwj.underMoon.activity.LoginActivity;
@@ -40,7 +39,7 @@ public class ApplicationData {
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	public static UnderMoonApplication           mApplication;
 	private static ArrayList<Activity> mActivityList = new ArrayList<>();
-	public static final String SERVER_IP = "http://192.168.107.99:8089/";
+	public static final String SERVER_IP = "http://192.168.107.60:8089/";
 	public String HEAD_ADDRESS = null;
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
@@ -78,7 +77,6 @@ public class ApplicationData {
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
 			HEAD_ADDRESS = SERVER_IP + mUser.getId() + "/" + "0.jpg";
 			mFriendPhotoMap = new HashMap<Integer, Bitmap>();
-			Log.e("tag","friend size " + mFriendList.size());
 			mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
 			SharedPreferences sp = SpUtil.getSharePreference(mContext);
 			int score = mUser.getScore();

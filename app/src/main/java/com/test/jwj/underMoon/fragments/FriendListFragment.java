@@ -42,6 +42,12 @@ public class FriendListFragment extends Fragment {
 		return mBaseView;
 	}
 
+	@Override
+	public void onResume() {
+		adapter.notifyDataSetChanged();
+		super.onResume();
+	}
+
 	private void findView() {
 		mTitleBarView = (TitleBarView) mBaseView.findViewById(R.id.title_bar);
 		mFriendListView = (ListView)mBaseView.findViewById(R.id.friend_list_listview);
