@@ -153,6 +153,7 @@ public class ImDB {
 				chat.setMessageType(cursor.getInt(cursor.getColumnIndex("type")));
 				chat.setSendTime(cursor.getString(cursor
 						.getColumnIndex("sendtime")));
+				chat.setSenderId(friendId);
 				allMessages.add(chat);
 			}
 		}
