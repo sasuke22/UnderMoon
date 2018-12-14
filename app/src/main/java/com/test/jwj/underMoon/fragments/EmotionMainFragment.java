@@ -14,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.test.jwj.underMoon.Callback.MsgCallback;
 import com.test.jwj.underMoon.CustomView.EmotionKeyboard;
 import com.test.jwj.underMoon.CustomView.NoHorizontalScrollerViewPager;
 import com.test.jwj.underMoon.R;
-import com.test.jwj.underMoon.activity.ChatActivity;
 import com.test.jwj.underMoon.adapter.NoHorizontalScrollerVPAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
@@ -57,6 +57,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 
     private EditText     bar_edit_text;
     private Button       bar_btn_send;
+    private ImageView    bar_image_add_btn;
 
     //需要绑定的内容view
     private View contentView;
@@ -71,11 +72,11 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
     //是否隐藏bar上的编辑框和发生按钮,默认不隐藏
     private boolean isHidenBarEditTextAndBtn=false;
 
-    List<Fragment> fragments =new ArrayList<>();
+    private List<Fragment> fragments =new ArrayList<>();
 
-    Bundle args;
-    View rootView;
-    ChatActivity.MsgCallback mCallback;
+    private Bundle      args;
+    private View        rootView;
+    private MsgCallback mCallback;
     private int friendId;
     private String friendName;
 
@@ -100,7 +101,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
         friendName = args.getString("friendName");
         //获取判断绑定对象的参数
         isBindToBarEditText=args.getBoolean(EmotionMainFragment.BIND_TO_EDITTEXT);
-        mCallback = (ChatActivity.MsgCallback) args.getSerializable("callback");
+        mCallback = (MsgCallback) args.getSerializable("callback");
         initView(rootView);
         mEmotionKeyboard = EmotionKeyboard.with(getActivity())
                 .setEmotionView(rootView.findViewById(R.id.ll_emotion_layout))//绑定表情面板
@@ -141,7 +142,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
         viewPager= (NoHorizontalScrollerViewPager) rootView.findViewById(R.id.vp_emotionview_layout);
 //        recyclerview_horizontal= (RecyclerView) rootView.findViewById(R.id.recyclerview_horizontal);
         bar_edit_text= (EditText) rootView.findViewById(R.id.bar_edit_text);
-        ImageView bar_image_add_btn = (ImageView) rootView.findViewById(R.id.bar_image_add_btn);
+        bar_image_add_btn = (ImageView) rootView.findViewById(R.id.bar_image_add_btn);
         bar_btn_send= (Button) rootView.findViewById(R.id.bar_btn_send);
         bar_btn_send.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.themeColor));
         LinearLayout rl_editbar_bg = (LinearLayout) rootView.findViewById(R.id.rl_editbar_bg);
@@ -152,7 +153,7 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
             rl_editbar_bg.setBackgroundResource(R.color.white);
         }else{
             bar_edit_text.setVisibility(View.VISIBLE);
-            bar_image_add_btn.setVisibility(View.GONE);
+            bar_image_add_btn.setVisibility(View.VISIBLE);
             bar_btn_send.setVisibility(View.VISIBLE);
             rl_editbar_bg.setBackgroundResource(R.drawable.shape_bg_reply_edittext);
         }
@@ -163,6 +164,8 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
      */
     protected void initListener(){
         bar_btn_send.setOnClickListener(this);
+        bar_image_add_btn.setOnClickListener(this);
+        rootView.findViewById(R.id.emotion_button).setOnClickListener(this);
     }
 
     /**
@@ -220,14 +223,15 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
 //            }
 //        });
 
-
-
     }
 
     private void replaceFragment(){
         //创建fragment的工厂类
         FragmentFactory factory=FragmentFactory.getSingleFactoryInstance();
         //创建修改实例
+        ChatToolsFragment toolsFragment = new ChatToolsFragment();
+        fragments.add(toolsFragment);
+
         EmotiomComplateFragment f1= (EmotiomComplateFragment) factory.getFragment(EmotionUtils.EMOTION_CLASSIC_TYPE);
         fragments.add(f1);
 //        Bundle b=null;
@@ -315,7 +319,14 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
                         ApplicationData.getInstance().getUserInfo().setScore(score - 1);
                     }
                 }
-
+                break;
+            case R.id.bar_image_add_btn:
+                viewPager.setCurrentItem(0,false);//第0个是聊天工具的fragment
+                mEmotionKeyboard.showChatToolsFragment();
+                break;
+            case R.id.emotion_button:
+                viewPager.setCurrentItem(1,false);
+                mEmotionKeyboard.showChatToolsFragment();
                 break;
         }
     }

@@ -34,8 +34,7 @@
             android:layout_height="28dp"
             android:clickable="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_plus"
-            android:visibility="gone" />
+            android:src="@mipmap/ic_plus"/>
 
         <LinearLayout
             android:id="@+id/rl_editbar_bg"

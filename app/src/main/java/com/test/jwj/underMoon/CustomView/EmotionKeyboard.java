@@ -96,26 +96,42 @@ public class EmotionKeyboard {
 	     * @return
 	     */
 	    public EmotionKeyboard bindToEmotionButton(View emotionButton) {
-	        emotionButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (mEmotionLayout.isShown()) {
-						lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
-						hideEmotionLayout(true);//隐藏表情布局，显示软件盘
-						unlockContentHeightDelayed();//软件盘显示后，释放内容高度
-					} else {
-						if (isSoftInputShown()) {//同上
-							lockContentHeight();
-							showEmotionLayout();
-							unlockContentHeightDelayed();
-						} else {
-							showEmotionLayout();//两者都没显示，直接显示表情布局
-						}
-					}
-				}
-			});
+//	        emotionButton.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					if (mEmotionLayout.isShown()) {
+//						lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+//						hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+//						unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+//					} else {
+//						if (isSoftInputShown()) {//同上
+//							lockContentHeight();
+//							showEmotionLayout();
+//							unlockContentHeightDelayed();
+//						} else {
+//							showEmotionLayout();//两者都没显示，直接显示表情布局
+//						}
+//					}
+//				}
+//			});
 	        return this;
 	    }
+
+	    public void showChatToolsFragment(){
+			if (mEmotionLayout.isShown()) {
+//				lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+//				hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+//				unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+			} else {
+				if (isSoftInputShown()) {//同上
+					lockContentHeight();
+					showEmotionLayout();
+					unlockContentHeightDelayed();
+				} else {
+					showEmotionLayout();//两者都没显示，直接显示表情布局
+				}
+			}
+		}
 
 	    /**
 	     * 设置表情内容布局

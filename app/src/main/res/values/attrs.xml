@@ -15,7 +15,7 @@
         <attr name="tvTextSize" format="dimension"/>
         <attr name="btnTextSize" format="dimension"/>
     </declare-styleable>
-    <declare-styleable name="skill_item">
+    <declare-styleable name="ItemLayout">
         <!--item布局的图片-->
         <attr name="itemImage" format="reference"/>
         <!--item布局的文字-->
@@ -24,6 +24,12 @@
         <attr name="itemAddition" format="string|reference"/>
         <!--item布局尾部的图片-->
         <attr name="itemBackImg" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="PictureWithText">
+        <!--聊天工具菜单子条目图片-->
+        <attr name="pic_txt_img" format="reference"/>
+        <!--聊天工具菜单子条目文字-->
+        <attr name="pic_txt_text" format="string|reference"/>
     </declare-styleable>
     <declare-styleable name="CircleImageView">
         <attr name="border_width" format="dimension" />

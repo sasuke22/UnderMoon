@@ -15,6 +15,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.test.jwj.underMoon.Callback.MsgCallback;
 import com.test.jwj.underMoon.CustomView.TitleBarView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.ChatMessageAdapter;
@@ -24,15 +28,18 @@ import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.fragments.EmotionMainFragment;
 import com.test.jwj.underMoon.global.UserAction;
+import com.test.jwj.underMoon.network.IMessageArrived;
 import com.test.jwj.underMoon.utils.SpUtil;
 
-import java.io.Serializable;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
-public class ChatActivity extends BaseActivity {
-	private TitleBarView       mTitleBarView;
+public class ChatActivity extends BaseActivity implements IMessageArrived<String> {
 	private int                friendId;
 	private String             friendName;
 	private ListView           chatMeessageListView;
@@ -69,9 +76,9 @@ public class ChatActivity extends BaseActivity {
 
 	@Override
 	protected void initViews() {
-		mTitleBarView = (TitleBarView) findViewById(R.id.title_bar);
-		mTitleBarView.setCommonTitle(View.GONE, View.VISIBLE, View.GONE);
-		mTitleBarView.setTitleText("与" + friendName + "对话");
+		TitleBarView titleBarView = (TitleBarView) findViewById(R.id.title_bar);
+		titleBarView.setCommonTitle(View.GONE, View.VISIBLE, View.GONE);
+		titleBarView.setTitleText("与" + friendName + "对话");
 		chatMeessageListView = (ListView) findViewById(R.id.chat_Listview);
 		initEmotionMainFragment();
 	}
@@ -100,6 +107,8 @@ public class ChatActivity extends BaseActivity {
 		chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this,chatList);
 		chatMeessageListView.setAdapter(chatMessageAdapter);
 		chatMeessageListView.setSelection(chatList.size());
+
+		UserAction.setMiDataListener(this);
 	}
 
 	@Override
@@ -146,8 +155,50 @@ public class ChatActivity extends BaseActivity {
 		transaction.commit();
 	}
 
-	public interface MsgCallback extends Serializable{
-		void onMsgCallback(ChatEntity chatMsg);
+	@Override
+	public void OnDataArrived(String url) {
+		ChatEntity chatMessage = new ChatEntity();
+		chatMessage.setContent(ApplicationData.SERVER_IP + "chat" + File.separator + url);
+		chatMessage.setSenderId(ApplicationData.getInstance().getUserInfo().getId());
+		chatMessage.setReceiverId(friendId);
+		chatMessage.setMessageType(ChatEntity.SEND);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss", Locale.CHINA);
+		String sendTime = sdf.format(date);
+		chatMessage.setSendTime(sendTime);
+		chatList.add(chatMessage);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				chatMessageAdapter.notifyDataSetChanged();
+				chatMeessageListView.setSelection(chatList.size());
+			}
+		});
+
+		UserAction.sendMessage(chatMessage);
+		ImDB.getInstance(this).saveChatMessage(chatMessage);
+
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case PictureConfig.CHOOSE_REQUEST:
+					// 图片选择结果回调
+					uploadChatPic(PictureSelector.obtainMultipleResult(data));
+					// 例如 LocalMedia 里面返回三种path
+					// 1.media.getPath(); 为原图path
+					// 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+					// 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+					// 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+					break;
+			}
+		}
+	}
+
+	private void uploadChatPic(List<LocalMedia> localMedia) {
+		UserAction.uploadChatPic(localMedia);
+	}
 }

@@ -16,6 +16,7 @@ import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
 import com.test.jwj.underMoon.utils.EmotionUtils;
 import com.test.jwj.underMoon.utils.ImageUtils;
+import com.test.jwj.underMoon.utils.PhotoUtils;
 import com.test.jwj.underMoon.utils.SpanStringUtils;
 
 import java.util.List;
@@ -53,6 +54,8 @@ public class ChatMessageAdapter extends BaseAdapter {
 				.findViewById(R.id.message_user_userphoto);
 		leftMessageView = (TextView) view.findViewById(R.id.friend_message);
 		rightMessageView = (TextView) view.findViewById(R.id.user_message);
+		LinearLayout leftContentBG = (LinearLayout) view.findViewById(R.id.chat_message_left_layout);
+		LinearLayout rightContentBG = (LinearLayout) view.findViewById(R.id.chat_message_right_layout);
 
 		timeView.setText(chatEntity.getSendTime());
 		if (chatEntity.getMessageType() == ChatEntity.SEND) {
@@ -61,7 +64,10 @@ public class ChatMessageAdapter extends BaseAdapter {
 
 			ImageUtils.load(mContext,ApplicationData.getInstance().getUserPhoto(),rightPhotoView);
 
-			rightMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
+			if (chatEntity.getContent().startsWith(ApplicationData.SERVER_IP))
+				setChatPic(rightContentBG, chatEntity.getContent());
+			else
+				rightMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
 							mContext, rightMessageView, chatEntity.getContent()));
 		} else if (chatEntity.getMessageType() == ChatEntity.RECEIVE) {// 本身作为接收方
 			leftLayout.setVisibility(View.VISIBLE);
@@ -70,10 +76,23 @@ public class ChatMessageAdapter extends BaseAdapter {
 					.get(chatEntity.getSenderId());
 			if (photo != null)
 				leftPhotoView.setImageBitmap(photo);
-			leftMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
+			if (chatEntity.getContent().startsWith(ApplicationData.SERVER_IP))
+				setChatPic(leftContentBG,chatEntity.getContent());
+			else
+				leftMessageView.setText(SpanStringUtils.getEmotionContent(EmotionUtils.EMOTION_CLASSIC_TYPE,
 					mContext, leftMessageView, chatEntity.getContent()));
 		}
 		return view;
+	}
+
+	private void setChatPic(LinearLayout chatContentBG, String url) {
+		chatContentBG.setBackground(null);
+		Bitmap bitmap = PhotoUtils.CompressPhotoForChat(mContext, url);
+		ImageView chatPic = new ImageView(mContext);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		chatPic.setLayoutParams(params);
+		chatPic.setImageBitmap(bitmap);
+		chatContentBG.addView(chatPic);
 	}
 
 	@Override

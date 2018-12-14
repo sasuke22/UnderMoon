@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.test.jwj.underMoon.Callback.UploadCallback;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
@@ -424,6 +425,29 @@ public class UserAction {
 						Log.e("tag","更新积分成功");
 					else
 						Log.e("tag","更新积分失败");
+				}
+			}
+		});
+	}
+
+	public static void uploadChatPic(List<LocalMedia> localMedia) {
+		params.clear();
+		ArrayList<String> fileList = new ArrayList<>();
+		for (LocalMedia chatPic : localMedia){
+			fileList.add(chatPic.getPath());
+		}
+		OkhttpUtil.post("chatimage",params,fileList).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (response.isSuccessful()){
+					String url = response.body().string();
+					if (miDataListener != null)
+						miDataListener.OnDataArrived(url.substring(1,url.length()-1));
 				}
 			}
 		});

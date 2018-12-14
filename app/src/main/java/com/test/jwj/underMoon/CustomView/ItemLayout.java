@@ -47,23 +47,24 @@ public class ItemLayout extends RelativeLayout{
         addition = (TextView) view.findViewById(R.id.item_addition);
         backImg = (ImageView) view.findViewById(R.id.item_back);
         if (attrs != null){
-            TypedArray a = getContext().obtainStyledAttributes(attrs,R.styleable.skill_item);
-            Drawable itemImage = a.getDrawable(R.styleable.skill_item_itemImage);
+            TypedArray a = getContext().obtainStyledAttributes(attrs,R.styleable.ItemLayout);
+            Drawable itemImage = a.getDrawable(R.styleable.ItemLayout_itemImage);
             if (itemImage != null)
                 img.setImageDrawable(itemImage);
             else img.setVisibility(GONE);
-            String itemName = a.getString(R.styleable.skill_item_itemName);
+            String itemName = a.getString(R.styleable.ItemLayout_itemName);
             if (itemName != null)
                 name.setText(itemName);
             else name.setVisibility(GONE);
-            String itemAddition = a.getString(R.styleable.skill_item_itemAddition);
+            String itemAddition = a.getString(R.styleable.ItemLayout_itemAddition);
             if (itemAddition != null)
                 addition.setText(itemAddition);
             else addition.setVisibility(GONE);
-            Drawable itemBackImg = a.getDrawable(R.styleable.skill_item_itemBackImg);
+            Drawable itemBackImg = a.getDrawable(R.styleable.ItemLayout_itemBackImg);
             if (itemBackImg != null)
                 backImg.setImageDrawable(itemBackImg);
             else backImg.setVisibility(GONE);
+            a.recycle();
         }
     }
 
