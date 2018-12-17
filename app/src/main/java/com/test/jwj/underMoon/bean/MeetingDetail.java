@@ -11,6 +11,7 @@ public class MeetingDetail implements Serializable{
     public static final long serialVersionUID =1L;
     public int               meetingId;
     public int               id;//meeting的人的ID？
+    public String            name;//meeting的人的name
     public String            city;
     public String            summary;
     public Date              date;

@@ -115,23 +115,29 @@ public class UserAction {
 		});
 	}
 
-	public static void sendFriendRequest(Result result, Integer id) {
-		TranObject t = new TranObject();
-		t.setReceiveId(id);
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss",Locale.CHINA);
-		String sendTime = sdf.format(date);
-		t.setSendTime(sendTime);
-		User user = ApplicationData.getInstance().getUserInfo();
-		t.setResult(result);
-		t.setSendId(user.getId());
-		t.setTranType(TranObjectType.FRIEND_REQUEST);
-		t.setSendName(user.getUserName());
-		try {
-			mNetService.send(t);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void sendFriendRequest(final Result result, final Integer id) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				TranObject t = new TranObject();
+				t.setReceiveId(id);
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss",Locale.CHINA);
+				String sendTime = sdf.format(date);
+				t.setSendTime(sendTime);
+				User user = ApplicationData.getInstance().getUserInfo();
+				t.setResult(result);
+				t.setSendId(user.getId());
+				t.setTranType(TranObjectType.FRIEND_REQUEST);
+				t.setSendName(user.getUserName());
+				try {
+					mNetService.send(t);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
 	}
 
 	public static void sendMessage(final ChatEntity message) {

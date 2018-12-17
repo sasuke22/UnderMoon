@@ -173,6 +173,7 @@ public class Fragment_create_meeting extends BaseFragment implements View.OnClic
                 else {
                     MeetingDetail meetingDetail = new MeetingDetail();
                     meetingDetail.id = user.getId();
+                    meetingDetail.name = user.getUserName();
                     meetingDetail.city = String.valueOf(Et_city_create_meeting.getText());
 //                    meetingDetail.date = meetingDate;
                     meetingDetail.content = String.valueOf(Et_content_create_meeting.getText());

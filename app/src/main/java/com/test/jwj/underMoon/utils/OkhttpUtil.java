@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
  */
 
 public class OkhttpUtil {
-    private static final String SERVER_IP_ADDRESS = "http://192.168.107.99:8080/qiqiim-server/";
+    private static final String SERVER_IP_ADDRESS = "http://bapa.ngrok.xiaomiqiu.cn/qiqiim-server/";
     private static OkHttpClient mClient = new OkHttpClient();
 
     public static Call post(String url,HashMap<String,String> params, ArrayList<String> fileList){
