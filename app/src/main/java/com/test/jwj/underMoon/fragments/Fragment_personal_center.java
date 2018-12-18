@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.signature.ObjectKey;
 import com.test.jwj.underMoon.CustomView.ItemLayout;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.activity.PersonalInfoActivity;
@@ -16,12 +22,15 @@ import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.utils.ImageUtils;
 
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/3/16.
  */
 
 public class Fragment_personal_center extends BaseFragment implements ItemLayout.LayoutClickListener {
     private boolean ismale;
+    private ImageView headPhoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +58,15 @@ public class Fragment_personal_center extends BaseFragment implements ItemLayout
         ((TextView)view.findViewById(R.id.id)).setText(String.valueOf(user.getId()));
         ((TextView)view.findViewById(R.id.province)).setText(user.getLocation());
         ((TextView)view.findViewById(R.id.job)).setText(user.getJob());
-        ImageUtils.load(getActivity(), ApplicationData.getInstance().HEAD_ADDRESS,(ImageView)view.findViewById(R.id.head_photo));
+        headPhoto = (ImageView)view.findViewById(R.id.head_photo);
+        RequestOptions options = new RequestOptions().centerCrop().signature(new ObjectKey(System.currentTimeMillis()));
+        Glide.with(this).asBitmap().load(ApplicationData.getInstance().HEAD_ADDRESS).apply(options).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                ApplicationData.getInstance().setmUserHead(resource);
+                headPhoto.setImageBitmap(resource);
+            }
+        });
     }
 
     @Override

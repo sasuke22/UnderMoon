@@ -1,6 +1,7 @@
 package com.test.jwj.underMoon.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,6 +26,7 @@ import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.IMessageArrived;
+import com.test.jwj.underMoon.utils.TextUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,6 +123,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
             ll_liuyan.setVisibility(View.VISIBLE);
             btn_register_meeting.setVisibility(View.VISIBLE);
             btn_send_msg.setVisibility(View.VISIBLE);
+            btn_send_msg.setOnClickListener(this);
             btn_register_meeting.setOnClickListener(this);
         }
         tv_leixing.setText(mInvitationDetail.type);
@@ -159,6 +162,12 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
             case R.id.header_back:
                 onBackPressed();
                 break;
+            case R.id.btn_send_msg:
+                Intent intent = new Intent(this,ChatActivity.class);
+                intent.putExtra("friendName", mInvitationDetail.name);
+                intent.putExtra("friendId", mInvitationDetail.id);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -166,10 +175,12 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     public void OnDataArrived(MeetingDetail invitationDetail) {
         mInvitationDetail = invitationDetail;
         map = new HashMap<>();
-        String[] idArray = mInvitationDetail.registId.split("\\|");
-        String[] nameArray = mInvitationDetail.enlistersName.split("\\|");
-        for (int i = 0;i < idArray.length;i++){
-            map.put(idArray[i],nameArray[i]);
+        if (mInvitationDetail.registId != null && mInvitationDetail.registId.length() > 0) {
+            String[] idArray = mInvitationDetail.registId.split("\\|");
+            String[] nameArray = mInvitationDetail.enlistersName.split("\\|");
+            for (int i = 0; i < idArray.length; i++) {
+                map.put(idArray[i], nameArray[i]);
+            }
         }
         runOnUiThread(new Runnable() {
             @Override

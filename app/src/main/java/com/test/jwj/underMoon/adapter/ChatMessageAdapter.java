@@ -62,7 +62,7 @@ public class ChatMessageAdapter extends BaseAdapter {
 			rightLayout.setVisibility(View.VISIBLE);
 			leftLayout.setVisibility(View.GONE);
 
-			ImageUtils.load(mContext,ApplicationData.getInstance().getUserPhoto(),rightPhotoView);
+			rightPhotoView.setImageBitmap(ApplicationData.getInstance().getmUserHead());
 
 			if (chatEntity.getContent().startsWith(ApplicationData.SERVER_IP))
 				setChatPic(rightContentBG, chatEntity.getContent());

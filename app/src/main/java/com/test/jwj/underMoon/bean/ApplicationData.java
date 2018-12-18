@@ -29,6 +29,16 @@ public class ApplicationData {
 	private       List<User>                     mFriendList;
 	private       TranObject                     mReceivedMessage;
 	private       Map<Integer, Bitmap>           mFriendPhotoMap;
+	private		  Bitmap						 mUserHead;
+
+	public Bitmap getmUserHead() {
+		return mUserHead;
+	}
+
+	public void setmUserHead(Bitmap mUserHead) {
+		this.mUserHead = mUserHead;
+	}
+
 	private       Handler                        messageHandler;
 	private       Handler                        chatMessageHandler;
 	private       Handler                        friendListHandler;
@@ -38,7 +48,7 @@ public class ApplicationData {
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	public static UnderMoonApplication           mApplication;
 	private static ArrayList<Activity> mActivityList = new ArrayList<>();
-	public static final String SERVER_IP = "http://192.168.107.60:8089/";
+	public static final String SERVER_IP = "http://undermoon.ngrok.xiaomiqiu.cn/";
 	public String HEAD_ADDRESS = null;
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
@@ -140,7 +150,6 @@ public class ApplicationData {
 			messageEntity.setContent("接受了你的好友请求");
 			User newFriend = (User) mReceivedRequest.getObject();
 			if (!mFriendList.contains(newFriend)) {
-
 				mFriendList.add(newFriend);
 			}
 			
