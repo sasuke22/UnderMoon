@@ -13,7 +13,6 @@ import com.test.jwj.underMoon.activity.LoginActivity;
 import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.global.Result;
 import com.test.jwj.underMoon.global.UnderMoonApplication;
-import com.test.jwj.underMoon.utils.PhotoUtils;
 import com.test.jwj.underMoon.utils.SpUtil;
 
 import java.util.ArrayList;
@@ -145,8 +144,8 @@ public class ApplicationData {
 				mFriendList.add(newFriend);
 			}
 			
-			mFriendPhotoMap.put(newFriend.getId(),
-					PhotoUtils.getBitmap(newFriend.getPhoto()));
+//			mFriendPhotoMap.put(newFriend.getId(),
+//					PhotoUtils.getBitmap(newFriend.getPhoto()));
 			if (friendListHandler != null) {
 				Message message = new Message();
 				message.what = 1;

@@ -123,14 +123,6 @@ public class SearchFriendActivity extends BaseActivity implements
 		if (flag) {
 			mIsReceived = false;
 			showLoadingDialog("正在查找...");
-			while (!mIsReceived) {
-			}
-			Intent intent = new Intent(this, FriendSearchResultActivity.class);
-			//Bundle mBundle = new Bundle();
-			//mBundle.putSerializable("result", mReceivedMessage);
-			//intent.putExtras(mBundle);
-			startActivity(intent);
-			finish();
 		}
 
 	}
@@ -139,5 +131,11 @@ public class SearchFriendActivity extends BaseActivity implements
 	public void OnDataArrived(ArrayList<User> list) {
 		ApplicationData.getInstance().setFriendSearched(list);
 		mIsReceived = true;
+		Intent intent = new Intent(this, FriendSearchResultActivity.class);
+		//Bundle mBundle = new Bundle();
+		//mBundle.putSerializable("result", mReceivedMessage);
+		//intent.putExtras(mBundle);
+		startActivity(intent);
+		finish();
 	}
 }

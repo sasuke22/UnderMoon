@@ -39,7 +39,7 @@ public class ImDB {
 		values.put("friendid", friend.getId());
 		values.put("name", friend.getUserName());
 		values.put("birthday", friend.getBirthday().toString());
-		values.put("photo", friend.getPhoto());
+//		values.put("photo", friend.getPhoto());
 		db.insert("friend", null, values);
 
 	}
