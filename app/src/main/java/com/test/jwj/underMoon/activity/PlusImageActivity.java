@@ -14,6 +14,7 @@ import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.MainConstant;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PlusImageActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
@@ -42,7 +43,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
 
         mAdapter = new PhotoViewPagerAdapter(this, imgList);
         viewPager.setAdapter(mAdapter);
-        positionTv.setText(mPosition + 1 + "/" + imgList.size());
+        positionTv.setText(String.format(Locale.CHINA,"%1$d/%2$d",mPosition + 1,imgList.size()));
         viewPager.setCurrentItem(mPosition);
     }
 
@@ -62,7 +63,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
 
     //设置当前位置
     private void setPosition() {
-        positionTv.setText(mPosition + 1 + "/" + imgList.size());
+        positionTv.setText(String.format(Locale.CHINA,"%1$d/%2$d",mPosition + 1,imgList.size()));
         viewPager.setCurrentItem(mPosition);
         mAdapter.notifyDataSetChanged();
     }
@@ -83,7 +84,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
     @Override
     public void onPageSelected(int position) {
         mPosition = position;
-        positionTv.setText(position + 1 + "/" + imgList.size());
+        positionTv.setText(String.format(Locale.CHINA,"%1$d/%2$d",mPosition + 1,imgList.size()));
     }
 
     @Override

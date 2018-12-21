@@ -85,7 +85,6 @@ public class PhotoUtils {
 	/**
 	 * 通过手机相册获取图片
 	 *
-	 * @param activity
 	 */
 	public static void selectPhoto(Activity activity) {
 		Intent intent = new Intent(Intent.ACTION_PICK, null);
@@ -199,11 +198,11 @@ public class PhotoUtils {
 							MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI,
 							thumbColumns, MediaStore.Video.Thumbnails.VIDEO_ID
 									+ "=" + id, null, null);
-					if (thumbCursor.moveToNext()) {
+					if (thumbCursor != null && thumbCursor.moveToNext()) {
 						materialBean.setThumb(thumbCursor.getString(thumbCursor
 								.getColumnIndex(MediaStore.Video.Thumbnails.DATA)));
+						thumbCursor.close();
 					}
-
 					materialBean.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME)));
 					materialBean.setLogo(path);
 					materialBean.setFilePath(path);
@@ -233,7 +232,6 @@ public class PhotoUtils {
 	/**
 	 * 通过手机照相获取图片
 	 * 
-	 * @param activity
 	 * @return 照相后图片的路径
 	 */
 	public static String takePicture(Activity activity) {
@@ -255,8 +253,6 @@ public class PhotoUtils {
 	/**
 	 * 裁剪图片
 	 * 
-	 * @param context
-	 * @param activity
 	 * @param path
 	 *            需要裁剪的图片路径
 	 */
@@ -276,8 +272,6 @@ public class PhotoUtils {
 
 	/**
 	 * 图片裁剪
-	 * @param uri
-	 * @return
 	 */
 	@NonNull
 	private static Intent CutForPhoto(Context context,Uri uri) {
@@ -296,7 +290,6 @@ public class PhotoUtils {
 			//初始化 uri
 			Uri imageUri = uri; //返回来的 uri
 //			Uri outputUri; //真实的 uri
-			Log.e("tag","pakage " + context.getPackageName());
 //			if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
 //				outputUri = FileProvider.getUriForFile(context, context.getPackageName() +
 //						".provider", cutfile);
@@ -399,8 +392,6 @@ public class PhotoUtils {
 	/**
 	 * 滤镜图片
 	 * 
-	 * @param context
-	 * @param activity
 	 * @param path
 	 *            需要滤镜的图片路径
 	 */
@@ -430,7 +421,6 @@ public class PhotoUtils {
 	 * 
 	 * @param path
 	 *            图片的路径
-	 * @return
 	 */
 	public static Bitmap getBitmapFromFile(String path) {
 		return BitmapFactory.decodeFile(path);
@@ -443,13 +433,12 @@ public class PhotoUtils {
 	 *            ContentResolver对象
 	 * @param uri
 	 *            图片的Uri
-	 * @return
 	 */
 	public static Bitmap getBitmapFromUri(ContentResolver cr, Uri uri) {
 		try {
 			return BitmapFactory.decodeStream(cr.openInputStream(uri));
 		} catch (FileNotFoundException e) {
-
+			Log.e("tag",e.getMessage());
 		}
 		return null;
 	}
@@ -463,7 +452,6 @@ public class PhotoUtils {
 	 *            宽度
 	 * @param h
 	 *            长度
-	 * @return
 	 */
 	public static Bitmap createBitmap(String path, int w, int h) {
 		try {
@@ -510,7 +498,6 @@ public class PhotoUtils {
 	 * 
 	 * @param bitmap
 	 *            图片bitmap对象
-	 * @return
 	 */
 	public static Bundle getBitmapWidthAndHeight(Bitmap bitmap) {
 		Bundle bundle = null;
@@ -528,7 +515,6 @@ public class PhotoUtils {
 	 * 
 	 * @param bitmap
 	 *            图片bitmap对象
-	 * @return
 	 */
 	public static boolean bitmapIsLarge(Bitmap bitmap) {
 		final int MAX_WIDTH = 60;
@@ -553,7 +539,6 @@ public class PhotoUtils {
 	 *            图片的路径
 	 * @param ratio
 	 *            缩放比例
-	 * @return
 	 */
 	public static Bitmap CompressionPhoto(float screenWidth, String filePath,
 			int ratio) {
@@ -583,8 +568,8 @@ public class PhotoUtils {
 		Glide.with(context).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-				float scaleWidth = screenWidth / (resource.getWidth() * 1);
-				float scaleHeight = screenHeight / (resource.getHeight() * 1);
+				float scaleWidth = (float) (resource.getWidth() * 2.0) / screenWidth ;
+				float scaleHeight = (float) (resource.getHeight() * 2.0) / screenWidth ;
 				Log.e("tag","wid " + scaleWidth + ",hei " + scaleHeight);
 				Matrix matrix = new Matrix();
 				matrix.postScale(scaleWidth, scaleHeight);
@@ -604,7 +589,6 @@ public class PhotoUtils {
 	 * 
 	 * @param bitmap
 	 *            图片的bitmap对象
-	 * @return
 	 */
 	public static String savePhotoToSDCard(Bitmap bitmap) {
 		if (!FileUtils.isSdcardExist()) {
@@ -642,7 +626,6 @@ public class PhotoUtils {
 	 *            滤镜类型
 	 * @param defaultBitmap
 	 *            默认图片
-	 * @return
 	 */
 	public static Bitmap getFilter(ImageFactoryFliter.FilterType filterType, Bitmap defaultBitmap) {
 		if (filterType.equals(ImageFactoryFliter.FilterType.默认)) {
@@ -656,8 +639,6 @@ public class PhotoUtils {
 	/**
 	 * 滤镜效果--LOMO
 	 * 
-	 * @param bitmap
-	 * @return
 	 */
 	public static Bitmap lomoFilter(Bitmap bitmap) {
 		int width = bitmap.getWidth();
@@ -735,8 +716,6 @@ public class PhotoUtils {
 	/**
 	 * 根据文字获取图片
 	 * 
-	 * @param text
-	 * @return
 	 */
 	public static Bitmap getIndustry(Context context, String text) {
 		String color = "#ffefa600";
@@ -796,9 +775,6 @@ public class PhotoUtils {
 	/**
 	 * 获取圆角图片
 	 * 
-	 * @param bitmap
-	 * @param pixels
-	 * @return
 	 */
 	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
 
@@ -810,12 +786,11 @@ public class PhotoUtils {
 		final Paint paint = new Paint();
 		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		final RectF rectF = new RectF(rect);
-		final float roundPx = pixels;
 
 		paint.setAntiAlias(true);
 		canvas.drawARGB(0, 0, 0, 0);
 		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		canvas.drawRoundRect(rectF, (float) pixels, (float) pixels, paint);
 
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
@@ -826,9 +801,6 @@ public class PhotoUtils {
 	/**
 	 * 获取颜色的圆角bitmap
 	 * 
-	 * @param context
-	 * @param color
-	 * @return
 	 */
 	public static Bitmap getRoundBitmap(Context context, int color) {
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
@@ -878,18 +850,15 @@ public class PhotoUtils {
 			options /= 2;// 每次都减少5
 		}
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-		
+
 		//return ThumbnailUtils.extractThumbnail(image, 120, 120);
-		return bitmap;
+		return BitmapFactory.decodeStream(isBm, null, null);
 		
 	}
 
 	/**
 	 * 初始化多图选择的配置
 	 *
-	 * @param activity
-	 * @param maxTotal
 	 */
 	public static void initMultiConfig(Activity activity, int maxTotal) {
 		// 进入相册 以下是例子：用不到的api可以不写
@@ -936,8 +905,6 @@ public class PhotoUtils {
 	/**
 	 * 初始化多图选择的配置
 	 *
-	 * @param fragment
-	 * @param maxTotal
 	 */
 	public static void initMultiConfig(Fragment fragment, int maxTotal) {
 		PictureSelector.create(fragment)
@@ -965,7 +932,6 @@ public class PhotoUtils {
 	/**
 	 * 初始化单张图片选择的配置
 	 *
-	 * @param activity
 	 */
 	public static void initSingleConfig(Activity activity) {
 		// 进入相册 以下是例子：用不到的api可以不写

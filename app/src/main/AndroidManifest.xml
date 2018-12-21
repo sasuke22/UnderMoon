@@ -106,7 +106,7 @@
         </activity>
         <activity android:name=".activity.ChatActivity"
                   android:configChanges="orientation|keyboardHidden"
-                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity android:name=".activity.EnlistInfoActivity"
                   android:configChanges="orientation|keyboardHidden"

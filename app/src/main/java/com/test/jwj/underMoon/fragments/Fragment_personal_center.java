@@ -20,9 +20,8 @@ import com.test.jwj.underMoon.activity.PersonalInfoActivity;
 import com.test.jwj.underMoon.activity.RestMoneyActivity;
 import com.test.jwj.underMoon.activity.WomenPhotoActivity;
 import com.test.jwj.underMoon.bean.ApplicationData;
-import com.test.jwj.underMoon.utils.ImageUtils;
 
-import java.util.Map;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -54,13 +53,13 @@ public class Fragment_personal_center extends BaseFragment implements ItemLayout
             view.findViewById(R.id.score).setVisibility(View.GONE);
         }
         ((TextView)view.findViewById(R.id.name)).setText(user.getUserName());
-        ((TextView)view.findViewById(R.id.age)).setText(user.getAge() + "岁");
+        ((TextView)view.findViewById(R.id.age)).setText(String.format(Locale.CHINA,"%d 岁",user.getAge()));
         ((TextView)view.findViewById(R.id.id)).setText(String.valueOf(user.getId()));
         ((TextView)view.findViewById(R.id.province)).setText(user.getLocation());
         ((TextView)view.findViewById(R.id.job)).setText(user.getJob());
         headPhoto = (ImageView)view.findViewById(R.id.head_photo);
         RequestOptions options = new RequestOptions().centerCrop().signature(new ObjectKey(System.currentTimeMillis()));
-        Glide.with(this).asBitmap().load(ApplicationData.getInstance().HEAD_ADDRESS).apply(options).into(new SimpleTarget<Bitmap>() {
+        Glide.with(this).asBitmap().load(ApplicationData.SERVER_IP + user.getId() + "/0.jpg").apply(options).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 ApplicationData.getInstance().setmUserHead(resource);

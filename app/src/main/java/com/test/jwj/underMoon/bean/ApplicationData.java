@@ -30,15 +30,6 @@ public class ApplicationData {
 	private       TranObject                     mReceivedMessage;
 	private       Map<Integer, Bitmap>           mFriendPhotoMap;
 	private		  Bitmap						 mUserHead;
-
-	public Bitmap getmUserHead() {
-		return mUserHead;
-	}
-
-	public void setmUserHead(Bitmap mUserHead) {
-		this.mUserHead = mUserHead;
-	}
-
 	private       Handler                        messageHandler;
 	private       Handler                        chatMessageHandler;
 	private       Handler                        friendListHandler;
@@ -48,8 +39,15 @@ public class ApplicationData {
 	private       Map<Integer, List<ChatEntity>> mChatMessagesMap;
 	public static UnderMoonApplication           mApplication;
 	private static ArrayList<Activity> mActivityList = new ArrayList<>();
-	public static final String SERVER_IP = "http://undermoon.ngrok.xiaomiqiu.cn/";
-	public String HEAD_ADDRESS = null;
+	public static final String SERVER_IP = "http://192.168.107.60:8089/";
+
+	public Bitmap getmUserHead() {
+		return mUserHead;
+	}
+
+	public void setmUserHead(Bitmap mUserHead) {
+		this.mUserHead = mUserHead;
+	}
 
 	public Map<Integer, List<ChatEntity>> getChatMessagesMap() {
 		return mChatMessagesMap;
@@ -84,7 +82,6 @@ public class ApplicationData {
 			mUser = (User) mReceivedMessage.getObject();
 			((UnderMoonApplication)mContext.getApplicationContext()).setUser(mUser);
 			mFriendList = mUser.getFriendList();// 根据从服务器得到的信息，设置好友是否在线
-			HEAD_ADDRESS = SERVER_IP + mUser.getId() + "/" + "0.jpg";
 			mFriendPhotoMap = new HashMap<Integer, Bitmap>();
 			mMessageEntities = ImDB.getInstance(mContext).getAllMessage();
 			SharedPreferences sp = SpUtil.getSharePreference(mContext);
@@ -153,8 +150,6 @@ public class ApplicationData {
 				mFriendList.add(newFriend);
 			}
 			
-//			mFriendPhotoMap.put(newFriend.getId(),
-//					PhotoUtils.getBitmap(newFriend.getPhoto()));
 			if (friendListHandler != null) {
 				Message message = new Message();
 				message.what = 1;
@@ -224,14 +219,6 @@ public class ApplicationData {
 			message.what = 1;
 			chatMessageHandler.sendMessage(message);
 		}
-	}
-
-	public String getUserPhoto() {
-		return HEAD_ADDRESS;
-	}
-
-	public void setUserPhoto(String mUserPhoto) {
-		this.HEAD_ADDRESS = mUserPhoto;
 	}
 
 	public List<MessageTabEntity> getMessageEntities() {

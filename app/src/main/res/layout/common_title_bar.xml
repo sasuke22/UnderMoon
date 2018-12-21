@@ -15,7 +15,7 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/blue"
             android:textSize="16sp"
-            android:background="@color/common_title"/>
+            android:background="@null"/>
         <TextView 
             android:id="@+id/title_txt"
             android:layout_height="40dp"
@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@color/common_title"/>
+            android:background="@null"/>
         
 
     </RelativeLayout>

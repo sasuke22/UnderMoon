@@ -143,4 +143,13 @@ public class ImageUtils {
         mmr.setDataSource(url);
         return mmr.getFrameAtTime();
     }
+
+    public static void sameSampleLoad(Context context,String url,ImageView target){
+        Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .apply(cacheOptions)
+                .into(new TransformationUtils(target));
+    }
+
 }
