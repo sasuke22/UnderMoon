@@ -23,6 +23,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
     private ArrayList<String> imgList; //图片的数据源
     private int               mPosition; //第几张图片
     private PhotoViewPagerAdapter  mAdapter;
+    private boolean           showDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
 
         imgList = getIntent().getStringArrayListExtra(MainConstant.IMG_LIST);
         mPosition = getIntent().getIntExtra(MainConstant.POSITION, 0);
+        showDelete = getIntent().getBooleanExtra("delete",true);
         initView();
     }
 
@@ -38,13 +40,16 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         positionTv = (TextView) findViewById(R.id.position_tv);
         findViewById(R.id.back_iv).setOnClickListener(this);
-        findViewById(R.id.delete_iv).setOnClickListener(this);
+        View delete = findViewById(R.id.delete_iv);
+        delete.setOnClickListener(this);
         viewPager.addOnPageChangeListener(this);
 
         mAdapter = new PhotoViewPagerAdapter(this, imgList);
         viewPager.setAdapter(mAdapter);
         positionTv.setText(String.format(Locale.CHINA,"%1$d/%2$d",mPosition + 1,imgList.size()));
         viewPager.setCurrentItem(mPosition);
+        if (!showDelete)
+            delete.setVisibility(View.GONE);
     }
 
     //删除图片

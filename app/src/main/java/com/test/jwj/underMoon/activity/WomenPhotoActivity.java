@@ -18,31 +18,27 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.Callback.UploadCallback;
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.MainConstant;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.IMessageArrived;
 import com.test.jwj.underMoon.utils.PhotoUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import ch.ielse.view.imagewatcher.ImageWatcher;
 
 
 /**
@@ -50,7 +46,7 @@ import java.util.Arrays;
  */
 
 public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<String>, View.OnClickListener {
-    private ArrayList<String> mPhotoList;
+    private ArrayList<String> mPhotoList = new ArrayList<>();
     private PopupWindow pop = null;
     private LinearLayout ll_popup;
     private RecyclerViewAdapter adapter;
@@ -58,10 +54,11 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
     public static Bitmap mBitmap;
     private int     userId;
     private RecyclerView gv_women_photo;
-    private final int OPEN_CANMER = 111;
-    private final int OPEN_ALBUM = 222;
+    private final int OPEN_CAMERA = 111;
+    private final int OPEN_ALBUM  = 222;
     private String         path;
     private UploadCallback uploadCallback;
+    private ImageWatcher imageWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +79,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
         ((TextView) findViewById(R.id.header_title)).setText("个人相册");
         findViewById(R.id.header_back).setOnClickListener(this);
         findViewById(R.id.header_option).setVisibility(View.GONE);
+        imageWatcher = (ImageWatcher) findViewById(R.id.activity_women_photo_imgwatcher);
         UserAction.getPhotos(userId);//网络获取图片流转换成bitmap设置给mPhotoList
         uploadCallback = new UploadCallback() {
             @Override
@@ -105,24 +103,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                     ll_popup.startAnimation(AnimationUtils.loadAnimation(WomenPhotoActivity.this,R.anim.activity_translate_in));
                     pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
                 } else {
-                    LayoutInflater inflater = LayoutInflater.from(WomenPhotoActivity.this);
-                    View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
-                    final AlertDialog dialog = new AlertDialog.Builder(WomenPhotoActivity.this).create();
-
-                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                    int width = displayMetrics.widthPixels;
-                    int height = displayMetrics.heightPixels;
-                    Glide.with(WomenPhotoActivity.this).load(ApplicationData.SERVER_IP + userId + "/" + mPhotoList.get(position-1) + ".jpg")
-                            .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height))
-                            .transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
-                    dialog.setView(bigPhoto);
-                    dialog.show();
-                    bigPhoto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
+                    viewPluImg(position - 1);
                 }
             }
         });
@@ -174,7 +155,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                 if (Build.VERSION.SDK_INT >= 23) {
                     int checkCallPhonePermission = ContextCompat.checkSelfPermission(WomenPhotoActivity.this, Manifest.permission.CAMERA);
                     if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.CAMERA}, OPEN_CANMER);
+                        ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.CAMERA}, OPEN_CAMERA);
                         return;
                     }
                 }
@@ -279,10 +260,13 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
 
     @Override
     public void OnDataArrived(String urlStr) {
+        mPhotoList.clear();
         String[] urlArray = urlStr.split("\\|");
-        mPhotoList = new ArrayList<>(Arrays.asList(urlArray));
-        if (mPhotoList.get(0).equals(""))
-            mPhotoList.remove(0);
+        for (String url : urlArray){
+            if (!url.equals("")) {
+                mPhotoList.add(ApplicationData.SERVER_IP + userId + "/" + url + ".jpg");
+            }
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -294,7 +278,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case OPEN_CANMER:
+            case OPEN_CAMERA:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     photo();
                 } else {
@@ -321,5 +305,13 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                 onBackPressed();
                 break;
         }
+    }
+
+    //查看大图
+    private void viewPluImg(int position) {
+        Intent intent = new Intent(this, PlusImageActivity.class);
+        intent.putStringArrayListExtra(MainConstant.IMG_LIST, mPhotoList);
+        intent.putExtra(MainConstant.POSITION, position);
+        startActivityForResult(intent, MainConstant.REQUEST_CODE_MAIN);
     }
 }

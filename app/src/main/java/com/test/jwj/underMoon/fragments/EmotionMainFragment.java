@@ -91,7 +91,6 @@ public class EmotionMainFragment extends BaseFragment implements View.OnClickLis
      * @param inflater view创造器
      * @param container view填充的地方
      * @param savedInstanceState fragment保存状态
-     * @return
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

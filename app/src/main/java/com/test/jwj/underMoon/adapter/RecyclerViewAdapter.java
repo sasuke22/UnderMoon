@@ -24,30 +24,26 @@ import com.test.jwj.underMoon.utils.SystemMethod;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2017/7/28.
- */
-
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>{
     private ArrayList<String> mPhotoList;
     private Context      mContext;
     private int          mUserId;
     private MyItemClickListener itemClickListener;
     private MyItemLongClickListener itemLongClickListener;
-    public RecyclerViewAdapter(Context context, ArrayList list, int userId){
+
+    public RecyclerViewAdapter(Context context, ArrayList<String> list, int userId){
         this.mUserId = userId;
         this.mContext = context;
         this.mPhotoList = list;
     }
 
-    public RecyclerViewAdapter(Context context, ArrayList list){
+    public RecyclerViewAdapter(Context context, ArrayList<String> list){
         this.mContext = context;
         this.mPhotoList = list;
     }
 
     public void setPhotoList(ArrayList<String> list){
         this.mPhotoList = list;
-        notifyDataSetChanged();
     }
 
     Handler handler = new Handler() {
@@ -76,8 +72,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Bitmap addBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_addpic_unfocused);
                 holder.iv_photo.setImageBitmap(addBitmap);
             } else {
-                Glide.with(mContext).load(ApplicationData.SERVER_IP + mUserId + "/" + mPhotoList.get(position - 1) + ".jpg").//减1是为了去掉一开始的添加图片按钮
+                Glide.with(mContext).load(mPhotoList.get(position - 1)).//减1是为了去掉一开始的添加图片按钮
                         apply(requestOptions).transition(transitionOptions).into(holder.iv_photo);
+
             }
         }else if (mContext instanceof InvitationDetailActivity){
             Glide.with(mContext).load(mPhotoList.get(position))

@@ -2,8 +2,6 @@ package com.test.jwj.underMoon.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.bean.ApplicationData;
 import com.test.jwj.underMoon.bean.ChatEntity;
@@ -23,14 +18,19 @@ import com.test.jwj.underMoon.utils.EmotionUtils;
 import com.test.jwj.underMoon.utils.ImageUtils;
 import com.test.jwj.underMoon.utils.SpanStringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import ch.ielse.view.imagewatcher.ImageWatcher;
 
 public class ChatMessageAdapter extends BaseAdapter {
 	private List<ChatEntity> chatEntities;
 	private LayoutInflater   mInflater;
 	private Context          mContext;
+	private ImageWatcher 	 mImageWatcher;
 
-	public ChatMessageAdapter(Context context, List<ChatEntity> vector) {
+	public ChatMessageAdapter(Context context, ImageWatcher imageWatcher,List<ChatEntity> vector) {
+		this.mImageWatcher = imageWatcher;
 		this.chatEntities = vector;
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
@@ -90,27 +90,14 @@ public class ChatMessageAdapter extends BaseAdapter {
 	}
 
 	private void viewPlusImg(ImageView pic, final String url) {
+		final ArrayList<ImageView> list = new ArrayList<>();
+		list.add(pic);
+		final ArrayList<String> urlList = new ArrayList<>();
+		urlList.add(url);
 		pic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				LayoutInflater inflater = LayoutInflater.from(mContext);
-				View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
-				final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
-
-				DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
-				int width = displayMetrics.widthPixels;
-				int height = displayMetrics.heightPixels;
-				Glide.with(mContext).load(url)
-						.apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height))
-						.transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
-				dialog.setView(bigPhoto);
-				dialog.show();
-				bigPhoto.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						dialog.cancel();
-					}
-				});
+				mImageWatcher.show((ImageView) view,list,urlList);
 			}
 		});
 	}

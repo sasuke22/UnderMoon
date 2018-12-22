@@ -3,30 +3,23 @@ package com.test.jwj.underMoon.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
 import com.test.jwj.underMoon.CustomView.DividerGridItemDecoration;
 import com.test.jwj.underMoon.CustomView.EnlisterView;
 import com.test.jwj.underMoon.R;
 import com.test.jwj.underMoon.adapter.RecyclerViewAdapter;
 import com.test.jwj.underMoon.bean.ApplicationData;
+import com.test.jwj.underMoon.bean.MainConstant;
 import com.test.jwj.underMoon.bean.MeetingDetail;
 import com.test.jwj.underMoon.bean.User;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.IMessageArrived;
-import com.test.jwj.underMoon.utils.TextUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +31,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
     private MeetingDetail mInvitationDetail;
     private EnlisterView tv_enlist_people;
     private HashMap<String,String> map;
+    private ArrayList<String> picList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +72,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
 
         //加载图片
         if (mInvitationDetail.pics > 0){
-            final ArrayList<String> picList = new ArrayList<>();
+            picList = new ArrayList<>();
             for (int i = 0;i < mInvitationDetail.pics;i++){
                 picList.add(ApplicationData.SERVER_IP + "meeting" + "/" + mInvitationDetail.meetingId + "/" + i + ".jpg");
             }
@@ -90,24 +84,7 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
             adapter.setItemClickListener(new RecyclerViewAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    LayoutInflater inflater = LayoutInflater.from(InvitationDetailActivity.this);
-                    View bigPhoto = inflater.inflate(R.layout.dialog_big_photo,null);
-                    final AlertDialog dialog = new AlertDialog.Builder(InvitationDetailActivity.this).create();
-
-                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                    int width = displayMetrics.widthPixels;
-                    int height = displayMetrics.heightPixels;
-
-                    Glide.with(InvitationDetailActivity.this).load(picList.get(position))
-                            .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher).override(width,height)).transition(new DrawableTransitionOptions().crossFade()).into((ImageView) bigPhoto.findViewById(R.id.large_photo));
-                    dialog.setView(bigPhoto);
-                    dialog.show();
-                    bigPhoto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
+                    viewPluImg(position);
                 }
             });
         }
@@ -195,4 +172,12 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         tv_enlist_people.setData(map);
     }
 
+    //查看大图
+    private void viewPluImg(int position) {
+        Intent intent = new Intent(this, PlusImageActivity.class);
+        intent.putStringArrayListExtra(MainConstant.IMG_LIST, picList);
+        intent.putExtra(MainConstant.POSITION, position);
+        intent.putExtra("delete",false);
+        startActivityForResult(intent, MainConstant.REQUEST_CODE_MAIN);
+    }
 }

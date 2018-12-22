@@ -1,5 +1,6 @@
 package com.test.jwj.underMoon.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -29,7 +30,9 @@ import com.test.jwj.underMoon.database.ImDB;
 import com.test.jwj.underMoon.fragments.EmotionMainFragment;
 import com.test.jwj.underMoon.global.UserAction;
 import com.test.jwj.underMoon.network.IMessageArrived;
+import com.test.jwj.underMoon.utils.GlideSimpleTarget;
 import com.test.jwj.underMoon.utils.SpUtil;
+import com.test.jwj.underMoon.utils.SystemMethod;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -38,15 +41,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ch.ielse.view.imagewatcher.ImageWatcher;
 
-public class ChatActivity extends BaseActivity implements IMessageArrived<String> {
-	private int                friendId;
-	private String             friendName;
-	private ListView           chatMeessageListView;
-	private ChatMessageAdapter chatMessageAdapter;
-	private List<ChatEntity>   chatList;
-	private Handler            handler;
-	private User               mUser;
+
+public class ChatActivity extends BaseActivity implements IMessageArrived<String>, ImageWatcher.Loader {
+	private int                 friendId;
+	private String              friendName;
+	private ListView            chatMeessageListView;
+	private ChatMessageAdapter  chatMessageAdapter;
+	private List<ChatEntity>    chatList;
+	private Handler             handler;
+	private User                mUser;
+	private ImageWatcher 	    imageWatcher;
+	private EmotionMainFragment emotionMainFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,7 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 
 	@Override
 	protected void initEvents() {
+		imageWatcher = (ImageWatcher) findViewById(R.id.activity_chat_imagewatcher);
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
@@ -104,7 +112,10 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 			chatList = ImDB.getInstance(ChatActivity.this).getChatMessage(friendId);
 			ApplicationData.getInstance().getChatMessagesMap().put(friendId, chatList);
 		}
-		chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this,chatList);
+		chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this,imageWatcher,chatList);
+		imageWatcher.setTranslucentStatus(SystemMethod.calcStatusBarHeight(this));
+		imageWatcher.setErrorImageRes(R.mipmap.error_picture);
+		imageWatcher.setLoader(this);
 		chatMeessageListView.setAdapter(chatMessageAdapter);
 		chatMeessageListView.setSelection(chatList.size());
 
@@ -135,7 +146,7 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 		bundle.putString("friendName",friendName);
 		//替换fragment
 		//创建修改实例
-		EmotionMainFragment emotionMainFragment = new EmotionMainFragment();
+		emotionMainFragment = new EmotionMainFragment();
 		bundle.putSerializable("callback",new MsgCallback() {
 			@Override
 			public void onMsgCallback(ChatEntity chatMsg) {
@@ -200,5 +211,18 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 
 	private void uploadChatPic(List<LocalMedia> localMedia) {
 		UserAction.uploadChatPic(localMedia);
+	}
+
+	@Override
+	public void load(Context context, String url, ImageWatcher.LoadCallback lc) {
+		Glide.with(context).asBitmap().load(url).into(new GlideSimpleTarget(lc));
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (imageWatcher.isShown())
+			imageWatcher.onSingleTapConfirmed();
+		else if (!emotionMainFragment.isInterceptBackPress())
+			super.onBackPressed();
 	}
 }
