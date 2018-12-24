@@ -1,5 +1,6 @@
 package com.test.jwj.underMoon.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ import com.test.jwj.underMoon.utils.SpUtil;
 import com.test.jwj.underMoon.utils.SystemMethod;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +52,6 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 	private ListView            chatMeessageListView;
 	private ChatMessageAdapter  chatMessageAdapter;
 	private List<ChatEntity>    chatList;
-	private Handler             handler;
 	private User                mUser;
 	private ImageWatcher 	    imageWatcher;
 	private EmotionMainFragment emotionMainFragment;
@@ -93,18 +94,7 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 	@Override
 	protected void initEvents() {
 		imageWatcher = (ImageWatcher) findViewById(R.id.activity_chat_imagewatcher);
-		handler = new Handler() {
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 1:
-					chatMessageAdapter.notifyDataSetChanged();
-					chatMeessageListView.setSelection(chatList.size());
-					break;
-				default:
-					break;
-				}
-			}
-		};
+		Handler handler = new MyHandler(this);
 		ApplicationData.getInstance().setChatHandler(handler);
 		chatList = ApplicationData.getInstance().getChatMessagesMap()
 				.get(friendId);
@@ -224,5 +214,26 @@ public class ChatActivity extends BaseActivity implements IMessageArrived<String
 			imageWatcher.onSingleTapConfirmed();
 		else if (!emotionMainFragment.isInterceptBackPress())
 			super.onBackPressed();
+	}
+
+	private static class MyHandler extends Handler{
+		WeakReference<Activity> mActivityReference;
+
+		MyHandler(ChatActivity activity) {
+			mActivityReference= new WeakReference<Activity>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			final ChatActivity chatActivity = (ChatActivity) mActivityReference.get();
+			switch (msg.what) {
+				case 1:
+					chatActivity.chatMessageAdapter.notifyDataSetChanged();
+					chatActivity.chatMeessageListView.setSelection(chatActivity.chatList.size());
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }

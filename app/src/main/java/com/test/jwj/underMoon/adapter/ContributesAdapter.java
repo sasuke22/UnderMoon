@@ -19,9 +19,10 @@ import java.util.List;
 public class ContributesAdapter extends BaseAdapter {
     private List<MeetingDetail> mMeetingDetailList;
     private LayoutInflater mInflater;
-    private MeetingDetail  meetingDetail;
+    private Context mContext;
 
     public ContributesAdapter(Context context, List<MeetingDetail> meetingDetailList) {
+        this.mContext = context;
         mInflater = LayoutInflater.from(context);
         this.mMeetingDetailList = meetingDetailList;
     }
@@ -49,7 +50,7 @@ public class ContributesAdapter extends BaseAdapter {
     //创建View方法
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        meetingDetail = mMeetingDetailList.get(position);
+        MeetingDetail meetingDetail = mMeetingDetailList.get(position);
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_today_contributes, parent,false);
             holder = new ViewHolder();
@@ -66,7 +67,19 @@ public class ContributesAdapter extends BaseAdapter {
         holder.summary.setText(meetingDetail.summary);
         holder.date.setText(meetingDetail.date.toString());
 //        holder.read.setText(meetingDetail.read ? "已读" : "未读");
-        holder.approve.setText(meetingDetail.approve ? "对方已通过你的报名" : "对方未通过你的报名");
+        switch (meetingDetail.approve){
+            case 1:
+                holder.approve.setText("审核通过");
+                holder.approve.setTextColor(mContext.getResources().getColor(R.color.limegreen));
+                break;
+            case 0:
+                holder.approve.setText("审核通过");
+                holder.approve.setTextColor(mContext.getResources().getColor(R.color.yellow));
+                break;
+            case -1:
+                holder.approve.setText("审核不通过");
+                break;
+        }
         return convertView;
     }
 }

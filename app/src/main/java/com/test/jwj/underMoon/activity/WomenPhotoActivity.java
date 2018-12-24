@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,7 +140,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
         ll_popup = (LinearLayout) view.findViewById(R.id.ll_popup);
         pop.setWidth(RecyclerView.LayoutParams.MATCH_PARENT);
         pop.setHeight(RecyclerView.LayoutParams.WRAP_CONTENT);
-        pop.setBackgroundDrawable(new BitmapDrawable());
+        pop.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setContentView(view);
@@ -171,15 +171,10 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                     if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(WomenPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, OPEN_ALBUM);
                         return;
-//                    }else {
-//                        Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
-//                        startActivity(intent);
                     }
-                }//else {
+                }
                 Intent intent = new Intent(WomenPhotoActivity.this, SelectAlbumActivity.class);
                 startActivity(intent);
-                //}
-//                PhotoUtils.selectPhoto(WomenPhotoActivity.this);
                 overridePendingTransition(R.anim.activity_translate_in, R.anim.activity_translate_out);
                 pop.dismiss();
                 ll_popup.clearAnimation();
@@ -220,7 +215,7 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
                     }
                     Uri uri = data.getData();//直接用这个uri给glide赋值？
                     String[] proj = { MediaStore.MediaColumns.DATA };
-                    Cursor cursor = managedQuery(uri, proj, null, null, null);
+                    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
                     if (cursor != null) {
                         int column_index = cursor
                                 .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
@@ -230,8 +225,8 @@ public class WomenPhotoActivity extends BaseActivity implements IMessageArrived<
 //                            mPhotoList.add(uri.toString());
 //                            adapter.notifyDataSetChanged();
                         }
+                        cursor.close();
                     }
-
                 }
                 break;
         }

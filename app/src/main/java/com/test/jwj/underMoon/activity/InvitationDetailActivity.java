@@ -128,6 +128,23 @@ public class InvitationDetailActivity extends Activity implements View.OnClickLi
         tv_time.setText(mInvitationDetail.date.toString());
         tv_invitation_detail.setText(mInvitationDetail.content);
 
+        if (mUser.getId() != mInvitationDetail.id) {
+            TextView tv_reason = (TextView) findViewById(R.id.activity_invitation_detail_reason);
+            switch (mInvitationDetail.approve) {
+                case 1:
+                    tv_reason.setText("审核通过");
+                    tv_reason.setTextColor(getResources().getColor(R.color.limegreen));
+                    break;
+                case 0:
+                    tv_reason.setText("审核中");
+                    tv_reason.setTextColor(getResources().getColor(R.color.yellow));
+                    break;
+                case -1:
+                    tv_reason.setText(String.format("审核不通过,原因:%s", mInvitationDetail.reason));
+                    break;
+                    tv_reason.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override

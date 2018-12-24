@@ -291,6 +291,15 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/activity_invitation_detail_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ui_10_dip"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="原因"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

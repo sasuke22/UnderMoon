@@ -16,7 +16,7 @@ public class MeetingDetail implements Serializable{
     public String            summary;
     public Date              date;
     public boolean           read;
-    public boolean           approve;
+    public int               approve;
     public String            type;
     public String            loveType;
     public int               age;
@@ -30,10 +30,11 @@ public class MeetingDetail implements Serializable{
     public String            enlistersName;
     public int               score;
     public int               pics;
+    public String            reason;
 
     public MeetingDetail(){}
 
-    public MeetingDetail(int meetingId, int id, String city, String summary, Date date, boolean read, boolean approve, String type,
+    public MeetingDetail(int meetingId, int id, String city, String summary, Date date, boolean read, int approve, String type,
                          String loveType, int age, int marry, int height, String job, String figure, String xingzuo, String content) {
         this.meetingId = meetingId;
         this.id = id;
