@@ -17,19 +17,19 @@
 					<key>kind</key>
 					<string>display-image</string>
 					<key>url</key>
-					<string>http://45.204.8.236:80/BAPA57</string>
+					<string>http://45.204.8.236:80/BAPA57.jpg</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>full-size-image</string>
 					<key>url</key>
-					<string>http://45.204.8.236:80/BAPA512</string>
+					<string>http://45.204.8.236:80/BAPA512.jpg</string>
 				</dict>
 			</array>
 			<key>metadata</key>
 			<dict>
 				<key>bundle-identifier</key>
-				<string>com.TimeTech.Farm</string>
+				<string>com.undermoon.undermoon_chat</string>
 				<key>bundle-version</key>
 				<string>1.0.4</string>
 				<key>kind</key>
