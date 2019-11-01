@@ -11,19 +11,19 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>http://180.215.209.55:8089/BAPA.ipa</string>
+					<string>http://103.244.2.254:8089/BAPA.ipa</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>display-image</string>
 					<key>url</key>
-					<string>http://180.215.209.55:8089/BAPA57.jpg</string>
+					<string>http://103.244.2.254:8089/BAPA57.jpg</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>full-size-image</string>
 					<key>url</key>
-					<string>http://180.215.209.55:8089/BAPA512.jpg</string>
+					<string>http://103.244.2.254:8089/BAPA512.jpg</string>
 				</dict>
 			</array>
 			<key>metadata</key>
